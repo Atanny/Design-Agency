@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
 import { ReviewCard } from "@/components/ReviewCard";
@@ -6,7 +7,6 @@ import { createServerClient } from "@/lib/supabaseClient";
 import { getContent } from "@/lib/content";
 import type { Review } from "@/types";
 
-export const revalidate = 0; // always fresh
 
 async function getReviews(): Promise<Review[]> {
   noStore();

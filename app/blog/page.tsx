@@ -1,13 +1,9 @@
+export const revalidate = 0;
 import { Metadata } from "next";
-export const revalidate = 0;
 import Link from "next/link";
-export const revalidate = 0;
 import Image from "next/image";
-export const revalidate = 0;
 import { createServerClient } from "@/lib/supabaseClient";
-export const revalidate = 0;
 import type { BlogPost } from "@/types";
-export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Blog",
