@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
@@ -12,9 +13,16 @@ const navLinks = [
   { href: "/portfolio", label: "Portfolio" },
   { href: "/blog", label: "Blog" },
   { href: "/reviews", label: "Reviews" },
+  { href: "/contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  logoName?: string;
+  ctaText?: string;
+  logoImage?: string;
+}
+
+export default function Navbar({ logoName = "Lumis", ctaText = "Contact Us", logoImage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -26,9 +34,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   return (
     <>
@@ -41,22 +47,23 @@ export default function Navbar() {
         }`}
       >
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="w-8 h-8 rounded-lg gradient-gold flex items-center justify-center text-white font-display font-bold text-sm shadow-sm">
-              L
-            </span>
+          <Link href="/" className="flex items-center gap-2">
+            {logoImage ? (
+              <Image src={logoImage} alt={logoName} width={32} height={32} className="rounded-lg object-contain" />
+            ) : (
+              <span className="w-8 h-8 rounded-lg gradient-gold flex items-center justify-center text-white font-display font-bold text-sm shadow-sm">
+                {logoName.charAt(0).toUpperCase()}
+              </span>
+            )}
             <span className="font-display font-semibold text-xl tracking-tight text-zinc-900 dark:text-white">
-              Lumis
+              {logoName}
             </span>
           </Link>
 
-          {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
+                <Link href={link.href}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     pathname === link.href
                       ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
@@ -69,12 +76,8 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Actions */}
           <div className="flex items-center gap-3">
-            {/* Dark mode toggle */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
+            <button onClick={toggleTheme} aria-label="Toggle theme"
               className="w-9 h-9 rounded-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
             >
               {theme === "dark" ? (
@@ -88,18 +91,14 @@ export default function Navbar() {
               )}
             </button>
 
-            <Link
-              href="/contact"
+            <Link href="/contact"
               className="hidden md:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-semibold hover:opacity-85 transition-opacity shadow-sm"
             >
-              Contact Us Now
+              {ctaText}
             </Link>
 
-            {/* Mobile menu toggle */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+            <button onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden w-9 h-9 rounded-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800"
-              aria-label="Toggle mobile menu"
             >
               <span className="flex flex-col gap-1.5 w-4">
                 <span className={`h-px bg-zinc-800 dark:bg-zinc-200 transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
@@ -111,21 +110,16 @@ export default function Navbar() {
         </nav>
       </motion.header>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-x-0 top-[68px] z-40 glass border-b border-zinc-200 dark:border-zinc-800 md:hidden"
           >
             <nav className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
+                <Link key={link.href} href={link.href}
                   className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     pathname === link.href
                       ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
@@ -135,11 +129,8 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/contact"
-                className="mt-3 px-4 py-3 rounded-xl bg-gold-500 text-white text-sm font-semibold text-center"
-              >
-                Contact Us Now
+              <Link href="/contact" className="mt-3 px-4 py-3 rounded-xl bg-gold-500 text-white text-sm font-semibold text-center">
+                {ctaText}
               </Link>
             </nav>
           </motion.div>

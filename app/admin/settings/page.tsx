@@ -59,7 +59,7 @@ export default function AdminSettings() {
   };
 
   return (
-    <div className="p-8 w-full max-w-full">
+    <div className="p-8 max-w-3xl">
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold text-white">Settings</h1>
         <p className="text-zinc-500 mt-1">Email configuration and sender management.</p>

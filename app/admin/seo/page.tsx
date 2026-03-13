@@ -36,33 +36,29 @@ export default function AdminSeo() {
     })();
   }, []);
 
-  const update = (pageKey: string, field: keyof Omit<SeoRow, "page" | "id">, value: string) => {
-    setRows((prev) => {
-      const existing = prev[pageKey] ?? { page: pageKey, meta_title: "", meta_description: "", og_image: "" };
-      return {
-        ...prev,
-        [pageKey]: { ...existing, [field]: value },
-      };
-    });
+  const update = (page: string, field: keyof SeoRow, value: string) => {
+    setRows((prev) => ({
+      ...prev,
+      [page]: { ...(prev[page] ?? { page, meta_title: "", meta_description: "", og_image: "" }), [field]: value },
+    }));
   };
 
-  const savePage = async (pageKey: string) => {
-    setSaving(pageKey);
-    const row = rows[pageKey] ?? { page: pageKey, meta_title: "", meta_description: "", og_image: "" };
+  const savePage = async (page: string) => {
+    setSaving(page);
+    const row = rows[page] || { page, meta_title: "", meta_description: "", og_image: "" };
     const { error } = await supabase
       .from("seo_settings")
-      .upsert({ ...row, page: pageKey, updated_at: new Date().toISOString() }, { onConflict: "page" });
+      .upsert({ ...row, page, updated_at: new Date().toISOString() }, { onConflict: "page" });
     setSaving(null);
     if (error) {
       toast.error(error.message);
     } else {
-      fetch("/api/revalidate", { method: "POST" });
-      toast.success(`SEO saved for ${PAGES.find((p) => p.key === pageKey)?.label}!`);
+      toast.success(`SEO saved for ${PAGES.find((p) => p.key === page)?.label}!`);
     }
   };
 
   return (
-    <div className="p-8 w-full max-w-full">
+    <div className="p-8 max-w-4xl">
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold text-white">SEO Settings</h1>
         <p className="text-zinc-500 mt-1">Control meta titles, descriptions, and Open Graph images for each page.</p>
@@ -75,7 +71,7 @@ export default function AdminSeo() {
       ) : (
         <div className="space-y-5">
           {PAGES.map((page) => {
-            const row = rows[page.key] ?? { page: page.key, meta_title: "", meta_description: "", og_image: "" };
+            const row = rows[page.key] || { page: page.key, meta_title: "", meta_description: "", og_image: "" };
             const titleLen = (row.meta_title || "").length;
             const descLen = (row.meta_description || "").length;
 
@@ -86,11 +82,12 @@ export default function AdminSeo() {
                     <h3 className="text-white font-semibold">{page.label}</h3>
                     <span className="text-xs text-zinc-600 font-mono">{page.path}</span>
                   </div>
+                  {/* Google preview snippet */}
                   {row.meta_title && (
                     <div className="text-right hidden md:block">
                       <p className="text-xs text-zinc-600 mb-0.5">Google Preview</p>
-                      <p className="text-blue-400 text-sm font-medium truncate max-w-sm">{row.meta_title}</p>
-                      <p className="text-zinc-500 text-xs truncate max-w-sm">{row.meta_description}</p>
+                      <p className="text-blue-400 text-sm font-medium truncate max-w-xs">{row.meta_title}</p>
+                      <p className="text-zinc-500 text-xs truncate max-w-xs">{row.meta_description}</p>
                     </div>
                   )}
                 </div>

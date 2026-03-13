@@ -1,11 +1,13 @@
 import { Metadata } from "next";
 export const revalidate = 0;
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Link from "next/link";
+export const revalidate = 0;
 import Image from "next/image";
+export const revalidate = 0;
 import { createServerClient } from "@/lib/supabaseClient";
+export const revalidate = 0;
 import type { BlogPost } from "@/types";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -32,7 +34,6 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Navbar />
       <main className="pt-24">
         <section className="py-20 md:py-28 text-center">
           <div className="max-w-3xl mx-auto px-6">
@@ -104,7 +105,6 @@ export default async function BlogPage() {
           )}
         </section>
       </main>
-      <Footer />
     </>
   );
 }

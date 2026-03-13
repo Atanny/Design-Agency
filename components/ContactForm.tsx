@@ -6,14 +6,10 @@ import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
 
 const SERVICES = [
-  "UI/UX Design",
-  "Brand Identity",
-  "Poster Design",
-  "Social Media Graphics",
-  "Website Design",
-  "Product & App Design",
-  "Other",
+  "UI/UX Design", "Brand Identity", "Poster Design",
+  "Social Media Graphics", "Website Design", "Product & App Design", "Other",
 ];
+const BUDGETS = ["Under ₱10,000", "₱10,000 – ₱25,000", "₱25,000 – ₱75,000", "₱75,000 – ₱150,000", "₱150,000+"];
 
 interface ContactFormProps {
   compact?: boolean;
@@ -21,13 +17,7 @@ interface ContactFormProps {
 
 export default function ContactForm({ compact = false }: ContactFormProps) {
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    service: "",
-    message: "",
-  });
-
+  const [form, setForm] = useState({ name: "", email: "", service: "", budget: "", message: "" });
   const update = (field: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -38,14 +28,45 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
       return;
     }
     setLoading(true);
+
+    // Save to Supabase
     const { error } = await supabase.from("messages").insert([form]);
-    setLoading(false);
     if (error) {
+      setLoading(false);
       toast.error("Something went wrong. Please try again.");
-    } else {
-      toast.success("Message sent! We'll get back to you soon.");
-      setForm({ name: "", email: "", service: "", message: "" });
+      return;
     }
+
+    // Trigger auto-reply (best effort, don't block on failure)
+    try {
+      const senderRes = await supabase
+        .from("email_senders")
+        .select("*")
+        .eq("is_default", true)
+        .single();
+
+      if (senderRes.data) {
+        await fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "auto_reply",
+            toEmail: form.email,
+            toName: form.name,
+            service: form.service,
+            fromName: senderRes.data.name,
+            fromEmail: senderRes.data.email,
+            contactEmail: senderRes.data.email,
+          }),
+        });
+      }
+    } catch {
+      // Auto-reply failing shouldn't block the form submission
+    }
+
+    setLoading(false);
+    toast.success("Message sent! We'll get back to you soon.");
+    setForm({ name: "", email: "", service: "", budget: "", message: "" });
   };
 
   return (
@@ -80,20 +101,29 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
       </div>
 
       {!compact && (
-        <div>
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
-            Service Needed
-          </label>
-          <select
-            value={form.service}
-            onChange={(e) => update("service", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
-          >
-            <option value="">Select a service</option>
-            {SERVICES.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">Service Needed</label>
+            <select
+              value={form.service}
+              onChange={(e) => update("service", e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            >
+              <option value="">Select a service</option>
+              {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">Budget Range</label>
+            <select
+              value={form.budget}
+              onChange={(e) => update("budget", e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            >
+              <option value="">Select a budget</option>
+              {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
+            </select>
+          </div>
         </div>
       )}
 
@@ -125,9 +155,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
             </svg>
             Sending...
           </span>
-        ) : (
-          "Send Message"
-        )}
+        ) : "Send Message"}
       </motion.button>
     </form>
   );

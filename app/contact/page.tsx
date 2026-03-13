@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 export const revalidate = 0;
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -45,7 +44,6 @@ const contactInfo = [
 export default function ContactPage() {
   return (
     <>
-      <Navbar />
       <main className="pt-24">
         <section className="py-20 md:py-28">
           <div className="max-w-7xl mx-auto px-6">
@@ -107,7 +105,6 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

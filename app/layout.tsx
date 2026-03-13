@@ -3,6 +3,12 @@ import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { createServerClient } from "@/lib/supabaseClient";
+import { getContent } from "@/lib/content";
+
+export const revalidate = 0;
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -16,66 +22,65 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://yourdesignagency.com"),
-  title: {
-    default: "Lumis Studio — Design That Elevates Brands",
-    template: "%s | Lumis Studio",
-  },
-  description:
-    "Premium UI/UX, branding, and visual design services. We create experiences that elevate your brand to the next level.",
-  keywords: [
-    "UI/UX Design",
-    "Branding",
-    "Poster Design",
-    "Social Media Graphics",
-    "Website Design",
-    "Design Agency",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://yourdesignagency.com",
-    siteName: "Lumis Studio",
-    title: "Lumis Studio — Design That Elevates Brands",
-    description:
-      "Premium UI/UX, branding, and visual design services. We create experiences that elevate your brand to the next level.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Lumis Studio — Design That Elevates Brands",
-    description: "Premium UI/UX, branding, and visual design services.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
+async function getHomeSEO() {
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase
+      .from("seo_settings")
+      .select("*")
+      .eq("page", "home")
+      .single();
+    return data;
+  } catch {
+    return null;
+  }
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getHomeSEO();
+  const title = seo?.meta_title || "Lumis Studio — Design That Elevates Brands";
+  const description = seo?.meta_description || "Premium UI/UX, branding, and visual design services.";
+
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lumisstudio.com"),
+    title: { default: title, template: "%s | Lumis Studio" },
+    description,
+    keywords: ["UI/UX Design", "Branding", "Poster Design", "Social Media Graphics", "Website Design", "Design Agency", "Philippines"],
+    openGraph: {
+      type: "website",
+      siteName: "Lumis Studio",
+      title,
+      description,
+      images: seo?.og_image ? [seo.og_image] : [],
+    },
+    twitter: { card: "summary_large_image", title, description },
+    icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [navContent, footerContent] = await Promise.all([
+    getContent("navbar"),
+    getContent("footer"),
+  ]);
+
+  // Admin pages handle their own layout — skip shared Navbar/Footer for /admin routes
+  // We use a client wrapper for that, so here we just pass content as data attributes
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${playfair.variable} ${dmSans.variable} font-body antialiased`}
-      >
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
+      <body className={`${playfair.variable} ${dmSans.variable} font-body antialiased`}>
         <ThemeProvider>
-          {children}
+          <SiteShell navContent={navContent} footerContent={footerContent}>
+            {children}
+          </SiteShell>
           <Toaster
             position="bottom-right"
             toastOptions={{
-              className:
-                "!bg-white dark:!bg-zinc-900 !text-zinc-900 dark:!text-white !border !border-zinc-200 dark:!border-zinc-700 !shadow-xl",
+              className: "!bg-white dark:!bg-zinc-900 !text-zinc-900 dark:!text-white !border !border-zinc-200 dark:!border-zinc-700 !shadow-xl",
               duration: 4000,
             }}
           />
@@ -84,3 +89,19 @@ export default function RootLayout({
     </html>
   );
 }
+
+// Server component shell that conditionally renders Navbar/Footer
+function SiteShell({
+  children,
+  navContent,
+  footerContent,
+}: {
+  children: React.ReactNode;
+  navContent: Record<string, string>;
+  footerContent: Record<string, string>;
+}) {
+  return <LayoutWrapper navContent={navContent} footerContent={footerContent}>{children}</LayoutWrapper>;
+}
+
+// We need a client component to check pathname
+import LayoutWrapper from "@/components/LayoutWrapper";

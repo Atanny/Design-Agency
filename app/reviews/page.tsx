@@ -1,34 +1,50 @@
 import { Metadata } from "next";
-export const revalidate = 0;
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { unstable_noStore as noStore } from "next/cache";
 import { ReviewCard } from "@/components/ReviewCard";
 import ReviewForm from "./ReviewForm";
 import { createServerClient } from "@/lib/supabaseClient";
+import { getContent } from "@/lib/content";
 import type { Review } from "@/types";
 
-export const metadata: Metadata = {
-  title: "Reviews",
-  description:
-    "Read genuine client reviews for Lumis Studio. See what our clients say about our design services.",
-};
+export const revalidate = 0; // always fresh
 
 async function getReviews(): Promise<Review[]> {
+  noStore();
   try {
     const supabase = createServerClient();
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("reviews")
       .select("*")
       .eq("approved", true)
       .order("created_at", { ascending: false });
+    if (error) console.error("Reviews error:", error.message);
     return (data as Review[]) || [];
-  } catch {
+  } catch (e) {
+    console.error(e);
     return [];
   }
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase.from("seo_settings").select("*").eq("page", "reviews").single();
+    return {
+      title: data?.meta_title || "Reviews | Lumis Studio",
+      description: data?.meta_description || "Client reviews for Lumis Studio.",
+    };
+  } catch {
+    return { title: "Reviews | Lumis Studio" };
+  }
+}
+
 export default async function ReviewsPage() {
-  const reviews = await getReviews();
+  const [reviews, navContent, footerContent] = await Promise.all([
+    getReviews(),
+    getContent("navbar"),
+    getContent("footer"),
+  ]);
+
   const avgRating =
     reviews.length > 0
       ? (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1)
@@ -36,9 +52,7 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <Navbar />
       <main className="pt-24">
-        {/* Header */}
         <section className="py-20 md:py-28 text-center">
           <div className="max-w-3xl mx-auto px-6">
             <p className="text-sm font-semibold uppercase tracking-widest text-gold-600 dark:text-gold-400 mb-4">
@@ -60,16 +74,14 @@ export default async function ReviewsPage() {
               </span>
               <span className="text-zinc-500">({reviews.length} reviews)</span>
             </div>
-            <p className="text-zinc-500 dark:text-zinc-400">
-              All reviews are verified and approved before publishing.
-            </p>
           </div>
         </section>
 
-        {/* Reviews grid */}
         <section className="max-w-7xl mx-auto px-6 pb-24">
           {reviews.length === 0 ? (
-            <p className="text-center text-zinc-400 py-16">No reviews yet. Be the first to leave one!</p>
+            <p className="text-center text-zinc-400 py-16">
+              No reviews yet. Be the first to leave one below!
+            </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews.map((review, i) => (
@@ -79,7 +91,6 @@ export default async function ReviewsPage() {
           )}
         </section>
 
-        {/* Submit review */}
         <section className="py-20 bg-zinc-50 dark:bg-zinc-900/50">
           <div className="max-w-2xl mx-auto px-6">
             <div className="text-center mb-10">
@@ -87,17 +98,15 @@ export default async function ReviewsPage() {
                 Leave a Review
               </h2>
               <p className="text-zinc-500 dark:text-zinc-400">
-                Worked with us? We&apos;d love to hear your feedback. Reviews are
-                reviewed and published within 24 hours.
+                Worked with us? Reviews are published within 24 hours after approval.
               </p>
             </div>
-            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 shadow-lg shadow-zinc-100/50 dark:shadow-none">
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 shadow-lg">
               <ReviewForm />
             </div>
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

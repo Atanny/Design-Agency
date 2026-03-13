@@ -1,11 +1,14 @@
-import { createServerClient } from "@/lib/supabaseClient";
+import { createServerClient } from "./supabaseClient";
 
-// Default fallback values for all sections
-export const DEFAULTS: Record<string, Record<string, string>> = {
+const DEFAULTS: Record<string, Record<string, string>> = {
   navbar: {
     logo_name: "Lumis",
-    logo_tagline: "Studio",
+    logo_image: "",
     cta_button: "Contact Us",
+    social_facebook: "#",
+    social_instagram: "#",
+    social_tiktok: "#",
+    social_behance: "#",
   },
   hero: {
     badge: "Premium Design Studio",
@@ -68,8 +71,9 @@ export const DEFAULTS: Record<string, Record<string, string>> = {
   },
 };
 
-// Server-side function to fetch content from Supabase with fallback to defaults
-export async function getContent(section: string): Promise<Record<string, string>> {
+type ContentMap = Record<string, string>;
+
+export async function getContent(section: string): Promise<ContentMap> {
   try {
     const supabase = createServerClient();
     const { data } = await supabase
@@ -77,14 +81,34 @@ export async function getContent(section: string): Promise<Record<string, string
       .select("key, value")
       .eq("section", section);
 
-    const defaults = DEFAULTS[section] || {};
-    const fromDb: Record<string, string> = {};
-    (data || []).forEach((r: { key: string; value: string }) => {
-      fromDb[r.key] = r.value;
-    });
+    const base = DEFAULTS[section] || {};
+    if (!data || data.length === 0) return base;
 
-    return { ...defaults, ...fromDb };
+    const fromDb: ContentMap = {};
+    data.forEach((row: { key: string; value: string }) => {
+      fromDb[row.key] = row.value;
+    });
+    return { ...base, ...fromDb };
   } catch {
     return DEFAULTS[section] || {};
   }
 }
+
+export async function getAllContent(): Promise<Record<string, Record<string, string>>> {
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase.from("site_content").select("section, key, value");
+    const result: Record<string, Record<string, string>> = JSON.parse(JSON.stringify(DEFAULTS));
+    if (data) {
+      data.forEach((row: { section: string; key: string; value: string }) => {
+        if (!result[row.section]) result[row.section] = {};
+        result[row.section][row.key] = row.value;
+      });
+    }
+    return result;
+  } catch {
+    return DEFAULTS;
+  }
+}
+
+export { DEFAULTS };

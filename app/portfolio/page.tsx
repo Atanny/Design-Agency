@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 export const revalidate = 0;
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import PortfolioGrid from "@/components/PortfolioGrid";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -13,7 +12,6 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <>
-      <Navbar />
       <main className="pt-24">
         {/* Header */}
         <section className="py-20 md:py-28 text-center">
@@ -36,7 +34,6 @@ export default function PortfolioPage() {
           <PortfolioGrid showFilters />
         </section>
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabaseClient";
@@ -46,7 +44,6 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      <Navbar />
       <main className="pt-24">
         <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
           {/* Back */}
@@ -114,7 +111,6 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }
