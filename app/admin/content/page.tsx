@@ -49,7 +49,7 @@ const LABELS: Record<string, Record<string, string>> = {
   cta_section: { badge: "Badge", headline: "Headline", subtext: "Subtext", button_text: "Button Text" },
   contact_section: { badge: "Badge", headline: "Headline", subtext: "Subtext" },
   contact_page: {
-    headline: "Page Headline", subtext: "Page Subtext",
+    badge: "Badge", headline: "Page Headline", subtext: "Page Subtext",
     email: "Contact Email", location: "Location", response: "Response Time",
     discovery_title: "Discovery Box Title", discovery_text: "Discovery Box Text",
   },

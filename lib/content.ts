@@ -51,6 +51,7 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     subtext: "Fill out the form below and we'll get back to you within 24 hours.",
   },
   contact_page: {
+    badge: "Contact",
     headline: "Let's Work Together",
     subtext: "Ready to start a project? Tell us about it.",
     email: "hello@lumisstudio.com",
@@ -58,6 +59,7 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     response: "Within 24 hours",
     discovery_title: "Free Discovery Call",
     discovery_text: "Book a 30-minute free consultation to discuss your project before committing.",
+    form_title: "Project Inquiry",
   },
   footer: {
     tagline: "We craft premium digital experiences that elevate brands. Design is not just what it looks like — it's how it works.",

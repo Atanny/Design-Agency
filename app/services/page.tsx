@@ -279,45 +279,38 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  {/* Pricing */}
+                  {/* Offer Now card */}
                   <div className={idx % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}>
-                    <div className="grid gap-4">
-                      {service.pricing.map((tier) => (
-                        <div
-                          key={tier.name}
-                          className={`p-6 rounded-2xl border ${
-                            tier.highlighted
-                              ? "bg-zinc-900 dark:bg-zinc-800 border-zinc-900 dark:border-zinc-700"
-                              : "bg-white dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-4">
-                            <div>
-                              <p className={`text-sm font-semibold ${tier.highlighted ? "text-zinc-400" : "text-zinc-500"}`}>
-                                {tier.name}
-                              </p>
-                              <p className={`font-display text-3xl font-bold mt-0.5 ${tier.highlighted ? "text-white" : "text-zinc-900 dark:text-white"}`}>
-                                {tier.price}
-                              </p>
-                            </div>
-                            {tier.highlighted && (
-                              <span className="px-2.5 py-1 rounded-full bg-gold-500 text-white text-xs font-semibold">
-                                Popular
-                              </span>
-                            )}
-                          </div>
-                          <ul className="space-y-2">
-                            {tier.features.map((f) => (
-                              <li key={f} className={`flex items-center gap-2 text-sm ${tier.highlighted ? "text-zinc-300" : "text-zinc-600 dark:text-zinc-400"}`}>
-                                <svg className={`w-3.5 h-3.5 flex-shrink-0 ${tier.highlighted ? colors.text : colors.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                                </svg>
-                                {f}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                    <div className="p-8 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex flex-col items-center text-center gap-6 h-full justify-center">
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center ${colors.text}`}>
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+                          Get a Custom Offer
+                        </h3>
+                        <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed max-w-xs">
+                          Every project is unique. Tell us what you need and we'll send you a tailored quote — no obligation.
+                        </p>
+                      </div>
+                      <ul className="space-y-2 text-left w-full max-w-xs">
+                        {["Free consultation", "Custom pricing for your scope", "Response within 24 hours", "No hidden fees"].map((f) => (
+                          <li key={f} className={`flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400`}>
+                            <svg className={`w-3.5 h-3.5 flex-shrink-0 ${colors.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                            </svg>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href="/contact"
+                        className={`w-full py-3.5 rounded-xl text-sm font-semibold text-center transition-all bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:opacity-90 shadow-lg`}
+                      >
+                        Request an Offer
+                      </Link>
                     </div>
                   </div>
                 </div>
