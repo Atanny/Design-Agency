@@ -58,7 +58,7 @@ export default function AdminSeo() {
   };
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-8 w-full max-w-full">
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold text-white">SEO Settings</h1>
         <p className="text-zinc-500 mt-1">Control meta titles, descriptions, and Open Graph images for each page.</p>
@@ -69,7 +69,7 @@ export default function AdminSeo() {
           {[...Array(4)].map((_, i) => <div key={i} className="h-40 rounded-2xl bg-zinc-800 animate-pulse" />)}
         </div>
       ) : (
-        <div className="space-y-5">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
           {PAGES.map((page) => {
             const row = rows[page.key] || { page: page.key, meta_title: "", meta_description: "", og_image: "" };
             const titleLen = (row.meta_title || "").length;

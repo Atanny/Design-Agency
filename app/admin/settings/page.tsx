@@ -59,14 +59,14 @@ export default function AdminSettings() {
   };
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-8 w-full max-w-full">
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold text-white">Settings</h1>
         <p className="text-zinc-500 mt-1">Email configuration and sender management.</p>
       </div>
 
       {/* Resend setup guide */}
-      <div className="p-6 rounded-2xl border border-amber-800/30 bg-amber-900/10 mb-8">
+      <div className="p-6 rounded-2xl max-w-4xl border border-amber-800/30 bg-amber-900/10 mb-8">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -88,7 +88,7 @@ export default function AdminSettings() {
       </div>
 
       {/* Email Senders */}
-      <div className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900">
+      <div className="p-6 rounded-2xl max-w-4xl border border-zinc-800 bg-zinc-900">
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-white font-semibold">Email Senders</h2>
@@ -210,7 +210,7 @@ export default function AdminSettings() {
       </div>
 
       {/* Env var checklist */}
-      <div className="mt-6 p-5 rounded-2xl border border-zinc-800 bg-zinc-900">
+      <div className="mt-6 p-5 max-w-4xl rounded-2xl border border-zinc-800 bg-zinc-900">
         <h3 className="text-white font-semibold mb-4">Required Environment Variables</h3>
         <div className="space-y-2">
           {[

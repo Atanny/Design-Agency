@@ -22,11 +22,12 @@ async function getFeaturedReviews(): Promise<Review[]> {
 }
 
 export default async function Home() {
-  const [reviews, heroContent, servicesContent, portfolioContent, testimonialsContent, ctaContent, contactContent] =
+  const [reviews, heroContent, servicesContent, portfolioContent, testimonialsContent, ctaContent, contactContent, processContent, whyUsContent] =
     await Promise.all([
       getFeaturedReviews(),
       getContent("hero"), getContent("services_section"), getContent("portfolio_section"),
       getContent("testimonials_section"), getContent("cta_section"), getContent("contact_section"),
+      getContent("process_section"), getContent("why_us_section"),
     ]);
 
   return (
@@ -50,23 +51,23 @@ export default async function Home() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-8 bg-gold-500" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">How We Work</span>
+                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{processContent.badge || "How We Work"}</span>
               </div>
               <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95] mb-8">
-                Design built<br />
-                <span className="italic font-light text-zinc-400 dark:text-zinc-500">around your</span><br />
-                goals
+                {processContent.headline_line1 || "Design built"}<br />
+                <span className="italic font-light text-zinc-400 dark:text-zinc-500">{processContent.headline_line2 || "around your"}</span><br />
+                {processContent.headline_line3 || "goals"}
               </h2>
               <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-12 font-light max-w-sm">
-                We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional.
+                {processContent.subtext || "We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional."}
               </p>
 
               {/* Steps */}
               <div className="space-y-0">
                 {[
-                  { step: "01", title: "Discovery", desc: "We learn your brand, goals, and audience inside out." },
-                  { step: "02", title: "Design",    desc: "We craft visuals that are both beautiful and purposeful." },
-                  { step: "03", title: "Deliver",   desc: "Print-ready or screen-ready files, on time, every time." },
+                  { step: processContent.step1_num || "01", title: processContent.step1_title || "Discovery", desc: processContent.step1_desc || "We learn your brand, goals, and audience inside out." },
+                  { step: processContent.step2_num || "02", title: processContent.step2_title || "Design",    desc: processContent.step2_desc || "We craft visuals that are both beautiful and purposeful." },
+                  { step: processContent.step3_num || "03", title: processContent.step3_title || "Deliver",   desc: processContent.step3_desc || "Print-ready or screen-ready files, on time, every time." },
                 ].map((item, i) => (
                   <div key={item.step}
                     className="group flex gap-6 items-start py-6 border-b border-zinc-200 dark:border-zinc-800/60 last:border-0 hover:pl-2 transition-all duration-300"
@@ -85,34 +86,42 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Right — abstract design canvas */}
-            <div className="relative h-[480px] hidden lg:block">
-              <div className="absolute inset-0 border border-zinc-200 dark:border-zinc-800/60"
-                style={{ clipPath: "polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))" }}
+            {/* Right — rich illustrated panel */}
+            <div className="relative h-[520px] hidden lg:block">
+              {/* Outer frame */}
+              <div className="absolute inset-0 border border-zinc-200 dark:border-zinc-800/60 overflow-hidden"
+                style={{ clipPath: "polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px))" }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 to-zinc-50 dark:from-zinc-900 dark:to-[#0a0a0a]" />
-                {/* Design system mockup inside */}
-                <div className="absolute inset-8 grid grid-cols-2 grid-rows-2 gap-4">
-                  {["Brand Identity", "UI Design", "Poster Design", "Social Media"].map((label, i) => (
-                    <div key={label}
-                      className={`flex flex-col items-start justify-end p-5 transition-all duration-500 ${
-                        i % 2 === 0
-                          ? "bg-zinc-900 dark:bg-zinc-800 text-white"
-                          : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white"
-                      }`}
-                      style={{ clipPath: i === 1 ? "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)" : "none" }}
+                <div className="absolute inset-0 bg-zinc-50 dark:bg-[#0e0e0e]" />
+                {/* Scattered ambient glows */}
+                <div className="absolute top-8 right-8 w-32 h-32 rounded-full bg-gold-400/10 blur-2xl" />
+                <div className="absolute bottom-12 left-8 w-24 h-24 rounded-full bg-violet-400/10 blur-xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-rose-400/6 blur-2xl" />
+                {/* Mosaic cards */}
+                <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-3">
+                  {[
+                    { label: "Brand Identity", icon: "🎨", grad: "from-gold-500/20 to-amber-600/10",    accent: "text-gold-400",    border: "border-gold-500/20" },
+                    { label: "UI Design",      icon: "🖥️",  grad: "from-blue-500/20 to-indigo-600/10",  accent: "text-blue-400",    border: "border-blue-500/20" },
+                    { label: "Poster Design",  icon: "🖼️",  grad: "from-rose-500/20 to-pink-600/10",    accent: "text-rose-400",    border: "border-rose-500/20" },
+                    { label: "Social Media",   icon: "✦",   grad: "from-emerald-500/20 to-teal-600/10", accent: "text-emerald-400", border: "border-emerald-500/20" },
+                  ].map((item, i) => (
+                    <div key={item.label}
+                      className={`relative flex flex-col justify-between p-5 border ${item.border} bg-gradient-to-br ${item.grad} overflow-hidden`}
+                      style={{ clipPath: i === 1 ? "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)" : "none" }}
                     >
-                      <div className={`w-6 h-6 mb-3 ${i % 2 === 0 ? "bg-gold-500/30" : "bg-zinc-100 dark:bg-zinc-700"}`} />
-                      <span className={`text-xs font-bold tracking-wide ${i % 2 === 0 ? "text-zinc-300" : "text-zinc-500 dark:text-zinc-400"}`}>
-                        {label}
+                      <span className="absolute bottom-2 right-3 font-display font-black text-5xl text-white/5 dark:text-white/5 select-none leading-none">
+                        {String(i + 1).padStart(2, "0")}
                       </span>
+                      <span className="text-2xl mb-auto block">{item.icon}</span>
+                      <div>
+                        <div className={`w-8 h-px mb-2 opacity-60 bg-current ${item.accent}`} />
+                        <span className={`text-sm font-bold ${item.accent}`}>{item.label}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-              {/* Corner decoration */}
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 border border-gold-400/20"
-                style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }} />
+              <div className="absolute -bottom-5 -right-5 w-16 h-16 border border-gold-400/25 rotate-45" />
             </div>
           </div>
         </div>
@@ -160,34 +169,71 @@ export default async function Home() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-5">
               <div className="h-px w-12 bg-gold-500/50" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">Why Lumis Studio</span>
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">{whyUsContent.badge || "Why Lumis Studio"}</span>
               <div className="h-px w-12 bg-gold-500/50" />
             </div>
             <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight leading-[0.95]">
-              Designed{" "}
-              <span className="italic font-light text-zinc-500">differently</span>
+              {whyUsContent.headline || "Designed"}{" "}
+              <span className="italic font-light text-zinc-500">{whyUsContent.headline_italic || "differently"}</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800/40">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { num: "01", icon: "⚡", title: "Fast Turnaround",      desc: "Most projects delivered within 3–7 days without sacrificing quality." },
-              { num: "02", icon: "🎯", title: "Strategy-First",       desc: "Every design decision is grounded in your brand goals and audience." },
-              { num: "03", icon: "♾️", title: "Unlimited Revisions",  desc: "We iterate until you're fully satisfied. No extra charges for revisions." },
+              {
+                num: "01",
+                title: whyUsContent.card1_title || "Fast Turnaround",
+                desc:  whyUsContent.card1_desc  || "Most projects delivered within 3–7 days without sacrificing quality.",
+                glow: "bg-gold-400/10", border: "border-gold-500/15", accent: "text-gold-400",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
+                deco: "from-gold-500/20 via-amber-400/10 to-transparent",
+              },
+              {
+                num: "02",
+                title: whyUsContent.card2_title || "Strategy-First",
+                desc:  whyUsContent.card2_desc  || "Every design decision is grounded in your brand goals and audience.",
+                glow: "bg-violet-400/10", border: "border-violet-500/15", accent: "text-violet-400",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                ),
+                deco: "from-violet-500/20 via-purple-400/10 to-transparent",
+              },
+              {
+                num: "03",
+                title: whyUsContent.card3_title || "Unlimited Revisions",
+                desc:  whyUsContent.card3_desc  || "We iterate until you're fully satisfied. No extra charges for revisions.",
+                glow: "bg-emerald-400/10", border: "border-emerald-500/15", accent: "text-emerald-400",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                ),
+                deco: "from-emerald-500/20 via-teal-400/10 to-transparent",
+              },
             ].map((item) => (
               <div key={item.title}
-                className="group relative bg-[#060606] p-10 hover:bg-zinc-900/80 transition-colors duration-300 overflow-hidden"
+                className={`group relative p-10 border ${item.border} bg-zinc-900 hover:bg-zinc-900/80 transition-all duration-300 overflow-hidden`}
+                style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}
               >
-                <span className="absolute top-6 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-gold-500/30 transition-colors">
+                {/* Gradient glow in top-right */}
+                <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl ${item.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                {/* Top diagonal gradient */}
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${item.deco} opacity-40`} />
+                <span className="absolute top-5 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-zinc-600 transition-colors">
                   {item.num}
                 </span>
-                <span className="text-4xl mb-6 block">{item.icon}</span>
-                <h3 className="font-display text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors duration-300">
+                <div className={`${item.accent} mb-6 relative`}>{item.icon}</div>
+                <h3 className={`font-display text-xl font-bold mb-3 transition-colors duration-300 text-white group-hover:${item.accent}`}>
                   {item.title}
                 </h3>
                 <p className="text-zinc-500 text-sm leading-relaxed font-light">{item.desc}</p>
-                {/* Bottom line accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gold-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.deco} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
               </div>
             ))}
           </div>

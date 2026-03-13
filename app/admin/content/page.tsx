@@ -10,6 +10,8 @@ const SECTIONS = [
   { key: "hero",                 label: "Hero Section" },
   { key: "services_section",     label: "Services Section" },
   { key: "portfolio_section",    label: "Portfolio Section" },
+  { key: "process_section",      label: "How We Work" },
+  { key: "why_us_section",       label: "Why Us Section" },
   { key: "testimonials_section", label: "Testimonials Section" },
   { key: "cta_section",          label: "CTA Section" },
   { key: "contact_section",      label: "Contact (Homepage)" },
@@ -45,6 +47,33 @@ const LABELS: Record<string, Record<string, string>> = {
   },
   services_section: { badge: "Badge", headline: "Headline", subtext: "Subtext" },
   portfolio_section: { badge: "Badge", headline: "Headline", view_all: "View All Button" },
+  process_section: {
+    badge: "Section Badge",
+    headline_line1: "Headline Line 1",
+    headline_line2: "Headline Line 2 (italic)",
+    headline_line3: "Headline Line 3",
+    subtext: "Subtext",
+    step1_num: "Step 1 Number",
+    step1_title: "Step 1 Title",
+    step1_desc: "Step 1 Description",
+    step2_num: "Step 2 Number",
+    step2_title: "Step 2 Title",
+    step2_desc: "Step 2 Description",
+    step3_num: "Step 3 Number",
+    step3_title: "Step 3 Title",
+    step3_desc: "Step 3 Description",
+  },
+  why_us_section: {
+    badge: "Section Badge",
+    headline: "Headline",
+    headline_italic: "Headline Italic Part",
+    card1_title: "Card 1 Title",
+    card1_desc: "Card 1 Description",
+    card2_title: "Card 2 Title",
+    card2_desc: "Card 2 Description",
+    card3_title: "Card 3 Title",
+    card3_desc: "Card 3 Description",
+  },
   testimonials_section: { badge: "Badge", headline: "Headline" },
   cta_section: { badge: "Badge", headline: "Headline", subtext: "Subtext", button_text: "Button Text" },
   contact_section: { badge: "Badge", headline: "Headline", subtext: "Subtext" },
@@ -57,7 +86,7 @@ const LABELS: Record<string, Record<string, string>> = {
   services_page: { badge: "Page Badge", headline: "Page Headline", subtext: "Page Subtext" },
 };
 
-const TEXTAREA_KEYS = ["subheadline", "subtext", "tagline", "discovery_text"];
+const TEXTAREA_KEYS = ["subheadline", "subtext", "tagline", "discovery_text", "step1_desc", "step2_desc", "step3_desc", "card1_desc", "card2_desc", "card3_desc"];
 const IMAGE_KEYS = ["logo_image"];
 const URL_KEYS = ["social_facebook", "social_instagram", "social_tiktok", "social_behance"];
 
