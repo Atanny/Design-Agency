@@ -1,0 +1,90 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import { supabase } from "@/lib/supabaseClient";
+
+export default function AdminLogin() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      router.replace("/admin");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
+      >
+        <div className="text-center mb-10">
+          <span className="inline-flex w-12 h-12 rounded-2xl gradient-gold items-center justify-center text-white font-display font-bold text-xl mb-4">
+            L
+          </span>
+          <h1 className="font-display text-3xl font-bold text-white mb-2">
+            Admin Login
+          </h1>
+          <p className="text-zinc-500 text-sm">
+            Sign in to access the Lumis Studio dashboard
+          </p>
+        </div>
+
+        <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-zinc-400 mb-1.5">
+                Email
+              </label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                placeholder="admin@lumisstudio.com"
+                required
+                className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-gold-500/40 focus:border-gold-500 transition-all text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-400 mb-1.5">
+                Password
+              </label>
+              <input
+                type="password"
+                value={form.password}
+                onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+                placeholder="••••••••"
+                required
+                className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-gold-500/40 focus:border-gold-500 transition-all text-sm"
+              />
+            </div>
+            <motion.button
+              type="submit"
+              disabled={loading}
+              whileTap={{ scale: 0.98 }}
+              className="w-full py-4 rounded-xl gradient-gold text-white font-semibold text-sm hover:opacity-90 disabled:opacity-60 transition-all"
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </motion.button>
+          </form>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
