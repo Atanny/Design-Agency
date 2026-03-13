@@ -23,7 +23,7 @@ export function ReviewCard({ review, index = 0 }: { review: Review; index?: numb
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16,1,0.3,1] }}
-      className="group relative bg-white dark:bg-[#0c0c0c] border border-zinc-100 dark:border-zinc-800/60 p-8 hover:border-gold-400/30 transition-all duration-400 card-grain"
+      className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] border border-zinc-100 dark:border-zinc-800/60 p-8 hover:border-gold-400/30 transition-all duration-400 card-grain"
       style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}
     >
       {/* Corner cut accent */}

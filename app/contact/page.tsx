@@ -82,8 +82,8 @@ export default async function ContactPage() {
 
               <div className="space-y-4">
                 {contactInfo.map((item) => (
-                  <div key={item.label} className="flex items-center gap-4 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                    <div className="w-10 h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 flex-shrink-0">
+                  <div key={item.label} className="flex items-center gap-4 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-[#faf8f4] dark:bg-zinc-900">
+                    <div className="w-10 h-10 rounded-xl bg-[#f0ede6] dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 flex-shrink-0">
                       {item.icon}
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export default async function ContactPage() {
             </div>
 
             {/* Right — form */}
-            <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 md:p-10 shadow-xl shadow-zinc-100/50 dark:shadow-none">
+            <div className="bg-[#faf8f4] dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 md:p-10 shadow-xl shadow-zinc-100/50 dark:shadow-none">
               <h2 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-8">
                 {formTitle}
               </h2>

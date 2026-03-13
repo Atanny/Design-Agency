@@ -43,8 +43,16 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
 
   return (
     <section className="section-pad relative overflow-hidden">
-      {/* Section bg accent */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent" />
+      {/* Abstract art */}
+      <svg className="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.08] dark:opacity-[0.05] pointer-events-none" viewBox="0 0 400 400" fill="none">
+        <circle cx="350" cy="80" r="150" fill="url(#ss1)" />
+        <polygon points="200,0 400,100 380,300 180,380 20,260 60,60" fill="url(#ss2)" opacity="0.5" />
+        <defs>
+          <radialGradient id="ss1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.6"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
+          <radialGradient id="ss2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
+        </defs>
+      </svg>
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-800 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -71,7 +79,7 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
             <motion.div key={s.id}
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
               viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="group relative bg-white dark:bg-[#0c0c0c] p-8 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
+              className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] p-8 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
             >
               {/* Number label */}
               <span className="absolute top-6 right-6 font-display text-[11px] font-bold tracking-widest text-zinc-300 dark:text-zinc-700 group-hover:text-gold-400/40 transition-colors">

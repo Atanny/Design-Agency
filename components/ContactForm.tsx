@@ -74,7 +74,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           <input
             type="text" value={form.name} onChange={(e) => update("name", e.target.value)}
             placeholder="Your full name" required
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
           />
         </div>
         <div>
@@ -84,7 +84,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           <input
             type="email" value={form.email} onChange={(e) => update("email", e.target.value)}
             placeholder="your@email.com" required
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
           />
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           </label>
           <select
             value={form.service} onChange={(e) => update("service", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
           >
             <option value="">Select a service</option>
             {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -112,7 +112,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           value={form.message} onChange={(e) => update("message", e.target.value)}
           placeholder="Tell us about your project..."
           required rows={compact ? 4 : 6}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm resize-none"
         />
       </div>
 

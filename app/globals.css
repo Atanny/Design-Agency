@@ -19,7 +19,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    @apply bg-white dark:bg-[#080808] text-zinc-900 dark:text-zinc-50;
+    @apply bg-[#f7f5f0] dark:bg-[#080808] text-zinc-900 dark:text-zinc-50;
     font-feature-settings: "kern" 1, "liga" 1;
   }
 }
@@ -60,10 +60,15 @@
   .glass {
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
-    background: rgba(255, 255, 255, 0.82);
+    background: rgba(247, 245, 240, 0.88);
   }
   .dark .glass {
     background: rgba(8, 8, 8, 0.88);
+  }
+
+  /* Light mode card surface — warm not pure white */
+  .card-surface {
+    @apply bg-[#faf8f4] dark:bg-[#0c0c0c];
   }
 
   .section-pad { @apply py-24 md:py-32 lg:py-40; }
