@@ -81,7 +81,7 @@ export default async function ReviewsPage() {
           )}
         </section>
 
-        <section className="py-20 bg-[#f0ede6] dark:bg-zinc-900/50">
+        <section className="py-20 bg-[#dedad2] dark:bg-zinc-900/50">
           <div className="max-w-2xl mx-auto px-6">
             <div className="text-center mb-10">
               <h2 className="font-display text-3xl md:text-4xl font-black text-zinc-900 dark:text-white mb-3 leading-tight">

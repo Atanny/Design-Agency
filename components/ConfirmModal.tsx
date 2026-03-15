@@ -83,7 +83,7 @@ export default function ConfirmModal({
 
  <div className="p-6">
  <div className="flex items-start gap-4 mb-5">
- <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${colors.bg} ${colors.border} border ${colors.icon}`}>
+ <div className={`w-10 h-10 flex items-center justify-center flex-shrink-0 ${colors.bg} ${colors.border} border ${colors.icon}`}>
  {icons}
  </div>
  <div>
@@ -96,11 +96,11 @@ export default function ConfirmModal({
 
  <div className="flex gap-3">
  <button onClick={onConfirm}
- className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${colors.btn}`}>
+ className={`flex-1 py-2.5 text-sm font-bold transition-all duration-200 ${colors.btn}`} style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}>
  {confirmLabel}
  </button>
  <button onClick={onCancel}
- className="flex-1 py-2.5 rounded-xl text-sm font-semibold border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 transition-all">
+ className="flex-1 py-2.5 text-sm font-semibold border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">
  {cancelLabel}
  </button>
  </div>

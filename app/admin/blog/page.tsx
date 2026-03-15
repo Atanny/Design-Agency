@@ -131,9 +131,9 @@ export default function AdminBlog() {
  <div className="flex items-center gap-2 mb-1">
  <p className="text-white font-medium">{post.title}</p>
  {post.published ? (
- <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">Published</span>
+ <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold tracking-wide uppercase border border-emerald-500/20">Published</span>
  ) : (
- <span className="px-2 py-0.5 rounded-full bg-zinc-700 text-zinc-400 text-xs font-medium">Draft</span>
+ <span className="px-2 py-0.5 bg-zinc-800 text-zinc-500 text-[10px] font-bold tracking-wide uppercase border border-zinc-700/60">Draft</span>
  )}
  </div>
  <p className="text-zinc-500 text-xs font-mono">/blog/{post.slug}</p>

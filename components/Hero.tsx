@@ -120,70 +120,33 @@ export default function Hero({ content = {} }: HeroProps) {
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-20">
 
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[#f7f5f0] dark:bg-[#080808]" />
-        <svg className="absolute -top-24 -left-24 w-[500px] h-[500px] opacity-60 dark:opacity-30" viewBox="0 0 500 500" fill="none">
-          <circle cx="180" cy="180" r="140" fill="url(#g1)" />
-          <ellipse cx="300" cy="120" rx="80" ry="120" fill="url(#g2)" transform="rotate(-30 300 120)" />
-          <circle cx="100" cy="320" r="60" fill="url(#g3)" />
-          <defs>
-            <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#e8bd5a" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#c8891a" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="g2" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.53" />
-              <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="g3" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.70" />
-              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-        <svg className="absolute -top-16 -right-16 w-[420px] h-[420px] opacity-50 dark:opacity-25" viewBox="0 0 420 420" fill="none">
-          <polygon points="210,20 390,180 330,380 90,380 30,180" fill="url(#g4)" />
-          <circle cx="300" cy="140" r="70" fill="url(#g5)" />
-          <rect x="60" y="200" width="100" height="100" rx="20" fill="url(#g6)" transform="rotate(20 110 250)" />
-          <defs>
-            <radialGradient id="g4" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="g5" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#c8891a" stopOpacity="0.61" />
-              <stop offset="100%" stopColor="#e8bd5a" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="g6" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ec4899" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#db2777" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-        <svg className="absolute -bottom-20 -right-10 w-[380px] h-[380px] opacity-40 dark:opacity-20" viewBox="0 0 380 380" fill="none">
-          <circle cx="280" cy="260" r="120" fill="url(#g7)" />
-          <ellipse cx="160" cy="320" rx="90" ry="60" fill="url(#g8)" transform="rotate(15 160 320)" />
-          <defs>
-            <radialGradient id="g7" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.44" />
-              <stop offset="100%" stopColor="#059669" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="g8" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#c8891a" stopOpacity="0.53" />
-              <stop offset="100%" stopColor="#e8bd5a" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-        <svg className="absolute bottom-10 left-0 w-[280px] h-[280px] opacity-35 dark:opacity-15" viewBox="0 0 280 280" fill="none">
-          <polygon points="140,10 270,75 270,205 140,270 10,205 10,75" fill="url(#g9)" />
-          <defs>
-            <radialGradient id="g9" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.53" />
-              <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-        </svg>
-        <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.035]"
+        <div className="absolute inset-0 bg-[#e8e4dc] dark:bg-[#080808]" />
+
+        {/* PNG blob — gold top-left */}
+        <img src="/abstracts/blob_gold_tl.png" alt="" aria-hidden="true"
+          className="absolute -top-32 -left-32 w-[600px] h-[600px] object-contain pointer-events-none select-none opacity-75 dark:opacity-30" />
+
+        {/* PNG blob — violet top-right */}
+        <img src="/abstracts/blob_violet_tr.png" alt="" aria-hidden="true"
+          className="absolute -top-20 -right-20 w-[500px] h-[500px] object-contain pointer-events-none select-none opacity-65 dark:opacity-25" />
+
+        {/* PNG blob — emerald bottom-right */}
+        <img src="/abstracts/blob_emerald_br.png" alt="" aria-hidden="true"
+          className="absolute -bottom-24 -right-16 w-[500px] h-[500px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
+
+        {/* PNG blob — blue bottom-left */}
+        <img src="/abstracts/blob_blue_bl.png" alt="" aria-hidden="true"
+          className="absolute bottom-0 -left-20 w-[420px] h-[420px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
+
+        {/* PNG blob — gold center ambient */}
+        <img src="/abstracts/blob_gold_center.png" alt="" aria-hidden="true"
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] object-contain pointer-events-none select-none opacity-40 dark:opacity-10" />
+
+        {/* Fine gold grid */}
+        <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]"
           style={{ backgroundImage: "linear-gradient(rgba(200,137,26,1) 1px, transparent 1px), linear-gradient(90deg, rgba(200,137,26,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+
+        {/* Corner bracket marks */}
         <div className="absolute top-28 left-8 w-6 h-6 border-l-2 border-t-2 border-gold-400/30" />
         <div className="absolute top-28 right-8 w-6 h-6 border-r-2 border-t-2 border-gold-400/30" />
         <div className="absolute bottom-16 left-8 w-6 h-6 border-l-2 border-b-2 border-gold-400/20" />
@@ -200,7 +163,7 @@ export default function Hero({ content = {} }: HeroProps) {
             <div className="h-px w-8 bg-gold-500" />
           </div>
           {commissionOpen !== null && (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className={`flex items-center gap-2 px-3 py-1.5 border text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
                 commissionOpen
                   ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-400"
@@ -210,12 +173,15 @@ export default function Hero({ content = {} }: HeroProps) {
                 {commissionOpen ? "Available for Commission" : "Commissions Closed"}
               </div>
               {businessHours && (
-                <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
-                  <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  {businessHours}
-                </div>
+                <>
+                  <div className="w-px h-4 bg-zinc-700" />
+                  <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
+                    <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    {businessHours}
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -263,7 +229,7 @@ export default function Hero({ content = {} }: HeroProps) {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
           <Link href="/services"
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold tracking-wide hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300 shadow-2xl shadow-zinc-900/15"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold tracking-wide hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
             style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
           >
             View Services

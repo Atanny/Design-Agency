@@ -74,12 +74,12 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
         </motion.div>
 
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100 dark:bg-zinc-800/60">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#dedad2] dark:bg-zinc-800/60">
           {services.map((s, i) => (
             <motion.div key={s.id}
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
               viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] p-8 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
+              className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] p-8 hover:bg-white dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
             >
               
               <span className="absolute top-6 right-6 font-display text-[11px] font-bold tracking-widest text-zinc-300 dark:text-zinc-700 group-hover:text-gold-400/40 transition-colors">

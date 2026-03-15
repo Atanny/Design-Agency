@@ -64,7 +64,7 @@ export default function ReviewForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="text-center py-8"
       >
-        <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
@@ -91,7 +91,7 @@ export default function ReviewForm() {
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           placeholder="Jane Smith"
           required
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+          className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm"
         />
       </div>
 
@@ -112,7 +112,7 @@ export default function ReviewForm() {
           placeholder="Tell others about your experience..."
           required
           rows={5}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm resize-none"
+          className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm resize-none"
         />
       </div>
 
@@ -120,7 +120,7 @@ export default function ReviewForm() {
         type="submit"
         disabled={loading}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all"
+        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
       >
         {loading ? "Submitting..." : "Submit Review"}
       </motion.button>

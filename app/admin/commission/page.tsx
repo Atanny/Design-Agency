@@ -148,7 +148,7 @@ export default function AdminCommission() {
             </div>
 
             <button onClick={handleSave} disabled={saving}
-              className="w-full py-3 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all"
+              className="w-full py-3 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all shadow-[0_4px_20px_rgba(200,137,26,0.35)]"
               style={{ clipPath:"polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
               {saving ? "Saving..." : "Save Changes"}
             </button>

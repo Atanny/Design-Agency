@@ -24,37 +24,55 @@ function ImageModal({ item, onClose }: { item: PortfolioItem; onClose: () => voi
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" />
-      <motion.div initial={{ scale:0.9, opacity:0 }} animate={{ scale:1, opacity:1 }} exit={{ scale:0.9, opacity:0 }}
-        transition={{ duration:0.25, ease:"easeOut" }}
-        className="relative max-w-4xl w-full bg-[#faf8f4] dark:bg-[#0c0c0c] overflow-hidden shadow-2xl card-grain"
-        style={{ clipPath:"polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%)" }}
+      <div className="absolute inset-0 bg-zinc-950/85 backdrop-blur-md" />
+      <motion.div
+        initial={{ scale:0.94, opacity:0, y:12 }}
+        animate={{ scale:1, opacity:1, y:0 }}
+        exit={{ scale:0.94, opacity:0, y:8 }}
+        transition={{ duration:0.25, ease:[0.16,1,0.3,1] }}
+        className="relative w-full max-w-xl bg-[#faf8f4] dark:bg-[#0c0c0c] shadow-2xl card-grain flex flex-col max-h-[85vh]"
+        style={{ clipPath:"polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative aspect-[16/9] w-full bg-zinc-100 dark:bg-zinc-800" style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}>
-          <Image src={item.image_url} alt={item.title} fill className="object-cover" />
+        <button onClick={onClose}
+          className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center bg-zinc-900/70 text-white hover:bg-gold-500 transition-colors flex-shrink-0"
+          style={{ clipPath:"polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)" }}>
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <div className="relative w-full aspect-[16/9] flex-shrink-0 bg-zinc-100 dark:bg-zinc-900"
+          style={{ clipPath:"polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}>
+          <Image src={item.image_url} alt={item.title} fill className="object-cover" priority />
         </div>
-        <div className="p-6 md:p-8">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <span className="inline-block px-2.5 py-1 bg-gold-50 dark:bg-gold-900/30 text-gold-600 dark:text-gold-400 text-xs font-semibold mb-3 tracking-wide uppercase">
-                {item.category}
-              </span>
-              <h3 className="font-display text-2xl font-bold text-zinc-900 dark:text-white">{item.title}</h3>
-              {item.description && <p className="mt-2 text-zinc-500 dark:text-zinc-400 text-sm">{item.description}</p>}
-              {item.project_url && (
-                <a href={item.project_url} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-gold-600 dark:text-gold-400 hover:opacity-70 transition-opacity">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                  View Live Project
-                </a>
-              )}
-            </div>
-            <button onClick={onClose}
-              className="flex-shrink-0 w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+
+        <div className="flex flex-col overflow-y-auto p-5 gap-3">
+          <div className="flex items-center gap-2">
+            <div className="h-px w-5 bg-gold-500" />
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{item.category}</span>
           </div>
+
+          <h3 className="font-display text-xl font-black text-zinc-900 dark:text-white tracking-tight leading-tight">
+            {item.title}
+          </h3>
+
+          {item.description && (
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              {item.description}
+            </p>
+          )}
+
+          {item.project_url && (
+            <a href={item.project_url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-1 px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all self-start shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+              style={{ clipPath:"polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+              View Live Project
+            </a>
+          )}
         </div>
       </motion.div>
     </motion.div>

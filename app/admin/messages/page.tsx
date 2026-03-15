@@ -274,7 +274,7 @@ export default function AdminMessages() {
  <div className="flex items-center justify-between gap-2 mb-1">
  <p className="text-white font-medium text-sm truncate">{msg.name}</p>
  <div className="flex items-center gap-1.5 flex-shrink-0">
- <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[msg.status]}`}>
+ <span className={`px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase ${statusColors[msg.status]}`}>
  {msg.status}
  </span>
  <button
@@ -303,7 +303,7 @@ export default function AdminMessages() {
  <h3 className="text-white font-bold text-lg">{selected.name}</h3>
  <p className="text-zinc-400 text-sm">{selected.email}</p>
  </div>
- <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[selected.status]}`}>
+ <span className={`px-2 py-1 text-[10px] font-bold tracking-wide uppercase ${statusColors[selected.status]}`}>
  {selected.status}
  </span>
  </div>

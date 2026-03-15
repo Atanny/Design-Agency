@@ -142,7 +142,7 @@ export default function AdminReviews() {
  <p className="text-white text-sm font-medium">{review.name}</p>
  <Stars rating={review.rating} />
  </div>
- <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${review.approved ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border border-amber-500/20"}`}>
+ <span className={`px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase border ${review.approved ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"}`}>
  {review.approved ? "Live" : "Pending"}
  </span>
  </div>

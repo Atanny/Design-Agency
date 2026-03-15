@@ -144,14 +144,14 @@ export default function AdminSettings() {
  <div key={sender.id}
  className={`flex items-center justify-between p-4 border ${sender.is_default ? "border-gold-700/40 bg-gold-900/10" : "border-zinc-800 bg-zinc-900/50"}`}>
  <div className="flex items-center gap-3">
- <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold ${sender.is_default ? "gradient-gold text-white" : "bg-zinc-700 text-zinc-400"}`}>
+ <div className={`w-9 h-9 flex items-center justify-center text-sm font-bold ${sender.is_default ? "gradient-gold text-white" : "bg-zinc-800 text-zinc-400"}`}>
  {sender.name.charAt(0)}
  </div>
  <div>
  <p className="text-white text-sm font-medium">{sender.name}</p>
  <p className="text-zinc-400 text-xs">{sender.email}</p>
  </div>
- {sender.is_default && <span className="px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-400 text-xs font-medium">Default</span>}
+ {sender.is_default && <span className="px-2 py-0.5 bg-gold-500/15 text-gold-400 text-xs font-bold border border-gold-500/20">Default</span>}
  </div>
  <div className="flex gap-2">
  {!sender.is_default && (

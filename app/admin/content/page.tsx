@@ -258,7 +258,7 @@ export default function AdminContent() {
  <div className="space-y-2">
  {(["item1","item2","item3","item4"] as const).map((k,i)=>(
  <div key={k} className="flex items-center gap-2">
- <span className="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0">{i+1}</span>
+ <span className="w-5 h-5 bg-gold-500/15 text-gold-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0 border border-gold-500/20">{i+1}</span>
  <input type="text" value={(data as Record<string,string>)[k]||""} onChange={(e)=>setData(d=>({...d,[k]:e.target.value}))}
  placeholder={["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i]}
  className="flex-1 px-4 py-2.5 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"/>
@@ -325,7 +325,7 @@ export default function AdminContent() {
  {/* eslint-disable-next-line @next/next/no-img-element */}
  <img src={data[key]} alt="Logo" className="w-16 h-16 object-contain border border-zinc-800 bg-zinc-800 p-2" />
  <button onClick={() => setData((d) => ({ ...d, [key]: "" }))}
- className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center"
+ className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center"
  >×</button>
  </div>
  ) : (

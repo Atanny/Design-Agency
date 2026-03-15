@@ -86,7 +86,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           <input
             type="text" value={form.name} onChange={(e) => update("name", e.target.value)}
             placeholder="Your full name" required
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm"
           />
         </div>
         <div>
@@ -96,7 +96,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           <input
             type="email" value={form.email} onChange={(e) => update("email", e.target.value)}
             placeholder="your@email.com" required
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm"
           />
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           </label>
           <select
             value={form.service} onChange={(e) => update("service", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
+            className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:border-gold-500/60 transition-all text-sm"
           >
             <option value="">Select a service</option>
             {services.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -124,13 +124,13 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
           value={form.message} onChange={(e) => update("message", e.target.value)}
           placeholder="Tell us about your project..."
           required rows={compact ? 4 : 6}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm resize-none"
+          className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm resize-none"
         />
       </div>
 
       <motion.button
         type="submit" disabled={loading} whileTap={{ scale: 0.98 }}
-        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all"
+        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

@@ -120,7 +120,7 @@ export default async function ServicesPage() {
                     )}
 
                     <Link href="/contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
                       style={{ clipPath:"polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
                       Start This Project
                     </Link>
@@ -154,7 +154,7 @@ export default async function ServicesPage() {
                         ))}
                       </ul>
                       <Link href="/contact"
-                        className="w-full py-3.5 text-sm font-bold text-center bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300"
+                        className="w-full py-3.5 text-sm font-bold text-center bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
                         style={{ clipPath:"polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
                         {offerCard.button_text || "Request an Offer"}
                       </Link>

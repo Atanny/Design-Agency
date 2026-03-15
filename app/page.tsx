@@ -37,7 +37,9 @@ export default async function Home() {
       <ServicesSection content={servicesContent} />
 
       
-      <section className="section-pad relative overflow-hidden bg-[#f0ede6] dark:bg-[#0a0a0a]">
+      <section className="section-pad relative overflow-hidden bg-[#dedad2] dark:bg-[#0a0a0a] relative overflow-hidden">
+        <img src="/abstracts/blob_section_process.png" alt="" aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none opacity-20 dark:opacity-25" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-800 to-transparent" />
 
         
@@ -312,6 +314,8 @@ export default async function Home() {
 
       
       <section className="py-32 md:py-40 bg-[#060606] relative overflow-hidden">
+        <img src="/abstracts/blob_section_cta.png" alt="" aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none opacity-40 mix-blend-luminosity" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
         
         <svg className="absolute inset-0 w-full h-full opacity-[0.15] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
