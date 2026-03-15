@@ -46,7 +46,7 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     step3_num: "03", step3_title: "Deliver",    step3_desc: "Print-ready or screen-ready files, on time, every time.",
   },
   why_us_section: {
-    badge: "Why Lumis Studio",
+    badge: "Why Choose Us",
     headline: "Designed",
     headline_italic: "differently",
     card1_title: "Fast Turnaround",    card1_desc: "Most projects delivered within 3–7 days without sacrificing quality.",

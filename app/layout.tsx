@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { createServerClient } from "@/lib/supabaseClient";
 import { getContent } from "@/lib/content";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const revalidate = 0;
 
@@ -23,6 +24,7 @@ const dmSans = DM_Sans({
 });
 
 async function getHomeSEO() {
+  noStore();
   try {
     const supabase = createServerClient();
     const { data } = await supabase
@@ -37,6 +39,7 @@ async function getHomeSEO() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
+  noStore();
   const [seo, navContent] = await Promise.all([
     getHomeSEO(),
     getContent("navbar"),
@@ -81,6 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={`${playfair.variable} ${dmSans.variable} font-body antialiased`}>
         <ThemeProvider>
+          <DynamicTitle fallbackName={navContent.logo_name || "Lumis"} />
           <SiteShell navContent={navContent} footerContent={footerContent}>
             {children}
           </SiteShell>
@@ -112,3 +116,4 @@ function SiteShell({
 
 // We need a client component to check pathname
 import LayoutWrapper from "@/components/LayoutWrapper";
+import DynamicTitle from "@/components/DynamicTitle";
