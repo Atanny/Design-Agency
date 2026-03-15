@@ -64,8 +64,12 @@ export default function AdminSettings() {
   return (
     <div className="p-8 w-full">
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white">Settings</h1>
-        <p className="text-zinc-500 mt-1">Email configuration and environment setup.</p>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Settings</h1>
+        <p className="text-zinc-600 text-sm mt-2">Email configuration and environment setup.</p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
@@ -119,7 +123,7 @@ export default function AdminSettings() {
                 <p className="text-xs text-zinc-600 mb-3">⚠️ Must be on a verified domain in Resend.</p>
                 <div className="flex gap-2">
                   <button type="submit" disabled={adding}
-                    className="px-4 py-2 rounded-lg bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-60 transition-colors">
+                    className="px-4 py-2 bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-60 transition-colors">
                     {adding ? "Adding..." : "Add Sender"}
                   </button>
                   <button type="button" onClick={()=>setShowAddForm(false)}

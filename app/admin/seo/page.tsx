@@ -62,8 +62,12 @@ export default function AdminSeo() {
   return (
     <div className="p-8 w-full max-w-full">
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white">SEO Settings</h1>
-        <p className="text-zinc-500 mt-1">Control meta titles, descriptions, and Open Graph images for each page.</p>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">SEO Settings</h1>
+        <p className="text-zinc-600 text-sm mt-2">Control meta titles, descriptions, and Open Graph images for each page.</p>
       </div>
 
       {loading ? (
@@ -108,7 +112,7 @@ export default function AdminSeo() {
                       onChange={(e) => update(page.key, "meta_title", e.target.value)}
                       placeholder="Page Title | Your Studio Name"
                       maxLength={70}
-                      className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                      className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
                     />
                   </div>
 
@@ -125,7 +129,7 @@ export default function AdminSeo() {
                       placeholder="Brief description of this page for search engines..."
                       rows={2}
                       maxLength={170}
-                      className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
+                      className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
                     />
                   </div>
 
@@ -138,7 +142,7 @@ export default function AdminSeo() {
                       value={row.og_image || ""}
                       onChange={(e) => update(page.key, "og_image", e.target.value)}
                       placeholder="https://..."
-                      className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                      className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
                     />
                   </div>
                 </div>

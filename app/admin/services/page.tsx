@@ -152,11 +152,15 @@ export default function AdminServices() {
     <div className="p-8 w-full max-w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Services</h1>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Services</h1>
           <p className="text-zinc-500 mt-1">Add, edit, reorder and manage your services. Drag to reorder.</p>
         </div>
         <button onClick={openNew}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
+          className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -255,7 +259,7 @@ export default function AdminServices() {
                 <input type="text" value={editing.title}
                   onChange={(e) => setEditing({ ...editing, title: e.target.value })}
                   placeholder="e.g. UI/UX Design"
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
+                  className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
                 />
               </div>
 
@@ -264,7 +268,7 @@ export default function AdminServices() {
                 <input type="text" value={editing.subtitle||""}
                   onChange={(e) => setEditing({ ...editing, subtitle: e.target.value })}
                   placeholder="e.g. Intuitive. Beautiful. Effective."
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
+                  className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
                 />
               </div>
 
@@ -274,7 +278,7 @@ export default function AdminServices() {
                   onChange={(e) => setEditing({ ...editing, description: e.target.value })}
                   placeholder="Brief description of the service..."
                   rows={3}
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
+                  className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
                 />
               </div>
 
@@ -285,7 +289,7 @@ export default function AdminServices() {
                   onChange={(e) => setEditing({ ...editing, features: e.target.value })}
                   placeholder={"Logo Design\nColor & Typography\nBrand Guidelines"}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none font-mono"
+                  className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none font-mono"
                 />
               </div>
 

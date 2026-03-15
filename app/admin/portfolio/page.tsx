@@ -129,11 +129,15 @@ export default function AdminPortfolio() {
     <div className="p-8 w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Portfolio</h1>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Portfolio</h1>
           <p className="text-zinc-500 mt-1">{items.length} items</p>
         </div>
         <button onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
+          className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
           Add Item
@@ -147,12 +151,12 @@ export default function AdminPortfolio() {
             <div>
               <label className="block text-xs text-zinc-400 mb-1.5">Title *</label>
               <input type="text" value={form.title} onChange={(e)=>setForm(f=>({...f,title:e.target.value}))} placeholder="Project name"
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
             </div>
             <div>
               <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
               <select value={form.category} onChange={(e)=>setForm(f=>({...f,category:e.target.value}))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
+                className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
                 {categories.map((c)=><option key={c} value={c}>{c}</option>)}
               </select>
             </div>
@@ -160,12 +164,12 @@ export default function AdminPortfolio() {
           <div className="mb-4">
             <label className="block text-xs text-zinc-400 mb-1.5">Description</label>
             <textarea value={form.description} onChange={(e)=>setForm(f=>({...f,description:e.target.value}))} rows={2} placeholder="Brief description..."
-              className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
+              className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
           </div>
           <div className="mb-4">
             <label className="block text-xs text-zinc-400 mb-1.5">Project Link (optional — shown as clickable button on site)</label>
             <input type="url" value={form.project_url} onChange={(e)=>setForm(f=>({...f,project_url:e.target.value}))} placeholder="https://..."
-              className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+              className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
           </div>
           <div className="mb-5">
             <label className="block text-xs text-zinc-400 mb-1.5">Image *</label>
@@ -180,7 +184,7 @@ export default function AdminPortfolio() {
           </div>
           <div className="flex gap-3">
             <button type="submit" disabled={uploading || !form.image_url}
-              className="px-6 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors">
+              className="px-6 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 disabled:opacity-50 transition-colors">
               Save Item
             </button>
             <button type="button" onClick={()=>{setShowForm(false);setPreviewUrl("");}}
@@ -203,7 +207,7 @@ export default function AdminPortfolio() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {items.map((item) => (
-            <div key={item.id} className="group relative rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all">
+            <div key={item.id} className="group relative rounded-2xl overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-zinc-600 transition-all">
               <div className="aspect-square relative">
                 <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
@@ -280,24 +284,24 @@ export default function AdminPortfolio() {
               <div>
                 <label className="block text-xs text-zinc-400 mb-1.5">Title</label>
                 <input type="text" value={editItem.title} onChange={(e)=>setEditItem(i=>i?{...i,title:e.target.value}:i)} required
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                  className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
               </div>
               <div>
                 <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
                 <select value={editItem.category} onChange={(e)=>setEditItem(i=>i?{...i,category:e.target.value}:i)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
+                  className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
                   {categories.map((c)=><option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-zinc-400 mb-1.5">Description</label>
                 <textarea value={editItem.description||""} onChange={(e)=>setEditItem(i=>i?{...i,description:e.target.value}:i)} rows={2}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
+                  className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
               </div>
               <div>
                 <label className="block text-xs text-zinc-400 mb-1.5">Project Link</label>
                 <input type="url" value={editItem.project_url||""} onChange={(e)=>setEditItem(i=>i?{...i,project_url:e.target.value}:i)} placeholder="https://..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                  className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
               </div>
             </div>
             <div className="flex gap-3 mt-5">

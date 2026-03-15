@@ -78,11 +78,15 @@ export default function AdminUsers() {
     <div className="p-8 w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Users</h1>
-          <p className="text-zinc-500 mt-1">Manage admin accounts.</p>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Users</h1>
+          <p className="text-zinc-600 text-sm mt-2">Manage admin accounts.</p>
         </div>
         <button onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors">
+          className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
           Add User
         </button>
@@ -100,17 +104,17 @@ export default function AdminUsers() {
             <div>
               <label className="block text-xs text-zinc-400 mb-1.5">Email Address</label>
               <input type="email" value={form.email} onChange={(e)=>setForm(f=>({...f,email:e.target.value}))} placeholder="admin@domain.com" required
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
             </div>
             <div>
               <label className="block text-xs text-zinc-400 mb-1.5">Password (min. 8 chars)</label>
               <input type="password" value={form.password} onChange={(e)=>setForm(f=>({...f,password:e.target.value}))} placeholder="••••••••" required minLength={8}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                className="w-full px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
             </div>
           </div>
           <div className="flex gap-3">
             <button type="submit" disabled={adding}
-              className="px-6 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors">
+              className="px-6 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 disabled:opacity-50 transition-colors">
               {adding ? "Creating..." : "Create User"}
             </button>
             <button type="button" onClick={()=>setShowForm(false)}

@@ -105,11 +105,15 @@ export default function AdminBlog() {
     <div className="p-8 w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Blog</h1>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Blog</h1>
           <p className="text-zinc-500 mt-1">{posts.length} posts</p>
         </div>
         <button onClick={() => setMode("create")}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors">
+          className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
           New Post
         </button>
@@ -180,7 +184,7 @@ export default function AdminBlog() {
                 }));
               }}
               placeholder="Post title"
-              className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+              className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
             />
           </div>
 
@@ -191,7 +195,7 @@ export default function AdminBlog() {
               value={form.slug || ""}
               onChange={(e) => setForm((f) => ({ ...f, slug: slugify(e.target.value) }))}
               placeholder="post-slug"
-              className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 font-mono"
+              className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 font-mono"
             />
           </div>
 
@@ -230,7 +234,7 @@ export default function AdminBlog() {
                   value={form.featured_image || ""}
                   onChange={(e) => setForm((f) => ({ ...f, featured_image: e.target.value }))}
                   placeholder="Image URL or upload..."
-                  className="flex-1 px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                  className="flex-1 px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
                 />
                 <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
                   className="px-4 py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white disabled:opacity-60 transition-colors whitespace-nowrap">
@@ -248,7 +252,7 @@ export default function AdminBlog() {
               placeholder="SEO description (150-160 chars)..."
               rows={2}
               maxLength={160}
-              className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
+              className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
             />
           </div>
 
@@ -259,7 +263,7 @@ export default function AdminBlog() {
               onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
               placeholder="<p>Post content in HTML...</p>"
               rows={16}
-              className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none font-mono"
+              className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none font-mono"
             />
           </div>
 
@@ -277,7 +281,7 @@ export default function AdminBlog() {
 
               <div className="flex gap-3 pt-2">
                 <button type="submit"
-                  className="px-6 py-3 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors">
+                  className="px-6 py-3 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors">
                   {mode === "create" ? "Create Post" : "Save Changes"}
                 </button>
                 <button type="button" onClick={() => { setMode("list"); setForm(emptyForm()); }}

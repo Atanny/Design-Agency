@@ -229,7 +229,11 @@ export default function AdminMessages() {
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Messages</h1>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Messages</h1>
           <p className="text-zinc-500 mt-0.5">
             {newCount > 0 ? <span className="text-blue-400 font-medium">{newCount} new</span> : "No new messages"}
           </p>
@@ -331,7 +335,7 @@ export default function AdminMessages() {
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => setReplyTo(selected)}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />

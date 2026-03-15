@@ -55,14 +55,14 @@ export default function ResetPasswordPage() {
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-[#080808] flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#080808] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <span className="w-12 h-12 gradient-gold rounded-xl flex items-center justify-center text-white font-display font-black text-xl mx-auto mb-4 shadow-lg shadow-gold-500/25">L</span>
@@ -96,7 +96,7 @@ export default function ResetPasswordPage() {
               <label className="block text-xs font-medium text-zinc-400 mb-1.5">New Password</label>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                 placeholder="Min. 8 characters" required autoFocus
-                className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"/>
+                className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"/>
               {password.length > 0 && (
                 <div className="mt-2.5">
                   <div className="flex gap-1 mb-1.5">

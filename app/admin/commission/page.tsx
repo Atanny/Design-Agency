@@ -60,8 +60,12 @@ export default function AdminCommission() {
   return (
     <div className="p-8 w-full max-w-3xl">
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white">Commission Status</h1>
-        <p className="text-zinc-500 mt-1">Control whether you're accepting new commissions. Updates instantly sitewide.</p>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Commission Status</h1>
+        <p className="text-zinc-600 text-sm mt-2">Control whether you're accepting new commissions. Updates instantly sitewide.</p>
       </div>
 
       {loading ? (
@@ -138,7 +142,7 @@ export default function AdminCommission() {
                   value={closedMessage}
                   onChange={(e) => setClosedMessage(e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
+                  className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"
                 />
               </div>
             </div>
@@ -162,7 +166,7 @@ export default function AdminCommission() {
             <button
               onClick={handleSaveMessages}
               disabled={saving}
-              className="mt-5 px-6 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors"
+              className="mt-5 px-6 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 disabled:opacity-50 transition-colors"
             >
               {saving ? "Saving..." : "Save Message"}
             </button>

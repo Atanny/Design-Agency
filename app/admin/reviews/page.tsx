@@ -76,7 +76,11 @@ export default function AdminReviews() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Reviews</h1>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Reviews</h1>
           <p className="text-zinc-500 mt-0.5">
             {pendingCount > 0
               ? <span className="text-amber-400 font-medium">{pendingCount} pending approval</span>

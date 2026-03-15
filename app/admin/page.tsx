@@ -168,7 +168,7 @@ export default function AdminDashboard() {
     <div className="p-8 w-full">
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Dashboard</h1>
+          <h1 className="font-display text-3xl font-black text-white tracking-tight">Dashboard</h1>
           <p className="text-zinc-500 mt-1">Welcome back. Here&apos;s your studio at a glance.</p>
         </div>
         <a href="/admin/commission"
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
           {cards.map((c) => (
-            <Link key={c.label} href={c.href} className="group p-5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all">
+            <Link key={c.label} href={c.href} className="group p-5 rounded-2xl bg-[#0c0c0c] border border-zinc-800/60 hover:border-zinc-600 transition-all">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ${c.color}`}>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>{c.icon}</svg>
               </div>
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+        <div className="lg:col-span-2 bg-[#0c0c0c] border border-zinc-800/60 rounded-2xl p-6">
           <h2 className="text-sm font-semibold text-white mb-1">Messages (Last 6 Months)</h2>
           <p className="text-xs text-zinc-600 mb-5">Inquiries received per month</p>
           {loading ? <div className="h-16 rounded-lg bg-zinc-800 animate-pulse"/> : <MiniBar data={msgChart} color="bg-gold-500" />}

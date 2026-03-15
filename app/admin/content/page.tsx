@@ -194,8 +194,12 @@ export default function AdminContent() {
     <div className="p-8 w-full max-w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-white">Content Editor</h1>
-          <p className="text-zinc-500 mt-1">Edit all visible text and images across your website</p>
+          <div className="flex items-center gap-3 mb-2">
+          <div className="h-px w-8 bg-gold-500" />
+          <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
+        </div>
+        <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Content Editor</h1>
+          <p className="text-zinc-600 text-sm mt-2">Edit all visible text and images across your website</p>
         </div>
         <a href="/" target="_blank" rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 rounded-lg border border-zinc-700 text-zinc-400 text-sm hover:text-white transition-colors"
@@ -241,13 +245,13 @@ export default function AdminContent() {
                       <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Card Title</label>
                       <input type="text" value={data.title||""} onChange={(e)=>setData(d=>({...d,title:e.target.value}))}
                         placeholder="Get a Custom Offer"
-                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                        className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Description</label>
                       <textarea value={data.description||""} onChange={(e)=>setData(d=>({...d,description:e.target.value}))}
                         rows={3} placeholder="Every project is unique..."
-                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
+                        className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">Bullet Points</label>
@@ -257,7 +261,7 @@ export default function AdminContent() {
                             <span className="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0">{i+1}</span>
                             <input type="text" value={(data as Record<string,string>)[k]||""} onChange={(e)=>setData(d=>({...d,[k]:e.target.value}))}
                               placeholder={["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i]}
-                              className="flex-1 px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                              className="flex-1 px-4 py-2.5 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
                           </div>
                         ))}
                       </div>
@@ -266,7 +270,7 @@ export default function AdminContent() {
                       <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Button Text</label>
                       <input type="text" value={data.button_text||""} onChange={(e)=>setData(d=>({...d,button_text:e.target.value}))}
                         placeholder="Request an Offer"
-                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                        className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
                     </div>
                   </div>
 
@@ -364,7 +368,7 @@ export default function AdminContent() {
                           value={data[key] || ""}
                           onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
                           rows={3}
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none transition-all"
+                          className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none transition-all"
                         />
                       ) : (
                         <input
@@ -372,7 +376,7 @@ export default function AdminContent() {
                           value={data[key] || ""}
                           onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
                           placeholder={isUrl ? "https://..." : ""}
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
+                          className="w-full px-4 py-3 border border-zinc-800 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500 transition-all"
                         />
                       )}
                     </div>
@@ -383,7 +387,7 @@ export default function AdminContent() {
 
             <div className="flex gap-3 mt-8 pt-6 border-t border-zinc-800">
               <button onClick={() => setConfirmSave(true)} disabled={saving || !hasChanges}
-                className="px-6 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors"
+                className="px-6 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 disabled:opacity-50 transition-colors"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
