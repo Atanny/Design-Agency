@@ -106,7 +106,7 @@ export default function AdminSettings() {
                 <div className="grid grid-cols-2 gap-3 mb-3">
                   <div>
                     <label className="block text-xs text-zinc-400 mb-1">Display Name</label>
-                    <input type="text" value={addForm.name} onChange={(e)=>setAddForm(f=>({...f,name:e.target.value}))} placeholder="Lumis Studio"
+                    <input type="text" value={addForm.name} onChange={(e)=>setAddForm(f=>({...f,name:e.target.value}))} placeholder="Your Studio Name"
                       className="w-full px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-900 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
                   </div>
                   <div>

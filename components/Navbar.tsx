@@ -22,7 +22,7 @@ interface NavbarProps {
   logoImage?: string;
 }
 
-export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project", logoImage }: NavbarProps) {
+export default function Navbar({ logoName = "", ctaText = "Start a Project", logoImage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -56,7 +56,7 @@ export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project"
             ) : (
               <span className="w-8 h-8 gradient-gold flex items-center justify-center text-white font-display font-black text-sm shadow-lg shadow-gold-500/25"
                 style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
-                {logoName.charAt(0).toUpperCase()}
+                {logoName ? logoName.charAt(0).toUpperCase() : "--"}
               </span>
             )}
             <span className="font-display font-bold text-lg tracking-tight text-zinc-900 dark:text-white group-hover:text-gold-500 dark:group-hover:text-gold-400 transition-colors">

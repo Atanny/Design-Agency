@@ -2,7 +2,7 @@ import { createServerClient } from "./supabaseClient";
 
 const DEFAULTS: Record<string, Record<string, string>> = {
   navbar: {
-    logo_name: "Lumis",
+    logo_name: "",
     logo_image: "",
     cta_button: "Contact Us",
     social_facebook: "#",
@@ -72,7 +72,7 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     badge: "Contact",
     headline: "Let's Work Together",
     subtext: "Ready to start a project? Tell us about it.",
-    email: "hello@lumisstudio.com",
+    email: "",
     location: "Philippines",
     response: "Within 24 hours",
     discovery_title: "Free Discovery Call",

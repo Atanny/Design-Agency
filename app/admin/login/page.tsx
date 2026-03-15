@@ -56,7 +56,7 @@ export default function AdminLogin() {
             Admin Login
           </h1>
           <p className="text-zinc-500 text-sm">
-            Sign in to access the Lumis Studio dashboard
+            Sign in to your dashboard
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export default function AdminLogin() {
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                placeholder="admin@lumisstudio.com"
+                placeholder="your@email.com"
                 required
                 className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-gold-500/40 focus:border-gold-500 transition-all text-sm"
               />

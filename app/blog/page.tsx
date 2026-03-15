@@ -8,7 +8,7 @@ import type { BlogPost } from "@/types";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Design insights, tips, and inspiration from the Lumis Studio team.",
+    "Design insights, tips, and inspiration from our studio team.",
 };
 
 async function getPosts(): Promise<BlogPost[]> {

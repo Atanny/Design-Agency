@@ -104,7 +104,7 @@ export default function AdminSeo() {
                       type="text"
                       value={row.meta_title || ""}
                       onChange={(e) => update(page.key, "meta_title", e.target.value)}
-                      placeholder="Page Title | Lumis Studio"
+                      placeholder="Page Title | Your Studio Name"
                       maxLength={70}
                       className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
                     />

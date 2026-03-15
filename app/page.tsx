@@ -205,7 +205,7 @@ export default async function Home() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-5">
               <div className="h-px w-12 bg-gold-500/50" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">{whyUsContent.badge || "Why Lumis Studio"}</span>
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">{whyUsContent.badge || "Why Choose Us"}</span>
               <div className="h-px w-12 bg-gold-500/50" />
             </div>
             <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight leading-[0.95]">

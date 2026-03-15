@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     const supabase = createServerClient();
     const { data } = await supabase.from("seo_settings").select("*").eq("page","services").single();
-    return { title: data?.meta_title||"Services | Lumis Studio", description: data?.meta_description||"Our design services." };
-  } catch { return { title: "Services | Lumis Studio" }; }
+    return { title: data?.meta_title||"Services", description: data?.meta_description||"Our design services." };
+  } catch { return { title: "Services" }; }
 }
 
 interface DBService {

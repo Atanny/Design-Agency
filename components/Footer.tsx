@@ -27,7 +27,7 @@ interface FooterProps {
   logoImage?: string;
 }
 
-export default function Footer({ content = {}, logoName = "Lumis", logoImage }: FooterProps) {
+export default function Footer({ content = {}, logoName = "", logoImage }: FooterProps) {
   const tagline   = content.tagline          || "Design is not just what it looks like — it's how it works.";
   const madeIn    = content.made_in          || "Philippines";
   const copyright = content.copyright_suffix || "All rights reserved.";
@@ -61,11 +61,11 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
                 ) : (
                   <span className="w-10 h-10 gradient-gold flex items-center justify-center text-white font-display font-black text-base shadow-lg shadow-gold-500/25"
                     style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
-                    {logoName.charAt(0).toUpperCase()}
+                    {logoName ? logoName.charAt(0).toUpperCase() : "--"}
                   </span>
                 )}
                 <span className="font-display font-bold text-2xl text-white group-hover:text-gold-400 transition-colors">
-                  {logoName}<span className="text-gold-500">.</span>
+                  {logoName || "--"}<span className={logoName ? "text-gold-500" : ""}>{logoName ? "." : ""}</span>
                 </span>
               </Link>
               <p className="text-sm leading-relaxed text-zinc-500 italic font-light">&ldquo;{tagline}&rdquo;</p>

@@ -26,7 +26,7 @@ function ReplyModal({
 }) {
   const defaultSender = senders.find((s) => s.is_default) || senders[0];
   const [selectedSender, setSelectedSender] = useState<EmailSender | null>(defaultSender || null);
-  const [subject, setSubject] = useState(`Re: Your inquiry to ${defaultSender?.name || "Lumis Studio"}`);
+  const [subject, setSubject] = useState(`Re: Your inquiry to ${defaultSender?.name || "--"}`);
   const [body, setBody] = useState("");
   const [sending, setSending] = useState(false);
 

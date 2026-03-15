@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
     getContent("navbar"),
   ]);
 
-  const studioName = navContent.logo_name ? `${navContent.logo_name} Studio` : "Lumis Studio";
+  const studioName = navContent.logo_name ? `${navContent.logo_name} Studio` : "--";
   const title = seo?.meta_title || `${studioName} — Design That Elevates Brands`;
   const description = seo?.meta_description || "Premium UI/UX, branding, and visual design services.";
 
@@ -84,7 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={`${playfair.variable} ${dmSans.variable} font-body antialiased`}>
         <ThemeProvider>
-          <DynamicTitle fallbackName={navContent.logo_name || "Lumis"} />
+          <DynamicTitle fallbackName={navContent.logo_name || ""} />
           <SiteShell navContent={navContent} footerContent={footerContent}>
             {children}
           </SiteShell>

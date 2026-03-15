@@ -30,11 +30,11 @@ export async function generateMetadata(): Promise<Metadata> {
     const supabase = createServerClient();
     const { data } = await supabase.from("seo_settings").select("*").eq("page", "reviews").single();
     return {
-      title: data?.meta_title || "Reviews | Lumis Studio",
-      description: data?.meta_description || "Client reviews for Lumis Studio.",
+      title: data?.meta_title || "Reviews",
+      description: data?.meta_description || "Client reviews and testimonials.",
     };
   } catch {
-    return { title: "Reviews | Lumis Studio" };
+    return { title: "Reviews" };
   }
 }
 

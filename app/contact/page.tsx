@@ -9,11 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
     const supabase = createServerClient();
     const { data } = await supabase.from("seo_settings").select("*").eq("page", "contact").single();
     return {
-      title: data?.meta_title || "Contact | Lumis Studio",
-      description: data?.meta_description || "Get in touch with Lumis Studio.",
+      title: data?.meta_title || "Contact",
+      description: data?.meta_description || "Get in touch with us.",
     };
   } catch {
-    return { title: "Contact | Lumis Studio" };
+    return { title: "Contact" };
   }
 }
 
@@ -23,7 +23,7 @@ export default async function ContactPage() {
   const badge       = c.badge            || "Contact";
   const headline    = c.headline         || "Let's Work Together";
   const subtext     = c.subtext          || "Ready to start a project? Tell us about it. We'll review your inquiry and get back to you with a proposal.";
-  const email       = c.email            || "hello@lumisstudio.com";
+  const email       = c.email            || "";
   const location    = c.location         || "Philippines";
   const response    = c.response         || "Within 24 hours";
   const discTitle   = c.discovery_title  || "Free Discovery Call";
