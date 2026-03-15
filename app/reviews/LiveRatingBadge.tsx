@@ -48,10 +48,6 @@ export default function LiveRatingBadge({ initialAvg, initialCount }: Props) {
         {count > 0 ? avg.toFixed(1) : "—"}
       </span>
       <span className="text-zinc-500 text-sm">{count > 0 ? `${count} reviews` : "No reviews yet"}</span>
-      <div className="flex items-center gap-1 ml-1">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-        <span className="text-[9px] text-emerald-500 font-semibold tracking-widest uppercase">Live</span>
-      </div>
     </div>
   );
 }

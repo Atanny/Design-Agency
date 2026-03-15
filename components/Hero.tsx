@@ -251,12 +251,7 @@ export default function Hero({ content = {} }: HeroProps) {
                 {stat.value}
               </motion.div>
               <div className="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-400">{stat.label}</div>
-              {stat.live && (
-                <div className="flex items-center gap-1 mt-1">
-                  <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-[9px] text-emerald-500 font-semibold tracking-widest uppercase">Live</span>
-                </div>
-              )}
+
             </div>
           ))}
         </motion.div>
