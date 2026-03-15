@@ -68,7 +68,7 @@ export default async function ContactPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-            {/* Left — details */}
+            
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-gold-600 dark:text-gold-400 mb-4">
                 {badge}
@@ -106,7 +106,7 @@ export default async function ContactPage() {
               </div>
             </div>
 
-            {/* Right — form */}
+            
             <div className="bg-[#faf8f4] dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 md:p-10 shadow-xl shadow-zinc-100/50 dark:shadow-none">
               <h2 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-8">
                 {formTitle}

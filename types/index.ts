@@ -4,6 +4,7 @@ export interface PortfolioItem {
   description: string;
   image_url: string;
   category: string;
+  project_url?: string;
   created_at: string;
 }
 

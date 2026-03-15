@@ -26,21 +26,21 @@ export function ReviewCard({ review, index = 0 }: { review: Review; index?: numb
       className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] border border-zinc-100 dark:border-zinc-800/60 p-8 hover:border-gold-400/30 transition-all duration-400 card-grain"
       style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}
     >
-      {/* Corner cut accent */}
+      
       <div className="absolute top-0 right-0 w-0 h-0 border-l-[16px] border-b-[16px] border-l-transparent border-b-zinc-100 dark:border-b-zinc-800/60 group-hover:border-b-gold-400/20 transition-colors" />
 
-      {/* Stars + rating */}
+      
       <div className="flex items-center justify-between mb-6">
         <StarRating rating={review.rating} />
         <span className="font-display text-3xl font-black text-zinc-100 dark:text-zinc-800 select-none">&ldquo;</span>
       </div>
 
-      {/* Quote */}
+      
       <blockquote className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-8 font-light italic">
         {review.message}
       </blockquote>
 
-      {/* Author */}
+      
       <div className="flex items-center gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-800/60">
         <div className="w-9 h-9 gradient-gold flex items-center justify-center text-white font-display font-black text-sm flex-shrink-0"
           style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>

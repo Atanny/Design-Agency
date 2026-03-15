@@ -41,19 +41,19 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
 
   return (
     <footer className="bg-[#060606] text-zinc-500 relative overflow-hidden">
-      {/* Top decorative line */}
+      
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
 
-      {/* Large background wordmark */}
+      
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 font-display font-black text-[clamp(80px,18vw,200px)] text-white/[0.02] select-none pointer-events-none whitespace-nowrap leading-none pb-4">
         {logoName.toUpperCase()}
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Hero row */}
+        
         <div className="py-16 md:py-20 border-b border-zinc-800/60">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
-            {/* Brand */}
+            
             <div className="max-w-sm">
               <Link href="/" className="flex items-center gap-3 mb-6 group">
                 {logoImage ? (
@@ -71,7 +71,7 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
               <p className="text-sm leading-relaxed text-zinc-500 italic font-light">&ldquo;{tagline}&rdquo;</p>
             </div>
 
-            {/* Social */}
+            
             <div className="flex flex-col gap-4">
               <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-600">Follow the work</p>
               <div className="flex gap-4">
@@ -92,7 +92,7 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
           </div>
         </div>
 
-        {/* Links grid */}
+        
         <div className="py-14 grid grid-cols-2 md:grid-cols-4 gap-10 border-b border-zinc-800/60">
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
@@ -111,7 +111,7 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
             </div>
           ))}
 
-          {/* CTA column */}
+          
           <div className="col-span-2 md:col-span-1">
             <h3 className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-600 mb-5">Ready to create?</h3>
             <p className="text-sm text-zinc-500 mb-4 leading-relaxed">Let's build something extraordinary together.</p>
@@ -126,7 +126,7 @@ export default function Footer({ content = {}, logoName = "Lumis", logoImage }: 
           </div>
         </div>
 
-        {/* Bottom bar */}
+        
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-700">
           <p>© {new Date().getFullYear()} {logoName} Studio — {copyright}</p>
           <p>Crafted with obsession in <span className="text-gold-600">{madeIn}</span></p>

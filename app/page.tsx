@@ -36,36 +36,36 @@ export default async function Home() {
 
       <ServicesSection content={servicesContent} />
 
-      {/* ── Process Section ─────────────────────────────────────── */}
+      
       <section className="section-pad relative overflow-hidden bg-[#f0ede6] dark:bg-[#0a0a0a]">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-800 to-transparent" />
 
-        {/* Abstract art — process section */}
-        <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-20 dark:opacity-10 pointer-events-none" viewBox="0 0 500 500" fill="none">
+        
+        <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-40 dark:opacity-20 pointer-events-none" viewBox="0 0 500 500" fill="none">
           <circle cx="400" cy="100" r="160" fill="url(#pg1)" />
           <ellipse cx="460" cy="320" rx="80" ry="140" fill="url(#pg2)" transform="rotate(20 460 320)" />
           <polygon points="300,50 480,150 450,320 280,380 150,280 180,100" fill="url(#pg3)" opacity="0.4" />
           <defs>
-            <radialGradient id="pg1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.3"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="pg2"><stop offset="0%" stopColor="#f59e0b" stopOpacity="0.2"/><stop offset="100%" stopColor="#d97706" stopOpacity="0"/></radialGradient>
-            <radialGradient id="pg3"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.15"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
+            <radialGradient id="pg1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.75"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
+            <radialGradient id="pg2"><stop offset="0%" stopColor="#f59e0b" stopOpacity="0.60"/><stop offset="100%" stopColor="#d97706" stopOpacity="0"/></radialGradient>
+            <radialGradient id="pg3"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.45"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
           </defs>
         </svg>
-        <svg className="absolute bottom-0 left-0 w-[300px] h-[300px] opacity-15 dark:opacity-8 pointer-events-none" viewBox="0 0 300 300" fill="none">
+        <svg className="absolute bottom-0 left-0 w-[300px] h-[300px] opacity-35 dark:opacity-15 pointer-events-none" viewBox="0 0 300 300" fill="none">
           <circle cx="80" cy="250" r="120" fill="url(#pg4)" />
           <defs>
-            <radialGradient id="pg4"><stop offset="0%" stopColor="#10b981" stopOpacity="0.3"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
+            <radialGradient id="pg4"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
           </defs>
         </svg>
 
-        {/* Large background number */}
+        
         <div className="absolute top-1/2 right-6 -translate-y-1/2 font-display font-black text-[clamp(120px,20vw,260px)] text-zinc-900/[0.02] dark:text-white/[0.02] select-none pointer-events-none leading-none">
           HOW
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            {/* Left text */}
+            
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-8 bg-gold-500" />
@@ -80,7 +80,7 @@ export default async function Home() {
                 {processContent.subtext || "We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional."}
               </p>
 
-              {/* Steps */}
+              
               <div className="space-y-0">
                 {[
                   { step: processContent.step1_num || "01", title: processContent.step1_title || "Discovery", desc: processContent.step1_desc || "We learn your brand, goals, and audience inside out." },
@@ -104,18 +104,18 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Right — rich illustrated panel */}
+            
             <div className="relative h-[520px] hidden lg:block">
-              {/* Outer frame */}
+              
               <div className="absolute inset-0 border border-zinc-200 dark:border-zinc-800/60 overflow-hidden"
                 style={{ clipPath: "polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px))" }}
               >
                 <div className="absolute inset-0 bg-zinc-50 dark:bg-[#0e0e0e]" />
-                {/* Scattered ambient glows */}
+                
                 <div className="absolute top-8 right-8 w-32 h-32 rounded-full bg-gold-400/10 blur-2xl" />
                 <div className="absolute bottom-12 left-8 w-24 h-24 rounded-full bg-violet-400/10 blur-xl" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-rose-400/6 blur-2xl" />
-                {/* Mosaic cards */}
+                
                 <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-3">
                   {[
                     { label: "Brand Identity", icon: "🎨", grad: "from-gold-500/20 to-amber-600/10",    accent: "text-gold-400",    border: "border-gold-500/20" },
@@ -145,7 +145,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Portfolio Preview ────────────────────────────────────── */}
+      
       <section className="section-pad">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
@@ -173,28 +173,28 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Why Us ──────────────────────────────────────────────── */}
+      
       <section className="py-24 md:py-32 bg-[#060606] text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
-        {/* Abstract art — dark section */}
-        <svg className="absolute top-0 left-0 w-[600px] h-[600px] opacity-[0.07] pointer-events-none" viewBox="0 0 600 600" fill="none">
+        
+        <svg className="absolute top-0 left-0 w-[600px] h-[600px] opacity-[0.18] pointer-events-none" viewBox="0 0 600 600" fill="none">
           <circle cx="100" cy="100" r="200" fill="url(#wu1)" />
           <polygon points="300,0 600,150 550,450 250,580 0,400 50,100" fill="url(#wu2)" opacity="0.5" />
           <defs>
             <radialGradient id="wu1"><stop offset="0%" stopColor="#e8bd5a" stopOpacity="1"/><stop offset="100%" stopColor="#c8891a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="wu2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.6"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
+            <radialGradient id="wu2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
           </defs>
         </svg>
-        <svg className="absolute bottom-0 right-0 w-[400px] h-[400px] opacity-[0.06] pointer-events-none" viewBox="0 0 400 400" fill="none">
+        <svg className="absolute bottom-0 right-0 w-[400px] h-[400px] opacity-[0.15] pointer-events-none" viewBox="0 0 400 400" fill="none">
           <ellipse cx="350" cy="350" rx="200" ry="150" fill="url(#wu3)" transform="rotate(-30 350 350)" />
           <circle cx="280" cy="200" r="100" fill="url(#wu4)" />
           <defs>
-            <radialGradient id="wu3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.8"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
-            <radialGradient id="wu4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.6"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
+            <radialGradient id="wu3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
+            <radialGradient id="wu4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.75"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
           </defs>
         </svg>
-        {/* Ghost text bg */}
+        
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
           <span className="font-display font-black text-[clamp(80px,16vw,180px)] text-white/[0.015] whitespace-nowrap tracking-tight">
             LUMIS STUDIO
@@ -257,9 +257,9 @@ export default async function Home() {
                 className={`group relative p-10 border ${item.border} bg-zinc-900 hover:bg-zinc-900/80 transition-all duration-300 overflow-hidden`}
                 style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}
               >
-                {/* Gradient glow in top-right */}
+                
                 <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl ${item.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                {/* Top diagonal gradient */}
+                
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${item.deco} opacity-40`} />
                 <span className="absolute top-5 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-zinc-600 transition-colors">
                   {item.num}
@@ -276,7 +276,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Testimonials ────────────────────────────────────────── */}
+      
       {reviews.length > 0 && (
         <section className="section-pad">
           <div className="max-w-7xl mx-auto px-6">
@@ -310,20 +310,20 @@ export default async function Home() {
         </section>
       )}
 
-      {/* ── CTA ─────────────────────────────────────────────────── */}
+      
       <section className="py-32 md:py-40 bg-[#060606] relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
-        {/* Abstract art — CTA */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
+        
+        <svg className="absolute inset-0 w-full h-full opacity-[0.15] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
           <circle cx="600" cy="300" r="300" fill="url(#cta1)" />
           <ellipse cx="200" cy="500" rx="200" ry="150" fill="url(#cta2)" />
           <ellipse cx="1000" cy="100" rx="180" ry="130" fill="url(#cta3)" />
           <polygon points="600,50 900,200 850,500 350,500 300,200" fill="url(#cta4)" opacity="0.4" />
           <defs>
             <radialGradient id="cta1"><stop offset="0%" stopColor="#e8bd5a" stopOpacity="1"/><stop offset="100%" stopColor="#c8891a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.8"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.7"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.5"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
+            <radialGradient id="cta2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
+            <radialGradient id="cta3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
+            <radialGradient id="cta4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.75"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
           </defs>
         </svg>
 
@@ -353,7 +353,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ── Contact Preview ──────────────────────────────────────── */}
+      
       <section className="section-pad">
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-14">

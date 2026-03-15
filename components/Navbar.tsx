@@ -49,7 +49,7 @@ export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project"
         }`}
       >
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-8">
-          {/* Logo */}
+          
           <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
             {logoImage ? (
               <Image src={logoImage} alt={logoName} width={36} height={36} className="object-contain" />
@@ -65,7 +65,7 @@ export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project"
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          
           <ul className="hidden md:flex items-center gap-0">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -87,7 +87,7 @@ export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project"
             ))}
           </ul>
 
-          {/* Right controls */}
+          
           <div className="flex items-center gap-2">
             <button onClick={toggleTheme} aria-label="Toggle theme"
               className="w-9 h-9 flex items-center justify-center text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
@@ -123,7 +123,7 @@ export default function Navbar({ logoName = "Lumis", ctaText = "Start a Project"
         </nav>
       </motion.header>
 
-      {/* Mobile menu */}
+      
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

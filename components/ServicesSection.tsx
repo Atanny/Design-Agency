@@ -43,19 +43,19 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
 
   return (
     <section className="section-pad relative overflow-hidden">
-      {/* Abstract art */}
-      <svg className="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.08] dark:opacity-[0.05] pointer-events-none" viewBox="0 0 400 400" fill="none">
+      
+      <svg className="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.22] dark:opacity-[0.05] pointer-events-none" viewBox="0 0 400 400" fill="none">
         <circle cx="350" cy="80" r="150" fill="url(#ss1)" />
         <polygon points="200,0 400,100 380,300 180,380 20,260 60,60" fill="url(#ss2)" opacity="0.5" />
         <defs>
-          <radialGradient id="ss1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.6"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
-          <radialGradient id="ss2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
+          <radialGradient id="ss1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.75"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
+          <radialGradient id="ss2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
         </defs>
       </svg>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-800 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
+        
         <motion.div
           initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
@@ -73,7 +73,7 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
           <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed font-light md:text-right">{subtext}</p>
         </motion.div>
 
-        {/* Cards grid */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100 dark:bg-zinc-800/60">
           {services.map((s, i) => (
             <motion.div key={s.id}
@@ -81,12 +81,12 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
               viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
               className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] p-8 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
             >
-              {/* Number label */}
+              
               <span className="absolute top-6 right-6 font-display text-[11px] font-bold tracking-widest text-zinc-300 dark:text-zinc-700 group-hover:text-gold-400/40 transition-colors">
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Icon */}
+              
               <div className={`inline-flex p-3 mb-6 ${s.bg_color}`}
                 style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
               >
@@ -100,7 +100,7 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
               </h3>
               <p className="text-zinc-500 dark:text-zinc-500 text-sm leading-relaxed mb-8 font-light">{s.description}</p>
 
-              {/* Bottom row */}
+              
               <div className="flex items-center justify-between">
                 <Link href="/contact"
                   className={`text-xs font-bold tracking-widest uppercase ${s.accent} hover:opacity-70 transition-opacity flex items-center gap-1.5`}
@@ -117,7 +117,7 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
                 </Link>
               </div>
 
-              {/* Bottom border accent on hover */}
+              
               <div className={`absolute bottom-0 left-0 right-0 h-[2px] ${s.bg_color} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
                 style={{ background: `var(--tw-gradient-from, currentColor)` }} />
             </motion.div>

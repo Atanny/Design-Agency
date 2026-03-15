@@ -189,12 +189,21 @@ export default function PortfolioGrid({
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/70 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                    <div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                    <div className="w-full">
                       <span className="inline-block px-2 py-0.5 rounded-full bg-white/20 backdrop-blur text-white text-xs mb-1.5">
                         {item.category}
                       </span>
-                      <p className="text-white font-semibold">{item.title}</p>
+                      <p className="text-white font-semibold mb-2">{item.title}</p>
+                      {item.project_url && (
+                        <a href={item.project_url} target="_blank" rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/15 backdrop-blur border border-white/25 text-white text-xs font-semibold hover:bg-white/25 transition-colors rounded-lg"
+                        >
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                          View Live
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
