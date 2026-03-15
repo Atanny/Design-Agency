@@ -18,11 +18,9 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     headline_line3: "Your Brand",
     subheadline: "From brand identity to full digital experiences — we craft design that doesn't just look beautiful, it drives results.",
     cta_button: "Contact Us",
-    stat1_value: "200+",
+    stat1_value: "",
     stat1_label: "Projects Completed",
-    stat2_value: "98%",
     stat2_label: "Client Satisfaction",
-    stat3_value: "5★",
     stat3_label: "Average Rating",
   },
   services_section: {
