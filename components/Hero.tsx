@@ -117,26 +117,26 @@ export default function Hero({ content = {} }: HeroProps) {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20">
 
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[#e8e4dc] dark:bg-[#080808]" />
 
         {/* PNG blob — gold top-left */}
         <img src="/abstracts/blob_gold_tl.png" alt="" aria-hidden="true"
-          className="absolute -top-32 -left-32 w-[600px] h-[600px] object-contain pointer-events-none select-none opacity-75 dark:opacity-30" />
+          className="absolute -top-20 -left-20 w-[550px] h-[550px] object-contain pointer-events-none select-none opacity-75 dark:opacity-30" />
 
         {/* PNG blob — violet top-right */}
         <img src="/abstracts/blob_violet_tr.png" alt="" aria-hidden="true"
-          className="absolute -top-20 -right-20 w-[500px] h-[500px] object-contain pointer-events-none select-none opacity-65 dark:opacity-25" />
+          className="absolute -top-10 -right-10 w-[480px] h-[480px] object-contain pointer-events-none select-none opacity-65 dark:opacity-25" />
 
         {/* PNG blob — emerald bottom-right */}
         <img src="/abstracts/blob_emerald_br.png" alt="" aria-hidden="true"
-          className="absolute -bottom-24 -right-16 w-[500px] h-[500px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
+          className="absolute -bottom-10 -right-10 w-[460px] h-[460px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
 
         {/* PNG blob — blue bottom-left */}
         <img src="/abstracts/blob_blue_bl.png" alt="" aria-hidden="true"
-          className="absolute bottom-0 -left-20 w-[420px] h-[420px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
+          className="absolute bottom-0 -left-10 w-[400px] h-[400px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
 
         {/* PNG blob — gold center ambient */}
         <img src="/abstracts/blob_gold_center.png" alt="" aria-hidden="true"

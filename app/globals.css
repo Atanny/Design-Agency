@@ -19,6 +19,7 @@
   html { scroll-behavior: smooth; }
 
   body {
+  overflow-x: hidden;
     @apply bg-[#e8e4dc] dark:bg-[#080808] text-zinc-900 dark:text-zinc-50;
     font-feature-settings: "kern" 1, "liga" 1;
   }

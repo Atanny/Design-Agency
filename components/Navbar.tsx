@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
-import { supabase } from "@/lib/supabaseClient";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -26,19 +25,7 @@ interface NavbarProps {
 export default function Navbar({ logoName = "", ctaText = "Start a Project", logoImage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [hasBanner, setHasBanner] = useState(false);
 
-  useEffect(() => {
-    const check = async () => {
-      const { data } = await supabase.from("site_content").select("value").eq("section","commission").eq("key","status").single();
-      setHasBanner(data?.value === "closed");
-    };
-    check();
-    const ch = supabase.channel("nav-commission")
-      .on("postgres_changes",{event:"*",schema:"public",table:"site_content",filter:"section=eq.commission"}, check)
-      .subscribe();
-    return () => { supabase.removeChannel(ch); };
-  }, []);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
 
@@ -56,7 +43,7 @@ export default function Navbar({ logoName = "", ctaText = "Start a Project", log
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${hasBanner ? "top-8" : "top-0"} ${
+        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "glass py-3 shadow-[0_1px_0_rgba(0,0,0,0.06)] dark:shadow-[0_1px_0_rgba(255,255,255,0.04)]"
             : "bg-transparent py-6"
