@@ -117,9 +117,9 @@ export default function Hero({ content = {} }: HeroProps) {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-20">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-20">
 
-      <div className="absolute inset-0 -z-10 overflow-hidden">
+      <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[#e8e4dc] dark:bg-[#080808]" />
 
         {/* PNG blob — gold top-left */}
@@ -153,7 +153,7 @@ export default function Hero({ content = {} }: HeroProps) {
         <div className="absolute bottom-16 right-8 w-6 h-6 border-r-2 border-b-2 border-gold-400/20" />
       </div>
 
-      <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
+      <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-4">
         <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}
           className="flex flex-col items-center gap-3 mb-10"
         >
@@ -163,7 +163,7 @@ export default function Hero({ content = {} }: HeroProps) {
             <div className="h-px w-8 bg-gold-500" />
           </div>
           {commissionOpen !== null && (
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-center gap-1.5">
               <div className={`flex items-center gap-2 px-3 py-1.5 border text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
                 commissionOpen
                   ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-400"
@@ -173,15 +173,12 @@ export default function Hero({ content = {} }: HeroProps) {
                 {commissionOpen ? "Available for Commission" : "Commissions Closed"}
               </div>
               {businessHours && (
-                <>
-                  <div className="w-px h-4 bg-zinc-700" />
-                  <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
-                    <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    {businessHours}
-                  </div>
-                </>
+                <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
+                  <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  {businessHours}
+                </div>
               )}
             </div>
           )}

@@ -59,17 +59,17 @@ export default function CommissionBanner() {
         className="fixed top-0 left-0 right-0 z-[70] overflow-hidden"
       >
         <div className="bg-[#0a0a0a] border-b border-red-500/20 px-4 py-2">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+          <div className="relative max-w-7xl mx-auto flex items-center justify-center">
+            <div className="flex items-center gap-2.5">
               <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-              <p className="text-zinc-300 text-xs leading-relaxed truncate">
+              <p className="text-zinc-300 text-xs text-center leading-relaxed">
                 <span className="font-bold text-white mr-1.5">Commissions Closed.</span>
                 {status.message}
               </p>
             </div>
             <button
               onClick={() => setDismissed(true)}
-              className="flex-shrink-0 text-zinc-600 hover:text-white transition-colors ml-2"
+              className="absolute right-0 text-zinc-600 hover:text-white transition-colors"
               aria-label="Dismiss"
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
