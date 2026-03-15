@@ -29,7 +29,6 @@ interface FooterProps {
 
 export default function Footer({ content = {}, logoName = "", logoImage }: FooterProps) {
   const tagline   = content.tagline          || "Design is not just what it looks like — it's how it works.";
-  const madeIn    = content.made_in          || "Philippines";
   const copyright = content.copyright_suffix || "All rights reserved.";
 
   const socials = [
@@ -128,8 +127,8 @@ export default function Footer({ content = {}, logoName = "", logoImage }: Foote
 
         
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-700">
-          <p>© {new Date().getFullYear()} {logoName} Studio — {copyright}</p>
-          <p>Crafted with obsession in <span className="text-gold-600">{madeIn}</span></p>
+          <p>© {new Date().getFullYear()} {logoName ? `${logoName} Studio` : "--"} — {copyright}</p>
+          
         </div>
       </div>
     </footer>

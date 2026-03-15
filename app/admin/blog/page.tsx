@@ -206,7 +206,7 @@ export default function AdminBlog() {
  {form.featured_image ? (
  <div className="flex items-center gap-4 mb-2">
  <div className="relative w-24 h-16 flex-shrink-0">
- <img src={form.featured_image} alt="Featured" className="w-24 h-16 object-cover border border-zinc-800/60" style={{ clipPath: "polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)" }}/>
+ <img src={form.featured_image} alt="Featured" className="w-24 h-16 object-cover border border-zinc-800/60" style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)" }}/>
  {uploading && (
  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
  <svg className="w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">

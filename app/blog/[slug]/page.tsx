@@ -77,7 +77,7 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {post.featured_image && (
-            <div className="relative aspect-video overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800">
+            <div className="relative aspect-video overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800" style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}>
               <Image
                 src={post.featured_image}
                 alt={post.title}

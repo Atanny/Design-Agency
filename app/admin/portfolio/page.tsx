@@ -226,7 +226,7 @@ export default function AdminPortfolio() {
  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
  {items.map((item) => (
  <div key={item.id} className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-gold-500/30 transition-all">
- <div className="aspect-square relative">
+ <div className="aspect-square relative" style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)" }}>
  <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
  <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
@@ -279,7 +279,7 @@ export default function AdminPortfolio() {
  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Image</label>
  <div className="flex items-center gap-4">
  <div className="relative w-20 h-20 flex-shrink-0">
- <img src={editItem.image_url} alt={editItem.title} className="w-20 h-20 object-cover border border-zinc-800/60"/>
+ <img src={editItem.image_url} alt={editItem.title} className="w-20 h-20 object-cover border border-zinc-800/60" style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)" }}/>
  {editUploading && (
  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
  <svg className="w-5 h-5 text-white animate-spin" fill="none" viewBox="0 0 24 24">
