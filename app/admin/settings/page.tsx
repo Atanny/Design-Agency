@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface EmailSender {
   id: string; name: string; email: string; is_default: boolean; created_at: string;
@@ -14,6 +15,7 @@ export default function AdminSettings() {
   const [addForm, setAddForm] = useState({ name:"", email:"" });
   const [adding, setAdding] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   const fetchSenders = async () => {
     const { data } = await supabase.from("email_senders").select("*").order("is_default", { ascending:false });
@@ -46,7 +48,6 @@ export default function AdminSettings() {
   };
 
   const deleteSender = async (id: string) => {
-    if (!confirm("Delete this sender?")) return;
     await supabase.from("email_senders").delete().eq("id", id);
     setSenders((prev) => prev.filter((s) => s.id!==id));
     toast.success("Sender removed.");
@@ -155,7 +156,7 @@ export default function AdminSettings() {
                           Set Default
                         </button>
                       )}
-                      <button onClick={()=>deleteSender(sender.id)}
+                      <button onClick={()=>setConfirmDelete(sender.id)}
                         className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs hover:bg-red-500/30 transition-colors">
                         Remove
                       </button>
@@ -182,6 +183,15 @@ export default function AdminSettings() {
           </div>
         </div>
       </div>
+      <ConfirmModal
+        open={!!confirmDelete}
+        title="Remove Email Sender"
+        message="This sender will no longer be available for replies. This cannot be undone."
+        confirmLabel="Yes, Remove"
+        variant="danger"
+        onConfirm={() => { if (confirmDelete) { deleteSender(confirmDelete); setConfirmDelete(null); } }}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 }

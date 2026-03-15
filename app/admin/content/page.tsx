@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 import { DEFAULTS } from "@/lib/content";
 
 const SECTIONS = [
@@ -114,6 +115,7 @@ export default function AdminContent() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [confirmSave, setConfirmSave] = useState(false);
 
   const fetchSection = async (section: string) => {
     setLoading(true);
@@ -380,7 +382,7 @@ export default function AdminContent() {
             )}
 
             <div className="flex gap-3 mt-8 pt-6 border-t border-zinc-800">
-              <button onClick={handleSave} disabled={saving || !hasChanges}
+              <button onClick={() => setConfirmSave(true)} disabled={saving || !hasChanges}
                 className="px-6 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors"
               >
                 {saving ? "Saving..." : "Save Changes"}
@@ -394,6 +396,15 @@ export default function AdminContent() {
           </div>
         </div>
       </div>
+      <ConfirmModal
+        open={confirmSave}
+        title="Save Changes"
+        message="These changes will be applied sitewide immediately. All public pages will update."
+        confirmLabel="Yes, Save"
+        variant="warning"
+        onConfirm={() => { setConfirmSave(false); handleSave(); }}
+        onCancel={() => setConfirmSave(false)}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 import type { BlogPost } from "@/types";
 
 function slugify(text: string) {
@@ -32,6 +33,7 @@ export default function AdminBlog() {
   const [form, setForm] = useState<Partial<BlogPost>>(emptyForm());
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   const fetchPosts = async () => {
     const { data } = await supabase
@@ -82,7 +84,7 @@ export default function AdminBlog() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this post?")) return;
+
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
     if (error) {
       toast.error(error.message);
@@ -136,7 +138,7 @@ export default function AdminBlog() {
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(post)}
                   className="px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-400 text-xs font-medium hover:text-white transition-colors">Edit</button>
-                <button onClick={() => handleDelete(post.id)}
+                <button onClick={() => setConfirmDelete(post.id)}
                   className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/30 transition-colors">Delete</button>
               </div>
             </div>
@@ -144,6 +146,15 @@ export default function AdminBlog() {
         </div>
       )}
 
+      <ConfirmModal
+        open={!!confirmDelete}
+        title="Delete Blog Post"
+        message="This will permanently delete the post and cannot be undone."
+        confirmLabel="Yes, Delete"
+        variant="danger"
+        onConfirm={() => { if (confirmDelete) { handleDelete(confirmDelete); setConfirmDelete(null); } }}
+        onCancel={() => setConfirmDelete(null)}
+      />
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">

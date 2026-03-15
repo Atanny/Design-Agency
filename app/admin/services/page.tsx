@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const ACCENT_OPTIONS = [
   { label: "Blue",    value: "text-blue-400",    bg: "bg-blue-500/10" },
@@ -57,6 +58,7 @@ export default function AdminServices() {
   const [saving, setSaving] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [dragOver, setDragOver] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   const fetchServices = async () => {
     setLoading(true);
@@ -132,7 +134,6 @@ export default function AdminServices() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this service?")) return;
     await supabase.from("services").delete().eq("id", id);
     await fetch("/api/revalidate", { method: "POST" });
     toast.success("Deleted.");
@@ -212,7 +213,7 @@ export default function AdminServices() {
                     s.active ? "border border-zinc-700 text-zinc-400 hover:bg-zinc-800" : "bg-gold-500/10 text-gold-400 border border-gold-500/20"
                   }`}
                 >{s.active ? "Hide" : "Show"}</button>
-                <button onClick={() => handleDelete(s.id)}
+                <button onClick={() => setConfirmDelete(s.id)}
                   className="p-2 rounded-lg border border-zinc-800 text-zinc-600 hover:text-red-400 hover:border-red-400/30 transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -226,6 +227,15 @@ export default function AdminServices() {
       )}
 
       {/* Edit / Add Modal */}
+      <ConfirmModal
+        open={!!confirmDelete}
+        title="Delete Service"
+        message="This will remove the service from all pages including the contact form dropdown. This cannot be undone."
+        confirmLabel="Yes, Delete"
+        variant="danger"
+        onConfirm={() => { if (confirmDelete) { handleDelete(confirmDelete); setConfirmDelete(null); } }}
+        onCancel={() => setConfirmDelete(null)}
+      />
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">

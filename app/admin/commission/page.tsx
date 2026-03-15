@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const DEFAULT_CLOSED_MSG = "Due to high volume of commissions, we are currently unable to accommodate new projects. Please check back soon!";
 const DEFAULT_OPEN_MSG = "We are currently open for new commissions! Get in touch and let's create something amazing together.";
@@ -13,6 +14,7 @@ export default function AdminCommission() {
   const [openMessage, setOpenMessage] = useState(DEFAULT_OPEN_MSG);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [confirmToggle, setConfirmToggle] = useState<boolean | null>(null);
 
   const fetchStatus = async () => {
     const { data } = await supabase
@@ -91,7 +93,7 @@ export default function AdminCommission() {
               </div>
 
               <button
-                onClick={() => handleToggle(!isOpen)}
+                onClick={() => setConfirmToggle(!isOpen)}
                 disabled={saving}
                 className={`relative flex-shrink-0 w-16 h-8 rounded-full transition-all duration-300 focus:outline-none disabled:opacity-60 ${
                   isOpen ? "bg-emerald-500" : "bg-zinc-700"
@@ -107,14 +109,14 @@ export default function AdminCommission() {
             <div className={`mt-5 pt-5 border-t ${isOpen ? "border-emerald-500/20" : "border-red-500/20"}`}>
               <div className="flex gap-3">
                 <button
-                  onClick={() => handleToggle(true)}
+                  onClick={() => setConfirmToggle(true)}
                   disabled={saving || isOpen === true}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all border disabled:opacity-40 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 disabled:cursor-not-allowed"
                 >
                   ✓ Open Commissions
                 </button>
                 <button
-                  onClick={() => handleToggle(false)}
+                  onClick={() => setConfirmToggle(false)}
                   disabled={saving || isOpen === false}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all border disabled:opacity-40 border-red-500/40 text-red-400 hover:bg-red-500/10 disabled:cursor-not-allowed"
                 >
@@ -167,6 +169,17 @@ export default function AdminCommission() {
           </div>
         </div>
       )}
+      <ConfirmModal
+        open={confirmToggle !== null}
+        title={confirmToggle ? "Open Commissions" : "Close Commissions"}
+        message={confirmToggle
+          ? "Commissions will be marked as open. The closed banner will be hidden from all visitors."
+          : "Commissions will be closed. A banner will appear sitewide notifying visitors."}
+        confirmLabel={confirmToggle ? "Yes, Open" : "Yes, Close"}
+        variant={confirmToggle ? "success" : "warning"}
+        onConfirm={() => { if (confirmToggle !== null) { handleToggle(confirmToggle); setConfirmToggle(null); } }}
+        onCancel={() => setConfirmToggle(null)}
+      />
     </div>
   );
 }

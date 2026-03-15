@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 import type { PortfolioItem } from "@/types";
 
 const DEFAULT_CATEGORIES = ["UI/UX", "Branding", "Poster", "Social Media", "Website", "Other"];
@@ -18,6 +19,7 @@ export default function AdminPortfolio() {
   const [editItem, setEditItem] = useState<PortfolioItem|null>(null);
   const [saving, setSaving] = useState(false);
   const [editUploading, setEditUploading] = useState(false);
+  const [confirm, setConfirm] = useState<{ type: "delete"; id: string; imageUrl: string } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const editFileRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -114,7 +116,6 @@ export default function AdminPortfolio() {
   };
 
   const handleDelete = async (id: string, imageUrl: string) => {
-    if (!confirm("Delete this portfolio item?")) return;
     const path = imageUrl.split("/storage/v1/object/public/portfolio/")[1];
     if (path) await supabase.storage.from("portfolio").remove([path]);
     const { error } = await supabase.from("portfolio").delete().eq("id", id);
@@ -222,7 +223,7 @@ export default function AdminPortfolio() {
                       className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
                       Edit
                     </button>
-                    <button onClick={()=>handleDelete(item.id,item.image_url)}
+                    <button onClick={()=>setConfirm({ type:"delete", id:item.id, imageUrl:item.image_url })}
                       className="ml-auto text-[11px] text-red-400 hover:text-red-300 transition-colors">
                       Delete
                     </button>
@@ -233,6 +234,15 @@ export default function AdminPortfolio() {
           ))}
         </div>
       )}
+    <ConfirmModal
+        open={!!confirm}
+        title="Delete Portfolio Item"
+        message="This will permanently remove the image and cannot be undone."
+        confirmLabel="Yes, Delete"
+        variant="danger"
+        onConfirm={() => { if (confirm) { handleDelete(confirm.id, confirm.imageUrl); setConfirm(null); } }}
+        onCancel={() => setConfirm(null)}
+      />
     {editItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <form onSubmit={handleEdit} className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-6">

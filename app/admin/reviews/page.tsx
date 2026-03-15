@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 import { useRouter } from "next/navigation";
 import type { Review } from "@/types";
 
@@ -14,6 +15,24 @@ function Stars({ rating }: { rating: number }) {
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
+      <ConfirmModal
+        open={!!confirmState}
+        title={confirmState?.type === "delete" ? "Delete Review" : confirmState?.approved ? "Unpublish Review" : "Approve Review"}
+        message={confirmState?.type === "delete"
+          ? "This will permanently delete the review."
+          : confirmState?.approved
+            ? "This review will be removed from the public page."
+            : "This review will be visible to all visitors."}
+        confirmLabel={confirmState?.type === "delete" ? "Yes, Delete" : confirmState?.approved ? "Unpublish" : "Approve"}
+        variant={confirmState?.type === "delete" ? "danger" : confirmState?.approved ? "warning" : "success"}
+        onConfirm={() => {
+          if (!confirmState) return;
+          if (confirmState.type === "delete") deleteReview(confirmState.id);
+          else toggleApproval(confirmState.id, confirmState.approved!);
+          setConfirmState(null);
+        }}
+        onCancel={() => setConfirmState(null)}
+      />
     </div>
   );
 }
@@ -22,6 +41,7 @@ export default function AdminReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("pending");
+  const [confirmState, setConfirmState] = useState<{type:"delete"|"toggle"; id:string; approved?:boolean} | null>(null);
   const router = useRouter();
 
   const fetchReviews = async () => {
@@ -54,7 +74,6 @@ export default function AdminReviews() {
   };
 
   const deleteReview = async (id: string) => {
-    if (!confirm("Delete this review permanently?")) return;
     const { error } = await supabase.from("reviews").delete().eq("id", id);
     if (error) {
       toast.error(error.message);
@@ -146,7 +165,7 @@ export default function AdminReviews() {
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
                   <button
-                    onClick={() => toggleApproval(review.id, review.approved)}
+                    onClick={() => setConfirmState({type:"toggle", id:review.id, approved:review.approved})}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                       review.approved
                         ? "border border-zinc-700 text-zinc-400 hover:text-white"
@@ -156,7 +175,7 @@ export default function AdminReviews() {
                     {review.approved ? "Unpublish" : "Approve & Publish"}
                   </button>
                   <button
-                    onClick={() => deleteReview(review.id)}
+                    onClick={() => setConfirmState({type:"delete", id:review.id})}
                     className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/30 transition-colors"
                   >
                     Delete
@@ -167,6 +186,24 @@ export default function AdminReviews() {
           ))}
         </div>
       )}
+      <ConfirmModal
+        open={!!confirmState}
+        title={confirmState?.type === "delete" ? "Delete Review" : confirmState?.approved ? "Unpublish Review" : "Approve Review"}
+        message={confirmState?.type === "delete"
+          ? "This will permanently delete the review."
+          : confirmState?.approved
+            ? "This review will be removed from the public page."
+            : "This review will be visible to all visitors."}
+        confirmLabel={confirmState?.type === "delete" ? "Yes, Delete" : confirmState?.approved ? "Unpublish" : "Approve"}
+        variant={confirmState?.type === "delete" ? "danger" : confirmState?.approved ? "warning" : "success"}
+        onConfirm={() => {
+          if (!confirmState) return;
+          if (confirmState.type === "delete") deleteReview(confirmState.id);
+          else toggleApproval(confirmState.id, confirmState.approved!);
+          setConfirmState(null);
+        }}
+        onCancel={() => setConfirmState(null)}
+      />
     </div>
   );
 }

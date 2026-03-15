@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 import type { Message } from "@/types";
 
 interface EmailSender { id: string; name: string; email: string; is_default: boolean; }
@@ -172,6 +173,15 @@ function ReplyModal({
           </button>
         </div>
       </div>
+      <ConfirmModal
+        open={!!confirmDelete}
+        title="Delete Message"
+        message="This will permanently remove the message and cannot be undone."
+        confirmLabel="Yes, Delete"
+        variant="danger"
+        onConfirm={() => { if (confirmDelete) { deleteMessage(confirmDelete); setConfirmDelete(null); } }}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 }
@@ -183,6 +193,7 @@ export default function AdminMessages() {
   const [selected, setSelected] = useState<Message | null>(null);
   const [replyTo, setReplyTo] = useState<Message | null>(null);
   const [filter, setFilter] = useState("all");
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   const fetchAll = async () => {
     const [msgRes, senderRes] = await Promise.all([
@@ -204,7 +215,6 @@ export default function AdminMessages() {
   };
 
   const deleteMessage = async (id: string) => {
-    if (!confirm("Delete this message permanently?")) return;
     const { error } = await supabase.from("messages").delete().eq("id", id);
     if (error) { toast.error(error.message); return; }
     setMessages((prev) => prev.filter((m) => m.id !== id));
@@ -273,7 +283,7 @@ export default function AdminMessages() {
                       {msg.status}
                     </span>
                     <button
-                      onClick={(e) => { e.stopPropagation(); deleteMessage(msg.id); }}
+                      onClick={(e) => { e.stopPropagation(); setConfirmDelete(msg.id); }}
                       className="w-5 h-5 flex items-center justify-center text-zinc-600 hover:text-red-400 transition-colors"
                       aria-label="Delete"
                     >
@@ -352,7 +362,7 @@ export default function AdminMessages() {
                     Resolve
                   </button>
                   <button
-                    onClick={() => deleteMessage(selected.id)}
+                    onClick={() => setConfirmDelete(selected.id)}
                     className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/15 text-red-400 text-sm hover:bg-red-500/25 transition-colors ml-auto"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -370,6 +380,15 @@ export default function AdminMessages() {
           </div>
         </div>
       )}
+      <ConfirmModal
+        open={!!confirmDelete}
+        title="Delete Message"
+        message="This will permanently remove the message and cannot be undone."
+        confirmLabel="Yes, Delete"
+        variant="danger"
+        onConfirm={() => { if (confirmDelete) { deleteMessage(confirmDelete); setConfirmDelete(null); } }}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </div>
   );
 }

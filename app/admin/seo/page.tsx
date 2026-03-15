@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const PAGES = [
   { key: "home",      label: "Home Page",      path: "/" },
@@ -25,6 +26,7 @@ export default function AdminSeo() {
   const [rows, setRows] = useState<Record<string, SeoRow>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [confirmPage, setConfirmPage] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -143,7 +145,7 @@ export default function AdminSeo() {
 
                 <div className="mt-4 pt-4 border-t border-zinc-800">
                   <button
-                    onClick={() => savePage(page.key)}
+                    onClick={() => setConfirmPage(page.key)}
                     disabled={saving === page.key}
                     className="px-5 py-2 rounded-lg bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-60 transition-colors"
                   >
@@ -155,6 +157,15 @@ export default function AdminSeo() {
           })}
         </div>
       )}
+      <ConfirmModal
+        open={!!confirmPage}
+        title="Save SEO Settings"
+        message={`Save SEO metadata for the ${PAGES.find(p => p.key === confirmPage)?.label || "page"}? This updates search engine metadata sitewide.`}
+        confirmLabel="Yes, Save"
+        variant="warning"
+        onConfirm={() => { if (confirmPage) { savePage(confirmPage); setConfirmPage(null); } }}
+        onCancel={() => setConfirmPage(null)}
+      />
     </div>
   );
 }

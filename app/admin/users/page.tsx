@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface AdminUser {
   id: string; email: string; created_at: string; last_sign_in_at?: string; role?: string;
@@ -15,6 +16,7 @@ export default function AdminUsers() {
   const [form, setForm] = useState({ email:"", password:"" });
   const [adding, setAdding] = useState(false);
   const [resetting, setResetting] = useState<string|null>(null);
+  const [confirmState, setConfirmState] = useState<{type:"delete"|"reset"; id:string; email:string} | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -65,7 +67,6 @@ export default function AdminUsers() {
   const deleteUser = async (id: string, email: string) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user?.id === id) { toast.error("Cannot delete your own account."); return; }
-    if (!confirm(`Delete user ${email}? This cannot be undone.`)) return;
     const { error } = await supabase.auth.admin?.deleteUser?.(id) || {};
     if (error) { toast.error(error.message); } else {
       toast.success("User deleted.");
@@ -141,11 +142,11 @@ export default function AdminUsers() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={()=>sendReset(user.email)} disabled={resetting===user.email}
+                <button onClick={()=>setConfirmState({type:'reset', id:user.id, email:user.email})} disabled={resetting===user.email}
                   className="px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-400 text-xs hover:text-white hover:border-zinc-500 transition-colors disabled:opacity-50">
                   {resetting===user.email ? "Sending..." : "Reset Password"}
                 </button>
-                <button onClick={()=>deleteUser(user.id, user.email)}
+                <button onClick={()=>setConfirmState({type:'delete', id:user.id, email:user.email})}
                   className="px-3 py-1.5 rounded-lg bg-red-500/15 text-red-400 text-xs hover:bg-red-500/25 transition-colors">
                   Delete
                 </button>
@@ -154,6 +155,22 @@ export default function AdminUsers() {
           ))}
         </div>
       )}
+      <ConfirmModal
+        open={!!confirmState}
+        title={confirmState?.type === "delete" ? "Delete User" : "Send Password Reset"}
+        message={confirmState?.type === "delete"
+          ? `This will permanently delete ${confirmState?.email}. This cannot be undone.`
+          : `A password reset email will be sent to ${confirmState?.email}.`}
+        confirmLabel={confirmState?.type === "delete" ? "Yes, Delete" : "Send Reset Email"}
+        variant={confirmState?.type === "delete" ? "danger" : "warning"}
+        onConfirm={() => {
+          if (!confirmState) return;
+          if (confirmState.type === "delete") deleteUser(confirmState.id, confirmState.email);
+          else sendReset(confirmState.email);
+          setConfirmState(null);
+        }}
+        onCancel={() => setConfirmState(null)}
+      />
     </div>
   );
 }
