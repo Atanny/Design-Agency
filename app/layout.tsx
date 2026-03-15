@@ -37,18 +37,23 @@ async function getHomeSEO() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getHomeSEO();
-  const title = seo?.meta_title || "Lumis Studio — Design That Elevates Brands";
+  const [seo, navContent] = await Promise.all([
+    getHomeSEO(),
+    getContent("navbar"),
+  ]);
+
+  const studioName = navContent.logo_name ? `${navContent.logo_name} Studio` : "Lumis Studio";
+  const title = seo?.meta_title || `${studioName} — Design That Elevates Brands`;
   const description = seo?.meta_description || "Premium UI/UX, branding, and visual design services.";
 
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lumisstudio.com"),
-    title: { default: title, template: "%s | Lumis Studio" },
+    title: { default: title, template: `%s | ${studioName}` },
     description,
     keywords: ["UI/UX Design", "Branding", "Poster Design", "Social Media Graphics", "Website Design", "Design Agency", "Philippines"],
     openGraph: {
       type: "website",
-      siteName: "Lumis Studio",
+      siteName: studioName,
       title,
       description,
       images: seo?.og_image ? [seo.og_image] : [],

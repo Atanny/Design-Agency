@@ -209,14 +209,19 @@ export default function Hero({ content = {} }: HeroProps) {
 
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pb-1"
       >
-        <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-zinc-400">Scroll</span>
         <motion.div
-          animate={{ y: [0, 12, 0] }}
+          animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-gold-400/60 to-transparent"
-        />
+          className="flex flex-col items-center gap-1.5"
+        >
+          <motion.div className="w-px h-8 bg-gradient-to-b from-gold-400/50 to-transparent" />
+          <svg className="w-3 h-3 text-gold-500/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </motion.div>
+        <span className="text-[8px] font-bold tracking-[0.35em] uppercase text-zinc-500">Scroll</span>
       </motion.div>
     </section>
   );

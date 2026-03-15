@@ -188,23 +188,45 @@ export default function AdminBlog() {
           <div>
             <label className="block text-xs text-zinc-400 mb-1.5">Featured Image</label>
             <input ref={fileRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-            <div className="flex gap-3 items-center">
-              <input
-                type="text"
-                value={form.featured_image || ""}
-                onChange={(e) => setForm((f) => ({ ...f, featured_image: e.target.value }))}
-                placeholder="Image URL or upload..."
-                className="flex-1 px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
-              />
-              <button
-                type="button"
-                onClick={() => fileRef.current?.click()}
-                disabled={uploading}
-                className="px-4 py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white disabled:opacity-60 transition-colors whitespace-nowrap"
-              >
-                {uploading ? "Uploading..." : "Upload"}
-              </button>
-            </div>
+            {form.featured_image ? (
+              <div className="flex items-center gap-4 mb-2">
+                <div className="relative w-24 h-16 flex-shrink-0">
+                  <img src={form.featured_image} alt="Featured" className="w-24 h-16 object-cover rounded-lg border border-zinc-700"/>
+                  {uploading && (
+                    <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
+                    className="px-3 py-2 rounded-lg border border-zinc-700 text-zinc-400 text-xs hover:text-white disabled:opacity-50 transition-colors">
+                    {uploading ? "Uploading..." : "Replace Image"}
+                  </button>
+                  <button type="button" onClick={() => setForm(f => ({ ...f, featured_image: "" }))}
+                    className="px-3 py-2 rounded-lg bg-red-500/15 text-red-400 text-xs hover:bg-red-500/25 transition-colors">
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex gap-3 items-center">
+                <input
+                  type="text"
+                  value={form.featured_image || ""}
+                  onChange={(e) => setForm((f) => ({ ...f, featured_image: e.target.value }))}
+                  placeholder="Image URL or upload..."
+                  className="flex-1 px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"
+                />
+                <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
+                  className="px-4 py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white disabled:opacity-60 transition-colors whitespace-nowrap">
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
+            )}
           </div>
 
           <div>

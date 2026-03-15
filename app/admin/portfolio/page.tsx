@@ -17,7 +17,9 @@ export default function AdminPortfolio() {
   const [form, setForm] = useState({ title:"", description:"", category:"UI/UX", image_url:"", project_url:"" });
   const [editItem, setEditItem] = useState<PortfolioItem|null>(null);
   const [saving, setSaving] = useState(false);
+  const [editUploading, setEditUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const editFileRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
@@ -77,6 +79,23 @@ export default function AdminPortfolio() {
     }
   };
 
+  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editItem) return;
+    setEditUploading(true);
+    const ext = file.name.split(".").pop();
+    const filename = `portfolio-${Date.now()}.${ext}`;
+    const { error, data } = await supabase.storage.from("portfolio").upload(filename, file, { upsert: true });
+    if (error) {
+      toast.error("Upload failed: " + error.message);
+    } else {
+      const { data: url } = supabase.storage.from("portfolio").getPublicUrl(data.path);
+      setEditItem(i => i ? { ...i, image_url: url.publicUrl } : i);
+      toast.success("Image replaced!");
+    }
+    setEditUploading(false);
+  };
+
   const handleEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editItem) return;
@@ -84,6 +103,7 @@ export default function AdminPortfolio() {
     const { error } = await supabase.from("portfolio").update({
       title: editItem.title, description: editItem.description,
       category: editItem.category, project_url: editItem.project_url || null,
+      image_url: editItem.image_url,
     }).eq("id", editItem.id);
     setSaving(false);
     if (error) { toast.error(error.message); } else {
@@ -223,6 +243,30 @@ export default function AdminPortfolio() {
               </button>
             </div>
             <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1.5">Image</label>
+                <div className="flex items-center gap-4">
+                  <div className="relative w-20 h-20 flex-shrink-0">
+                    <img src={editItem.image_url} alt={editItem.title} className="w-20 h-20 object-cover rounded-xl border border-zinc-700"/>
+                    {editUploading && (
+                      <div className="absolute inset-0 bg-black/60 rounded-xl flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <input ref={editFileRef} type="file" accept="image/*" onChange={handleEditImageUpload} className="hidden"/>
+                    <button type="button" onClick={()=>editFileRef.current?.click()} disabled={editUploading}
+                      className="px-4 py-2 rounded-lg border border-zinc-700 text-zinc-300 text-sm hover:bg-zinc-700 disabled:opacity-50 transition-colors">
+                      {editUploading ? "Uploading..." : "Replace Image"}
+                    </button>
+                    <p className="text-xs text-zinc-600 mt-1">Upload a new image to replace the current one</p>
+                  </div>
+                </div>
+              </div>
               <div>
                 <label className="block text-xs text-zinc-400 mb-1.5">Title</label>
                 <input type="text" value={editItem.title} onChange={(e)=>setEditItem(i=>i?{...i,title:e.target.value}:i)} required
