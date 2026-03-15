@@ -136,7 +136,7 @@ export default function AdminPortfolio() {
  <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Portfolio</h1>
  <p className="text-zinc-500 mt-1">{items.length} items</p>
  </div>
- <button onClick={() => setShowAddModal(true)}
+ <button onClick={() => setShowForm(true)}
  className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 transition-all"
  style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
  >
@@ -145,7 +145,7 @@ export default function AdminPortfolio() {
  </button>
  </div>
 
- {(showForm || showAddModal) && (
+ {(showForm || showForm) && (
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
  <div className="bg-[#0c0c0c] border border-zinc-800/60 w-full max-w-2xl max-h-[90vh] overflow-y-auto card-grain"
  style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}>
@@ -154,7 +154,7 @@ export default function AdminPortfolio() {
  <div className="h-px w-6 bg-gold-500" />
  <h2 className="font-display text-xl font-black text-white tracking-tight">Add Portfolio Item</h2>
  </div>
- <button type="button" onClick={()=>{setShowForm(false);setShowAddModal(false);setPreviewUrl("");}}
+ <button type="button" onClick={()=>{setShowForm(false);setShowForm(false);setPreviewUrl("");}}
  className="text-zinc-600 hover:text-white transition-colors">
  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
  </button>
@@ -203,7 +203,7 @@ export default function AdminPortfolio() {
  style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}>
  {uploading ? "Uploading..." : "Add to Portfolio"}
  </button>
- <button type="button" onClick={()=>{setShowForm(false);setShowAddModal(false);setPreviewUrl("");}}
+ <button type="button" onClick={()=>{setShowForm(false);setShowForm(false);setPreviewUrl("");}}
  className="px-6 py-3 border border-zinc-800/60 text-zinc-500 text-sm font-semibold hover:text-white hover:border-zinc-600 transition-all">
  Cancel
  </button>
