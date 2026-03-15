@@ -173,15 +173,6 @@ function ReplyModal({
           </button>
         </div>
       </div>
-      <ConfirmModal
-        open={!!confirmDelete}
-        title="Delete Message"
-        message="This will permanently remove the message and cannot be undone."
-        confirmLabel="Yes, Delete"
-        variant="danger"
-        onConfirm={() => { if (confirmDelete) { deleteMessage(confirmDelete); setConfirmDelete(null); } }}
-        onCancel={() => setConfirmDelete(null)}
-      />
     </div>
   );
 }
