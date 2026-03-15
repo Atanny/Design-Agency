@@ -233,6 +233,75 @@ export default function AdminContent() {
               <div className="space-y-4">
                 {[...Array(4)].map((_, i) => <div key={i} className="h-12 rounded-lg bg-zinc-800 animate-pulse" />)}
               </div>
+            ) : activeSection === "offer_card" ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Card Title</label>
+                      <input type="text" value={data.title||""} onChange={(e)=>setData(d=>({...d,title:e.target.value}))}
+                        placeholder="Get a Custom Offer"
+                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Description</label>
+                      <textarea value={data.description||""} onChange={(e)=>setData(d=>({...d,description:e.target.value}))}
+                        rows={3} placeholder="Every project is unique..."
+                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">Bullet Points</label>
+                      <div className="space-y-2">
+                        {(["item1","item2","item3","item4"] as const).map((k,i)=>(
+                          <div key={k} className="flex items-center gap-2">
+                            <span className="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0">{i+1}</span>
+                            <input type="text" value={(data as Record<string,string>)[k]||""} onChange={(e)=>setData(d=>({...d,[k]:e.target.value}))}
+                              placeholder={["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i]}
+                              className="flex-1 px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Button Text</label>
+                      <input type="text" value={data.button_text||""} onChange={(e)=>setData(d=>({...d,button_text:e.target.value}))}
+                        placeholder="Request an Offer"
+                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Live Preview</p>
+                    <div className="border border-zinc-700 bg-zinc-800/50 p-6 flex flex-col items-center text-center gap-4"
+                      style={{clipPath:"polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)"}}>
+                      <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-display text-lg font-bold text-white mb-1">{data.title||"Get a Custom Offer"}</h3>
+                        <p className="text-zinc-400 text-xs leading-relaxed">{data.description||"Every project is unique. Tell us what you need and we'll send you a tailored quote."}</p>
+                      </div>
+                      <ul className="space-y-1.5 text-left w-full">
+                        {["item1","item2","item3","item4"].map((k,i)=>{
+                          const val=(data as Record<string,string>)[k]||["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i];
+                          return val?(
+                            <li key={k} className="flex items-center gap-2 text-xs text-zinc-300">
+                              <svg className="w-3 h-3 text-gold-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
+                              {val}
+                            </li>
+                          ):null;
+                        })}
+                      </ul>
+                      <div className="w-full py-2.5 bg-white/10 text-white text-xs font-bold text-center">
+                        {data.button_text||"Request an Offer"}
+                      </div>
+                    </div>
+                    <p className="text-xs text-zinc-600 mt-3 text-center">This card appears on every service in the Services page</p>
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="space-y-5">
                 {keys.map((key) => {

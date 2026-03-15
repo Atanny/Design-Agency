@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
-
-const SERVICES = [
-  "UI/UX Design", "Brand Identity", "Poster & Pubmats Design",
-  "Social Media Graphics", "Website UI Design", "Product & App Design", "Other",
-];
 
 interface ContactFormProps {
   compact?: boolean;
@@ -17,6 +12,23 @@ interface ContactFormProps {
 export default function ContactForm({ compact = false }: ContactFormProps) {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", service: "", message: "" });
+  const [services, setServices] = useState<string[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("services")
+      .select("title")
+      .eq("active", true)
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setServices([...data.map((s: { title: string }) => s.title), "Other"]);
+        } else {
+          setServices(["UI/UX Design", "Brand Identity Design", "Poster & Pubmats Design", "Social Media Graphics", "Website UI Design", "Product & App Design", "Other"]);
+        }
+      });
+  }, []);
+
   const update = (field: keyof typeof form, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -99,7 +111,7 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
             className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-sm"
           >
             <option value="">Select a service</option>
-            {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
+            {services.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
       )}
