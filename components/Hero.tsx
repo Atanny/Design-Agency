@@ -60,6 +60,28 @@ function useHeroStats(): LiveStats {
 }
 
 export default function Hero({ content = {} }: HeroProps) {
+  const [commissionOpen, setCommissionOpen] = useState<boolean | null>(null);
+  const [businessHours, setBusinessHours] = useState<string>("");
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await supabase.from("site_content").select("key,value").eq("section","commission");
+      if (data) {
+        const map: Record<string,string> = {};
+        data.forEach((r: { key:string; value:string }) => { map[r.key] = r.value; });
+        setCommissionOpen(map.status !== "closed");
+        if (map.business_hours) setBusinessHours(map.business_hours);
+      } else {
+        setCommissionOpen(true);
+      }
+    };
+    fetch();
+    const channel = supabase.channel("hero-commission-watch")
+      .on("postgres_changes", { event:"*", schema:"public", table:"site_content", filter:"section=eq.commission" }, fetch)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
   const badge  = content.badge           || "Premium Design Studio";
   const line1  = content.headline_line1  || "We Design";
   const accent = content.headline_accent || "Experiences";
@@ -170,11 +192,33 @@ export default function Hero({ content = {} }: HeroProps) {
 
       <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
         <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}
-          className="inline-flex items-center gap-3 mb-10"
+          className="flex flex-col items-center gap-3 mb-10"
         >
-          <div className="h-px w-8 bg-gold-500" />
-          <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{badge}</span>
-          <div className="h-px w-8 bg-gold-500" />
+          <div className="inline-flex items-center gap-3">
+            <div className="h-px w-8 bg-gold-500" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{badge}</span>
+            <div className="h-px w-8 bg-gold-500" />
+          </div>
+          {commissionOpen !== null && (
+            <div className="flex items-center gap-4">
+              <div className={`flex items-center gap-2 px-3 py-1.5 border text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
+                commissionOpen
+                  ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-400"
+                  : "border-red-500/30 bg-red-500/8 text-red-400"
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${commissionOpen ? "bg-emerald-400 animate-pulse" : "bg-red-500"}`} />
+                {commissionOpen ? "Available for Commission" : "Commissions Closed"}
+              </div>
+              {businessHours && (
+                <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
+                  <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  {businessHours}
+                </div>
+              )}
+            </div>
+          )}
         </motion.div>
 
         <motion.h1 custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
