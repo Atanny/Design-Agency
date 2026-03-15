@@ -203,11 +203,20 @@ export default function AdminMessages() {
     toast.success(`Marked as ${status}`);
   };
 
+  const deleteMessage = async (id: string) => {
+    if (!confirm("Delete this message permanently?")) return;
+    const { error } = await supabase.from("messages").delete().eq("id", id);
+    if (error) { toast.error(error.message); return; }
+    setMessages((prev) => prev.filter((m) => m.id !== id));
+    if (selected?.id === id) setSelected(null);
+    toast.success("Message deleted.");
+  };
+
   const filtered = filter === "all" ? messages : messages.filter((m) => m.status === filter);
   const newCount = messages.filter((m) => m.status === "new").length;
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full">
       {replyTo && (
         <ReplyModal
           message={replyTo}
@@ -259,9 +268,20 @@ export default function AdminMessages() {
               >
                 <div className="flex items-center justify-between gap-2 mb-1">
                   <p className="text-white font-medium text-sm truncate">{msg.name}</p>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium flex-shrink-0 ${statusColors[msg.status]}`}>
-                    {msg.status}
-                  </span>
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[msg.status]}`}>
+                      {msg.status}
+                    </span>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); deleteMessage(msg.id); }}
+                      className="w-5 h-5 flex items-center justify-center text-zinc-600 hover:text-red-400 transition-colors"
+                      aria-label="Delete"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
                 <p className="text-zinc-400 text-xs truncate">{msg.email}</p>
                 <p className="text-zinc-600 text-xs mt-0.5 truncate">{msg.message}</p>
@@ -330,6 +350,15 @@ export default function AdminMessages() {
                     className="px-3 py-2 rounded-lg bg-emerald-500/20 text-emerald-400 text-sm hover:bg-emerald-500/30 disabled:opacity-40 transition-colors"
                   >
                     Resolve
+                  </button>
+                  <button
+                    onClick={() => deleteMessage(selected.id)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/15 text-red-400 text-sm hover:bg-red-500/25 transition-colors ml-auto"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    Delete
                   </button>
                 </div>
               </div>

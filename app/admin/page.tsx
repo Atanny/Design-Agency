@@ -106,7 +106,7 @@ export default function AdminDashboard() {
       const now = new Date();
       const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
 
-      const [port,rev,revPend,msg,msgNew,blog,blogPub,svc,recentMsg,recentRev,allMsgs,allRevs] = await Promise.all([
+      const [port,rev,revPend,msg,msgNew,blog,blogPub,svc,recentMsg,recentRev,allMsgs,allRevs,commStatus] = await Promise.all([
         supabase.from("portfolio").select("id",{count:"exact",head:true}),
         supabase.from("reviews").select("id",{count:"exact",head:true}),
         supabase.from("reviews").select("id",{count:"exact",head:true}).eq("approved",false),
@@ -115,6 +115,7 @@ export default function AdminDashboard() {
         supabase.from("blog_posts").select("id",{count:"exact",head:true}),
         supabase.from("blog_posts").select("id",{count:"exact",head:true}).eq("published",true),
         supabase.from("services").select("id",{count:"exact",head:true}),
+        supabase.from("site_content").select("value").eq("section","commission").eq("key","status").single(),
         supabase.from("messages").select("id,name,service,created_at,status").order("created_at",{ascending:false}).limit(5),
         supabase.from("reviews").select("id,name,rating,approved,created_at").order("created_at",{ascending:false}).limit(5),
         supabase.from("messages").select("created_at").gte("created_at", sixMonthsAgo),
@@ -161,9 +162,17 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-8 w-full">
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-white">Dashboard</h1>
-        <p className="text-zinc-500 mt-1">Welcome back. Here's your studio at a glance.</p>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-bold text-white">Dashboard</h1>
+          <p className="text-zinc-500 mt-1">Welcome back. Here&apos;s your studio at a glance.</p>
+        </div>
+        <a href="/admin/commission"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-semibold transition-all flex-shrink-0 bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          Commission Open
+        </a>
       </div>
 
       {loading ? (
