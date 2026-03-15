@@ -82,8 +82,8 @@ export default async function ContactPage() {
 
               <div className="space-y-4">
                 {contactInfo.map((item) => (
-                  <div key={item.label} className="flex items-center gap-4 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-[#faf8f4] dark:bg-zinc-900">
-                    <div className="w-10 h-10 rounded-xl bg-[#f0ede6] dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 flex-shrink-0">
+                  <div key={item.label} className="flex items-center gap-4 p-4 border border-zinc-200/60 dark:border-zinc-800/60 bg-[#faf8f4] dark:bg-[#0c0c0c]">
+                    <div className="w-10 h-10 bg-[#ede9e0] dark:bg-zinc-800/60 flex items-center justify-center text-zinc-600 dark:text-zinc-400 flex-shrink-0">
                       {item.icon}
                     </div>
                     <div>
@@ -100,14 +100,14 @@ export default async function ContactPage() {
                 ))}
               </div>
 
-              <div className="mt-10 p-6 rounded-2xl bg-zinc-950 dark:bg-zinc-900 border border-zinc-800">
+              <div className="mt-10 p-6 bg-[#060606] border border-zinc-800/40 card-grain">
                 <p className="text-white font-display text-xl font-bold mb-2">{discTitle}</p>
                 <p className="text-zinc-400 text-sm">{discText}</p>
               </div>
             </div>
 
             
-            <div className="bg-[#faf8f4] dark:bg-zinc-900 rounded-3xl border border-zinc-100 dark:border-zinc-800 p-8 md:p-10 shadow-xl shadow-zinc-100/50 dark:shadow-none">
+            <div className="bg-[#faf8f4] dark:bg-[#0c0c0c] border border-zinc-200 dark:border-zinc-800/60 p-8 md:p-10 card-grain" style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}>
               <h2 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-8">
                 {formTitle}
               </h2>

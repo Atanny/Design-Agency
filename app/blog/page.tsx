@@ -62,7 +62,7 @@ export default async function BlogPage() {
                 >
                   <article>
                     {post.featured_image && (
-                      <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-5 bg-zinc-100 dark:bg-zinc-800">
+                      <div className="relative aspect-[16/9] overflow-hidden mb-5 bg-zinc-100 dark:bg-zinc-800">
                         <Image
                           src={post.featured_image}
                           alt={post.title}

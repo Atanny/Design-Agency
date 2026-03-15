@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabaseClient";
 import type { PortfolioItem } from "@/types";
 
 function SkeletonCard() {
-  return <div className="rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 animate-pulse aspect-[4/3]" />;
+  return <div className="overflow-hidden bg-zinc-100 dark:bg-zinc-800/60 animate-pulse aspect-[4/3]" style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)" }} />;
 }
 
 function ImageModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
@@ -27,7 +27,7 @@ function ImageModal({ item, onClose }: { item: PortfolioItem; onClose: () => voi
       <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" />
       <motion.div initial={{ scale:0.9, opacity:0 }} animate={{ scale:1, opacity:1 }} exit={{ scale:0.9, opacity:0 }}
         transition={{ duration:0.25, ease:"easeOut" }}
-        className="relative max-w-4xl w-full bg-[#faf8f4] dark:bg-zinc-900 overflow-hidden shadow-2xl"
+        className="relative max-w-4xl w-full bg-[#faf8f4] dark:bg-[#0c0c0c] overflow-hidden shadow-2xl card-grain"
         style={{ clipPath:"polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -132,7 +132,7 @@ export default function PortfolioGrid({ limit, showFilters = true, showViewAll =
                 className="group cursor-pointer"
                 onClick={() => setSelected(item)}
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800/60">
                   <Image src={item.image_url} alt={item.title} fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"/>
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">

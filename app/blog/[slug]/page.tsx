@@ -77,7 +77,7 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {post.featured_image && (
-            <div className="relative aspect-video rounded-2xl overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800">
+            <div className="relative aspect-video overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800">
               <Image
                 src={post.featured_image}
                 alt={post.title}
@@ -105,7 +105,7 @@ export default async function BlogPostPage({ params }: Props) {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold text-sm hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:opacity-90 transition-opacity"
             >
               Start a Project
             </Link>

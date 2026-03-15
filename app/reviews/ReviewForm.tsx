@@ -120,7 +120,7 @@ export default function ReviewForm() {
         type="submit"
         disabled={loading}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-4 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold text-sm hover:opacity-90 disabled:opacity-60 transition-all"
+        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all"
       >
         {loading ? "Submitting..." : "Submit Review"}
       </motion.button>

@@ -136,17 +136,31 @@ export default function AdminPortfolio() {
  <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Portfolio</h1>
  <p className="text-zinc-500 mt-1">{items.length} items</p>
  </div>
- <button onClick={() => setShowForm(!showForm)}
- className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors"
+ <button onClick={() => setShowAddModal(true)}
+ className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 transition-all"
+ style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
  >
  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
  Add Item
  </button>
  </div>
 
- {showForm && (
- <form onSubmit={handleSubmit} className="mb-8 p-6 border border-zinc-800 bg-zinc-900">
- <h2 className="font-display text-lg font-bold text-white mb-5">New Portfolio Item</h2>
+ {(showForm || showAddModal) && (
+ <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+ <div className="bg-[#0c0c0c] border border-zinc-800/60 w-full max-w-2xl max-h-[90vh] overflow-y-auto card-grain"
+ style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}>
+ <div className="flex items-center justify-between p-6 border-b border-zinc-800/40">
+ <div className="flex items-center gap-3">
+ <div className="h-px w-6 bg-gold-500" />
+ <h2 className="font-display text-xl font-black text-white tracking-tight">Add Portfolio Item</h2>
+ </div>
+ <button type="button" onClick={()=>{setShowForm(false);setShowAddModal(false);setPreviewUrl("");}}
+ className="text-zinc-600 hover:text-white transition-colors">
+ <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
+ </button>
+ </div>
+ <form onSubmit={handleSubmit} className="p-6 space-y-4">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
  <div>
  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Title *</label>
@@ -161,7 +175,8 @@ export default function AdminPortfolio() {
  </select>
  </div>
  </div>
- <div className="mb-4">
+ </div>
+ <div>
  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Description</label>
  <textarea value={form.description} onChange={(e)=>setForm(f=>({...f,description:e.target.value}))} rows={2} placeholder="Brief description..."
  className="w-full px-4 py-2.5 border border-zinc-800 bg-[#0c0c0c] text-white text-sm placeholder-zinc-700 focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 resize-none"/>
@@ -182,17 +197,20 @@ export default function AdminPortfolio() {
  </div>
  <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden"/>
  </div>
- <div className="flex gap-3">
+ <div className="flex gap-3 pt-2">
  <button type="submit" disabled={uploading || !form.image_url}
- className="px-6 py-2.5 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all">
- Save Item
+ className="flex-1 py-3 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all"
+ style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}>
+ {uploading ? "Uploading..." : "Add to Portfolio"}
  </button>
- <button type="button" onClick={()=>{setShowForm(false);setPreviewUrl("");}}
- className="px-6 py-2.5 border border-zinc-800/60 text-zinc-500 text-sm font-semibold hover:text-white hover:border-zinc-600 transition-all">
+ <button type="button" onClick={()=>{setShowForm(false);setShowAddModal(false);setPreviewUrl("");}}
+ className="px-6 py-3 border border-zinc-800/60 text-zinc-500 text-sm font-semibold hover:text-white hover:border-zinc-600 transition-all">
  Cancel
  </button>
  </div>
  </form>
+ </div>
+ </div>
  )}
 
  {loading ? (
