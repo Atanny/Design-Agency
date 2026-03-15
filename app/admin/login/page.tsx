@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function AdminLogin() {
   const router = useRouter();
+  const searchParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const confirmed = searchParams?.get("confirmed") === "1";
+  const linkError = searchParams?.get("error");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 

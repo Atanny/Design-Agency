@@ -37,6 +37,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [checking, setChecking] = useState(true);
   const [userEmail, setUserEmail] = useState("");
   const [counts, setCounts] = useState<Record<string, number>>({});
+  const [logoName, setLogoName] = useState("Lumis");
+  const [logoImage, setLogoImage] = useState<string|null>(null);
   const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
@@ -44,6 +46,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (!session && !isLoginPage) router.replace("/admin/login");
       else if (session) setUserEmail(session.user.email || "");
       setChecking(false);
+    });
+    supabase.from("site_content").select("key,value").eq("section","navbar").then(({ data }) => {
+      if (data) {
+        const map: Record<string,string> = {};
+        data.forEach((r: {key:string;value:string}) => { map[r.key] = r.value; });
+        if (map.logo_name) setLogoName(map.logo_name);
+        if (map.logo_image) setLogoImage(map.logo_image);
+      }
     });
   }, [router, isLoginPage]);
 
@@ -84,9 +94,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-60 bg-zinc-900 border-r border-zinc-800 flex flex-col fixed inset-y-0 left-0 z-30">
         <div className="p-5 border-b border-zinc-800">
           <Link href="/" className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg gradient-gold flex items-center justify-center text-white font-display font-bold text-sm">L</span>
+            {logoImage ? (
+                <img src={logoImage} alt={logoName} className="w-7 h-7 rounded-lg object-contain"/>
+              ) : (
+                <span className="w-7 h-7 rounded-lg gradient-gold flex items-center justify-center text-white font-display font-bold text-sm">
+                  {logoName.charAt(0).toUpperCase()}
+                </span>
+              )}
             <div>
-              <span className="font-display text-white font-semibold text-sm block leading-none">Lumis Studio</span>
+              <span className="font-display text-white font-semibold text-sm block leading-none">{logoName} Studio</span>
               <span className="text-xs text-zinc-500">Dashboard</span>
             </div>
           </Link>

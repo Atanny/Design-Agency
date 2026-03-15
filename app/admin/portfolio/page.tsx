@@ -6,10 +6,11 @@ import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
 import type { PortfolioItem } from "@/types";
 
-const CATEGORIES = ["UI/UX", "Branding", "Poster", "Social Media", "Website", "Other"];
+const DEFAULT_CATEGORIES = ["UI/UX", "Branding", "Poster", "Social Media", "Website", "Other"];
 
 export default function AdminPortfolio() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -18,6 +19,16 @@ export default function AdminPortfolio() {
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState("");
+
+  useEffect(() => {
+    supabase.from("services").select("title").eq("active", true).order("sort_order", {ascending:true}).then(({ data }) => {
+      if (data && data.length > 0) {
+        const fromDB = data.map((s: {title:string}) => s.title);
+        const merged = Array.from(new Set([...fromDB, "Other"]));
+        setCategories(merged);
+      }
+    });
+  }, []);
 
   const fetchItems = async () => {
     const { data } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
@@ -121,7 +132,7 @@ export default function AdminPortfolio() {
               <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
               <select value={form.category} onChange={(e)=>setForm(f=>({...f,category:e.target.value}))}
                 className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
-                {CATEGORIES.map((c)=><option key={c} value={c}>{c}</option>)}
+                {categories.map((c)=><option key={c} value={c}>{c}</option>)}
               </select>
             </div>
           </div>
@@ -221,7 +232,7 @@ export default function AdminPortfolio() {
                 <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
                 <select value={editItem.category} onChange={(e)=>setEditItem(i=>i?{...i,category:e.target.value}:i)}
                   className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
-                  {CATEGORIES.map((c)=><option key={c} value={c}>{c}</option>)}
+                  {categories.map((c)=><option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>

@@ -28,6 +28,7 @@ const ICON_OPTIONS = [
 interface Service {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
   features: string;
   icon: string;
@@ -39,6 +40,7 @@ interface Service {
 
 const EMPTY: Omit<Service, "id" | "sort_order"> = {
   title: "",
+  subtitle: "",
   description: "",
   features: "",
   icon: "monitor",
@@ -101,6 +103,7 @@ export default function AdminServices() {
     if (isNew) {
       const { error } = await supabase.from("services").insert([{
         title: editing.title,
+        subtitle: editing.subtitle,
         description: editing.description,
         features: editing.features,
         icon: editing.icon,
@@ -113,6 +116,7 @@ export default function AdminServices() {
     } else {
       const { error } = await supabase.from("services").update({
         title: editing.title,
+        subtitle: editing.subtitle,
         description: editing.description,
         features: editing.features,
         icon: editing.icon,
@@ -245,7 +249,15 @@ export default function AdminServices() {
                 />
               </div>
 
-              {/* Description */}
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Subtitle (shown on services page as heading)</label>
+                <input type="text" value={editing.subtitle||""}
+                  onChange={(e) => setEditing({ ...editing, subtitle: e.target.value })}
+                  placeholder="e.g. Intuitive. Beautiful. Effective."
+                  className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"
+                />
+              </div>
+
               <div>
                 <label className="block text-xs font-medium text-zinc-400 mb-1.5">Short Description (shown on cards)</label>
                 <textarea value={editing.description}
