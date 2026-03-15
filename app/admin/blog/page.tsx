@@ -97,22 +97,63 @@ export default function AdminBlog() {
     setMode("edit");
   };
 
-  if (mode === "create" || mode === "edit") {
-    return (
-      <div className="p-8 max-w-3xl">
-        <div className="flex items-center gap-3 mb-8">
-          <button
-            onClick={() => { setMode("list"); setForm(emptyForm()); }}
-            className="text-zinc-400 hover:text-white transition-colors"
-          >
-            ← Back
-          </button>
-          <h1 className="font-display text-2xl font-bold text-white">
-            {mode === "create" ? "New Post" : "Edit Post"}
-          </h1>
-        </div>
+  const showModal = mode === "create" || mode === "edit";
 
-        <form onSubmit={handleSave} className="space-y-5">
+  return (
+    <div className="p-8 w-full">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="font-display text-3xl font-bold text-white">Blog</h1>
+          <p className="text-zinc-500 mt-1">{posts.length} posts</p>
+        </div>
+        <button onClick={() => setMode("create")}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+          New Post
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="space-y-3">{[...Array(4)].map((_,i)=><div key={i} className="h-20 rounded-xl bg-zinc-800 animate-pulse"/>)}</div>
+      ) : posts.length === 0 ? (
+        <div className="text-center py-20 text-zinc-600">No blog posts yet.</div>
+      ) : (
+        <div className="space-y-3">
+          {posts.map((post) => (
+            <div key={post.id} className="flex items-center justify-between p-5 rounded-2xl border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-white font-medium">{post.title}</p>
+                  {post.published ? (
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">Published</span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full bg-zinc-700 text-zinc-400 text-xs font-medium">Draft</span>
+                  )}
+                </div>
+                <p className="text-zinc-500 text-xs font-mono">/blog/{post.slug}</p>
+                <p className="text-zinc-700 text-xs mt-0.5">{new Date(post.created_at).toLocaleDateString()}</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => handleEdit(post)}
+                  className="px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-400 text-xs font-medium hover:text-white transition-colors">Edit</button>
+                <button onClick={() => handleDelete(post.id)}
+                  className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/30 transition-colors">Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+              <h2 className="font-display text-xl font-bold text-white">{mode === "create" ? "New Post" : "Edit Post"}</h2>
+              <button onClick={() => { setMode("list"); setForm(emptyForm()); }} className="text-zinc-500 hover:text-white transition-colors">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <form onSubmit={handleSave} className="p-6 space-y-5">
           <div>
             <label className="block text-xs text-zinc-400 mb-1.5">Title *</label>
             <input
@@ -201,84 +242,18 @@ export default function AdminBlog() {
             </label>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
-            >
-              {mode === "create" ? "Create Post" : "Save Changes"}
-            </button>
-            <button
-              type="button"
-              onClick={() => { setMode("list"); setForm(emptyForm()); }}
-              className="px-6 py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white transition-colors"
-            >
-              Cancel
-            </button>
+              <div className="flex gap-3 pt-2">
+                <button type="submit"
+                  className="px-6 py-3 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors">
+                  {mode === "create" ? "Create Post" : "Save Changes"}
+                </button>
+                <button type="button" onClick={() => { setMode("list"); setForm(emptyForm()); }}
+                  className="px-6 py-3 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white transition-colors">
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="font-display text-3xl font-bold text-white">Blog</h1>
-          <p className="text-zinc-500 mt-1">{posts.length} posts</p>
-        </div>
-        <button
-          onClick={() => setMode("create")}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          New Post
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="space-y-3">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-20 rounded-xl bg-zinc-800 animate-pulse" />
-          ))}
-        </div>
-      ) : posts.length === 0 ? (
-        <div className="text-center py-20 text-zinc-600">No blog posts yet.</div>
-      ) : (
-        <div className="space-y-3">
-          {posts.map((post) => (
-            <div key={post.id} className="flex items-center justify-between p-5 rounded-2xl border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <p className="text-white font-medium">{post.title}</p>
-                  {post.published ? (
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">Published</span>
-                  ) : (
-                    <span className="px-2 py-0.5 rounded-full bg-zinc-700 text-zinc-400 text-xs font-medium">Draft</span>
-                  )}
-                </div>
-                <p className="text-zinc-500 text-xs font-mono">/blog/{post.slug}</p>
-                <p className="text-zinc-700 text-xs mt-0.5">{new Date(post.created_at).toLocaleDateString()}</p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(post)}
-                  className="px-3 py-1.5 rounded-lg border border-zinc-700 text-zinc-400 text-xs font-medium hover:text-white transition-colors"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/30 transition-colors"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
       )}
     </div>

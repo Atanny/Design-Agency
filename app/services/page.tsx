@@ -41,6 +41,7 @@ const accentToColor = (accent: string) => {
 export default async function ServicesPage() {
   const supabase = createServerClient();
   const pageContent = await getContent("services_page");
+  const offerCard  = await getContent("offer_card");
 
   const { data: dbServices } = await supabase
     .from("services").select("*").eq("active", true).order("sort_order", { ascending: true });
@@ -136,14 +137,14 @@ export default async function ServicesPage() {
                       </div>
                       <div>
                         <h3 className="font-display text-2xl font-black text-zinc-900 dark:text-white mb-2">
-                          Get a Custom Offer
+                          {offerCard.title || "Get a Custom Offer"}
                         </h3>
                         <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed max-w-xs font-light">
-                          Every project is unique. Tell us what you need and we'll send you a tailored quote — no obligation.
+                          {offerCard.description || "Every project is unique. Tell us what you need and we'll send you a tailored quote — no obligation."}
                         </p>
                       </div>
                       <ul className="space-y-2 text-left w-full max-w-xs">
-                        {["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"].map((f) => (
+                        {[offerCard.item1||"Free consultation", offerCard.item2||"Custom pricing for your scope", offerCard.item3||"Response within 24 hours", offerCard.item4||"No hidden fees"].map((f) => (
                           <li key={f} className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
                             <svg className={`w-3.5 h-3.5 flex-shrink-0 ${colors.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
@@ -155,7 +156,7 @@ export default async function ServicesPage() {
                       <Link href="/contact"
                         className="w-full py-3.5 text-sm font-bold text-center bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300"
                         style={{ clipPath:"polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
-                        Request an Offer
+                        {offerCard.button_text || "Request an Offer"}
                       </Link>
                     </div>
                   </div>

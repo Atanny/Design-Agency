@@ -17,6 +17,7 @@ const SECTIONS = [
   { key: "contact_section",      label: "Contact (Homepage)" },
   { key: "contact_page",         label: "Contact Page" },
   { key: "reviews_section",      label: "Reviews Page" },
+  { key: "offer_card",            label: "Offer Card (Services)" },
   { key: "footer",               label: "Footer" },
   { key: "services_page",        label: "Services Page" },
 ];
@@ -89,6 +90,15 @@ const LABELS: Record<string, Record<string, string>> = {
     subtext: "Subtext",
     cta_title: "Leave Review Title",
     cta_text: "Leave Review Subtext",
+  },
+  offer_card: {
+    title: "Card Title",
+    description: "Card Description",
+    item1: "Bullet Point 1",
+    item2: "Bullet Point 2",
+    item3: "Bullet Point 3",
+    item4: "Bullet Point 4",
+    button_text: "Button Text",
   },
   footer: { tagline: "Tagline", copyright_suffix: "Copyright Suffix", made_in: "Made In Location" },
   services_page: { badge: "Page Badge", headline: "Page Headline", subtext: "Page Subtext" },

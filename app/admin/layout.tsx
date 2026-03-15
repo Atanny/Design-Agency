@@ -47,14 +47,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       else if (session) setUserEmail(session.user.email || "");
       setChecking(false);
     });
-    supabase.from("site_content").select("key,value").eq("section","navbar").then(({ data }) => {
-      if (data) {
-        const map: Record<string,string> = {};
-        data.forEach((r: {key:string;value:string}) => { map[r.key] = r.value; });
-        if (map.logo_name) setLogoName(map.logo_name);
-        if (map.logo_image) setLogoImage(map.logo_image);
-      }
-    });
+    const fetchLogo = () => {
+      supabase.from("site_content").select("key,value").eq("section","navbar")
+        .in("key",["logo_name","logo_image"]).then(({ data }) => {
+          if (data) {
+            const map: Record<string,string> = {};
+            data.forEach((r: {key:string;value:string}) => { map[r.key] = r.value; });
+            if (map.logo_name) setLogoName(map.logo_name);
+            setLogoImage(map.logo_image || null);
+          }
+        });
+    };
+    fetchLogo();
+
+    const channel = supabase
+      .channel("admin-logo-watch")
+      .on("postgres_changes", { event:"*", schema:"public", table:"site_content", filter:"section=eq.navbar" }, fetchLogo)
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, [router, isLoginPage]);
 
   useEffect(() => {
