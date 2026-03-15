@@ -43,7 +43,7 @@ export default function Navbar({ logoName = "", ctaText = "Start a Project", log
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-500 ${
           scrolled
             ? "glass py-3 shadow-[0_1px_0_rgba(0,0,0,0.06)] dark:shadow-[0_1px_0_rgba(255,255,255,0.04)]"
             : "bg-transparent py-6"
@@ -132,7 +132,7 @@ export default function Navbar({ logoName = "", ctaText = "Start a Project", log
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-0 top-0 z-40 bg-white dark:bg-[#080808] pt-24 pb-10 px-6 md:hidden border-b border-zinc-100 dark:border-zinc-800/60"
+            className="sticky top-0 inset-x-0 z-40 bg-white dark:bg-[#080808] pb-6 px-6 md:hidden border-b border-zinc-100 dark:border-zinc-800/60"
           >
             <nav className="flex flex-col gap-1">
               {navLinks.map((link, i) => (

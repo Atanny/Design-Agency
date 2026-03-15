@@ -117,34 +117,17 @@ export default function Hero({ content = {} }: HeroProps) {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 md:pt-28 pb-16 md:pb-20">
 
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[#e8e4dc] dark:bg-[#080808]" />
 
-        {/* PNG blob — gold top-left */}
-        <img src="/abstracts/blob_gold_tl.png" alt="" aria-hidden="true"
-          className="absolute -top-20 -left-20 w-[550px] h-[550px] object-contain pointer-events-none select-none opacity-75 dark:opacity-30" />
+        {/* Gold grid */}
+        <div className="absolute inset-0 opacity-[0.07] dark:opacity-[0.04]"
+          style={{ backgroundImage: "linear-gradient(rgba(200,137,26,1) 1px, transparent 1px), linear-gradient(90deg, rgba(200,137,26,1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
 
-        {/* PNG blob — violet top-right */}
-        <img src="/abstracts/blob_violet_tr.png" alt="" aria-hidden="true"
-          className="absolute -top-10 -right-10 w-[480px] h-[480px] object-contain pointer-events-none select-none opacity-65 dark:opacity-25" />
-
-        {/* PNG blob — emerald bottom-right */}
-        <img src="/abstracts/blob_emerald_br.png" alt="" aria-hidden="true"
-          className="absolute -bottom-10 -right-10 w-[460px] h-[460px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
-
-        {/* PNG blob — blue bottom-left */}
-        <img src="/abstracts/blob_blue_bl.png" alt="" aria-hidden="true"
-          className="absolute bottom-0 -left-10 w-[400px] h-[400px] object-contain pointer-events-none select-none opacity-55 dark:opacity-20" />
-
-        {/* PNG blob — gold center ambient */}
-        <img src="/abstracts/blob_gold_center.png" alt="" aria-hidden="true"
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] object-contain pointer-events-none select-none opacity-40 dark:opacity-10" />
-
-        {/* Fine gold grid */}
-        <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]"
-          style={{ backgroundImage: "linear-gradient(rgba(200,137,26,1) 1px, transparent 1px), linear-gradient(90deg, rgba(200,137,26,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+        {/* Subtle center glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(200,137,26,0.06),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(200,137,26,0.08),transparent)]" />
 
         {/* Corner bracket marks */}
         <div className="absolute top-28 left-8 w-6 h-6 border-l-2 border-t-2 border-gold-400/30" />
@@ -153,7 +136,7 @@ export default function Hero({ content = {} }: HeroProps) {
         <div className="absolute bottom-16 right-8 w-6 h-6 border-r-2 border-b-2 border-gold-400/20" />
       </div>
 
-      <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center mt-4">
+      <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
         <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}
           className="flex flex-col items-center gap-3 mb-10"
         >
@@ -185,11 +168,11 @@ export default function Hero({ content = {} }: HeroProps) {
         </motion.div>
 
         <motion.h1 custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
-          className="font-display font-black tracking-[-0.02em] leading-[0.9] text-zinc-900 dark:text-white mb-8 text-balance"
+          className="font-display font-black tracking-[-0.02em] leading-[0.95] text-zinc-900 dark:text-white mb-8 w-full"
           style={{ fontSize: "clamp(3.8rem, 11vw, 9rem)" }}
         >
           {line1}{" "}
-          <span className="relative inline-block">
+          <span className="relative inline-block pb-2">
             <span className="text-gradient-gold italic">{accent}</span>
             <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 300 6" preserveAspectRatio="none">
               <path d="M0 5 Q75 0 150 4 Q225 8 300 3" stroke="url(#goldline)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
