@@ -54,7 +54,11 @@ export async function generateMetadata(): Promise<Metadata> {
       images: seo?.og_image ? [seo.og_image] : [],
     },
     twitter: { card: "summary_large_image", title, description },
-    icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
+    icons: {
+      icon: [
+        ...(seo?.og_image ? [{ url: seo.og_image }] : [{ url: "/favicon.svg", type: "image/svg+xml" }]),
+      ],
+    },
     robots: { index: true, follow: true },
   };
 }
@@ -70,7 +74,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href={navContent.logo_image || "/favicon.svg"} />
       </head>
       <body className={`${playfair.variable} ${dmSans.variable} font-body antialiased`}>
         <ThemeProvider>

@@ -14,6 +14,8 @@ export default function AdminPortfolio() {
   const [uploading, setUploading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title:"", description:"", category:"UI/UX", image_url:"", project_url:"" });
+  const [editItem, setEditItem] = useState<PortfolioItem|null>(null);
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
@@ -60,6 +62,22 @@ export default function AdminPortfolio() {
       setShowForm(false);
       setForm({ title:"", description:"", category:"UI/UX", image_url:"", project_url:"" });
       setPreviewUrl("");
+      fetchItems();
+    }
+  };
+
+  const handleEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editItem) return;
+    setSaving(true);
+    const { error } = await supabase.from("portfolio").update({
+      title: editItem.title, description: editItem.description,
+      category: editItem.category, project_url: editItem.project_url || null,
+    }).eq("id", editItem.id);
+    setSaving(false);
+    if (error) { toast.error(error.message); } else {
+      toast.success("Updated!");
+      setEditItem(null);
       fetchItems();
     }
   };
@@ -169,6 +187,10 @@ export default function AdminPortfolio() {
                         View Live
                       </a>
                     )}
+                    <button onClick={(e)=>{e.stopPropagation();setEditItem({...item});}}
+                      className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+                      Edit
+                    </button>
                     <button onClick={()=>handleDelete(item.id,item.image_url)}
                       className="ml-auto text-[11px] text-red-400 hover:text-red-300 transition-colors">
                       Delete
@@ -178,6 +200,52 @@ export default function AdminPortfolio() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+    {editItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <form onSubmit={handleEdit} className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-6">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-white font-semibold">Edit Portfolio Item</h2>
+              <button type="button" onClick={()=>setEditItem(null)} className="text-zinc-500 hover:text-white transition-colors">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1.5">Title</label>
+                <input type="text" value={editItem.title} onChange={(e)=>setEditItem(i=>i?{...i,title:e.target.value}:i)} required
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1.5">Category</label>
+                <select value={editItem.category} onChange={(e)=>setEditItem(i=>i?{...i,category:e.target.value}:i)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500">
+                  {CATEGORIES.map((c)=><option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1.5">Description</label>
+                <textarea value={editItem.description||""} onChange={(e)=>setEditItem(i=>i?{...i,description:e.target.value}:i)} rows={2}
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm focus:outline-none focus:ring-1 focus:ring-gold-500 resize-none"/>
+              </div>
+              <div>
+                <label className="block text-xs text-zinc-400 mb-1.5">Project Link</label>
+                <input type="url" value={editItem.project_url||""} onChange={(e)=>setEditItem(i=>i?{...i,project_url:e.target.value}:i)} placeholder="https://..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-gold-500"/>
+              </div>
+            </div>
+            <div className="flex gap-3 mt-5">
+              <button type="submit" disabled={saving}
+                className="flex-1 py-2.5 rounded-xl bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors">
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+              <button type="button" onClick={()=>setEditItem(null)}
+                className="px-6 py-2.5 rounded-xl border border-zinc-700 text-zinc-400 text-sm hover:text-white transition-colors">
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

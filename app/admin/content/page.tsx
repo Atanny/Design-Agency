@@ -16,6 +16,7 @@ const SECTIONS = [
   { key: "cta_section",          label: "CTA Section" },
   { key: "contact_section",      label: "Contact (Homepage)" },
   { key: "contact_page",         label: "Contact Page" },
+  { key: "reviews_section",      label: "Reviews Page" },
   { key: "footer",               label: "Footer" },
   { key: "services_page",        label: "Services Page" },
 ];
@@ -81,6 +82,13 @@ const LABELS: Record<string, Record<string, string>> = {
     badge: "Badge", headline: "Page Headline", subtext: "Page Subtext",
     email: "Contact Email", location: "Location", response: "Response Time",
     discovery_title: "Discovery Box Title", discovery_text: "Discovery Box Text",
+  },
+  reviews_section: {
+    badge: "Section Badge",
+    headline: "Page Headline",
+    subtext: "Subtext",
+    cta_title: "Leave Review Title",
+    cta_text: "Leave Review Subtext",
   },
   footer: { tagline: "Tagline", copyright_suffix: "Copyright Suffix", made_in: "Made In Location" },
   services_page: { badge: "Page Badge", headline: "Page Headline", subtext: "Page Subtext" },

@@ -79,6 +79,13 @@ const DEFAULTS: Record<string, Record<string, string>> = {
     discovery_text: "Book a 30-minute free consultation to discuss your project before committing.",
     form_title: "Project Inquiry",
   },
+  reviews_section: {
+    badge: "Client Reviews",
+    headline: "What Clients Say",
+    subtext: "Real words from real clients who trusted us with their brand.",
+    cta_title: "Leave a Review",
+    cta_text: "Worked with us? Reviews are published within 24 hours after approval.",
+  },
   footer: {
     tagline: "We craft premium digital experiences that elevate brands. Design is not just what it looks like — it's how it works.",
     copyright_suffix: "All rights reserved.",

@@ -26,6 +26,16 @@ export default function AdminLogin() {
     }
   };
 
+  const handleForgot = async () => {
+    if (!form.email) { toast.error("Enter your email first."); return; }
+    const { error } = await supabase.auth.resetPasswordForEmail(form.email, {
+      redirectTo: `${window.location.origin}/admin/reset-password`,
+    });
+    if (error) { toast.error(error.message); } else {
+      toast.success("Reset link sent! Check your email.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
       <motion.div
@@ -82,9 +92,15 @@ export default function AdminLogin() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
+            <button type="button" onClick={handleForgot} className="w-full text-center text-xs text-zinc-500 hover:text-gold-400 transition-colors mt-3">
+              Forgot password? Send reset link
+            </button>
           </form>
         </div>
       </motion.div>
     </div>
   );
 }
+
+// Forgot password is handled via Supabase magic link — send from Supabase Auth dashboard
+// or implement via supabase.auth.resetPasswordForEmail()
