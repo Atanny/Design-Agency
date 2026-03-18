@@ -9,6 +9,47 @@ import type { PortfolioItem } from "@/types";
 
 const DEFAULT_CATEGORIES = ["UI/UX Design", "Brand Identity", "Poster Design", "Social Media", "Website Design", "Other"];
 
+interface ItemCardProps {
+  item: PortfolioItem;
+  onEdit: (item: PortfolioItem) => void;
+  onDelete: (id: string, imageUrl: string) => void;
+}
+
+function ItemCard({ item, onEdit, onDelete }: ItemCardProps) {
+  const sorted = [...items]
+    .filter(i => filterCat === "All" || i.category === filterCat)
+    .sort((a,b) =>
+      sortBy === "name" ? a.title.localeCompare(b.title) :
+      sortBy === "oldest" ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime() :
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+  const groups = Array.from(new Set(sorted.map(i => i.category)));
+
+  return (
+    <div className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-coral-400/30 transition-all rounded-2xl">
+      <div className="aspect-square relative overflow-hidden rounded-2xl">
+        <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
+        {(item.image_urls||[]).length > 0 && (
+          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-coral-400/90 text-white text-[9px] font-bold">
+            {(item.image_urls||[]).length + 1} imgs
+          </div>
+        )}
+        <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
+          <p className="text-white text-sm font-semibold truncate">{item.title}</p>
+          <p className="text-zinc-400 text-xs">{item.category}</p>
+          <div className="flex items-center gap-2 mt-2">
+            <button onClick={()=>onEdit(item)}
+              className="px-3 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-semibold hover:bg-white/30 transition-colors">Edit</button>
+            <button onClick={()=>onDelete(item.id, item.image_url)}
+              className="px-3 py-1 rounded-full bg-red-500/20 backdrop-blur text-red-400 text-xs font-semibold hover:bg-red-500/30 transition-colors">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminPortfolio() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
@@ -163,40 +204,11 @@ export default function AdminPortfolio() {
     else { toast.success("Item deleted."); setItems(prev => prev.filter(i => i.id !== id)); }
   };
 
-  // Computed grid data (moved out of JSX to avoid IIFE)
-  const sorted = [...items]
-    .filter(i => filterCat === "All" || i.category === filterCat)
-    .sort((a,b) =>
-      sortBy === "name" ? a.title.localeCompare(b.title) :
-      sortBy === "oldest" ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime() :
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
 
-  const ItemCard = ({ item }: { item: PortfolioItem }) => (
-    <div className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-coral-400/30 transition-all rounded-2xl">
-      <div className="aspect-square relative overflow-hidden rounded-2xl">
-        <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"/>
-        {(item.image_urls||[]).length > 0 && (
-          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-coral-400/90 text-white text-[9px] font-bold">
-            {(item.image_urls||[]).length + 1} imgs
-          </div>
-        )}
-        <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
-          <p className="text-white text-sm font-semibold truncate">{item.title}</p>
-          <p className="text-zinc-400 text-xs">{item.category}</p>
-          <div className="flex items-center gap-2 mt-2">
-            <button onClick={()=>setEditItem(item)}
-              className="px-3 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-semibold hover:bg-white/30 transition-colors">Edit</button>
-            <button onClick={()=>setConfirm({ type:"delete", id:item.id, imageUrl:item.image_url })}
-              className="px-3 py-1 rounded-full bg-red-500/20 backdrop-blur text-red-400 text-xs font-semibold hover:bg-red-500/30 transition-colors">Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
-  const groups = Array.from(new Set(sorted.map(i => i.category)));
+
+
+
 
   return (
     <div className="p-8 w-full">
@@ -367,7 +379,7 @@ export default function AdminPortfolio() {
         ) : viewMode === "grid" ? (
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {sorted.map(item => <ItemCard key={item.id} item={item} />)}
+              {sorted.map(item => <ItemCard key={item.id} item={item} onEdit={setEditItem} onDelete={(id,url)=>setConfirm({type:"delete",id,imageUrl:url})} />)}
         </div>
       )}
 
