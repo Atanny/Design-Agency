@@ -127,153 +127,162 @@ export default function AdminDashboard() {
  messages:msg.count||0, messagesNew:msgNew.count||0,
  blog:blog.count||0, blogPublished:blogPub.count||0, services:svc.count||0,
  });
- setRecent({ messages:(recentMsg.data||[]) as RecentMessage[], reviews:(recentRev.data||[]) as RecentReview[] });
 
- const monthCounts: Record<string,number> = {};
- for (let i = 5; i >= 0; i--) {
- const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
- monthCounts[`${d.getFullYear()}-${d.getMonth()}`] = 0;
- }
- (allMsgs.data||[]).forEach((m: { created_at: string }) => {
- const d = new Date(m.created_at);
- const k = `${d.getFullYear()}-${d.getMonth()}`;
- if (k in monthCounts) monthCounts[k]++;
- });
- setMsgChart(Object.entries(monthCounts).map(([k,v]) => ({
- label: MONTHS[parseInt(k.split("-")[1])],
- value: v,
- })));
+  return (
+    <div className="p-6 w-full max-w-full">
+      {/* ── Header ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 mb-3">
+        <div className="sm:col-span-8 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 flex flex-col justify-between min-h-[110px]">
+          <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-gold-500">Admin Dashboard</p>
+          <div>
+            <h1 className="font-display text-3xl font-black text-white leading-none">Overview</h1>
+            <p className="text-zinc-500 text-sm mt-1 font-light">Welcome back — here's your site at a glance.</p>
+          </div>
+        </div>
+        <a href="/admin/commission"
+          className={`sm:col-span-4 rounded-2xl p-6 flex flex-col justify-between min-h-[110px] transition-all ${
+            commissionOpen === false
+              ? "bg-red-500/10 border border-red-500/20 hover:bg-red-500/15"
+              : "bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/15"
+          }`}>
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${commissionOpen===false?"bg-red-500":"bg-emerald-400 animate-pulse"}`}/>
+            <span className={`text-[10px] font-semibold uppercase tracking-widest ${commissionOpen===false?"text-red-400":"text-emerald-400"}`}>
+              {commissionOpen===false ? "Commissions Closed" : "Available for Work"}
+            </span>
+          </div>
+          <p className={`text-sm font-medium ${commissionOpen===false?"text-red-300":"text-emerald-300"}`}>
+            {commissionOpen===false ? "Click to re-open commissions" : "Click to manage availability"}
+          </p>
+        </a>
+      </div>
 
- const dist = [0,0,0,0,0];
- (allRevs.data||[]).forEach((r: { rating: number }) => { if (r.rating >= 1 && r.rating <= 5) dist[r.rating-1]++; });
- setRatingDist(dist);
+      {/* ── Stat cards bento ── */}
+      {loading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
+          {[...Array(5)].map((_,i)=><div key={i} className="h-28 rounded-2xl bg-zinc-900 animate-pulse"/>)}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
+          {cards.map((c,i) => (
+            <Link key={c.label} href={c.href}
+              className={`group rounded-2xl p-5 border border-zinc-800/50 hover:border-zinc-700 transition-all flex flex-col justify-between min-h-[110px] ${
+                i===0 ? "bg-zinc-900" : i===1 ? "bg-zinc-900" : i===2 ? "bg-zinc-900" : "bg-zinc-900"
+              }`}>
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ${c.color}`}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>{c.icon}</svg>
+              </div>
+              <div>
+                <p className="text-2xl font-black text-white font-display leading-none mb-0.5">{c.value}</p>
+                <p className="text-xs text-zinc-500">{c.label}</p>
+                {c.sub && <p className="text-[11px] text-gold-400 mt-0.5 font-semibold">{c.sub}</p>}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
 
- const commRes = await supabase.from("site_content").select("value").eq("section","commission").eq("key","status").single();
- setCommissionOpen((commRes.data?.value ?? "open") === "open");
+      {/* ── Charts row ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-3">
+        <div className="lg:col-span-2 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="h-px w-4 bg-gold-500/50"/>
+            <h2 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-gold-500">Messages</h2>
+          </div>
+          <p className="text-xs text-zinc-600 mb-5 font-light">Inquiries received — last 6 months</p>
+          {loading ? <div className="h-16 rounded-xl bg-zinc-800 animate-pulse"/> : <MiniBar data={msgChart} color="bg-gold-500"/>}
+        </div>
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="h-px w-4 bg-gold-500/50"/>
+            <h2 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-gold-500">Ratings</h2>
+          </div>
+          <p className="text-xs text-zinc-600 mb-5 font-light">From approved reviews</p>
+          {loading ? <div className="h-24 rounded-xl bg-zinc-800 animate-pulse"/> : <RatingDonut distribution={ratingDist}/>}
+        </div>
+      </div>
 
- setLoading(false);
- }
- load();
- }, []);
+      {/* ── Recent activity ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
+        {/* Messages */}
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/40">
+            <div className="flex items-center gap-2">
+              <div className="h-px w-4 bg-gold-500/40"/>
+              <h2 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Recent Messages</h2>
+            </div>
+            <Link href="/admin/messages" className="text-xs text-gold-400 hover:text-gold-300 transition-colors font-medium">View all →</Link>
+          </div>
+          {loading
+            ? <div className="p-5 space-y-3">{[...Array(4)].map((_,i)=><div key={i} className="h-10 rounded-xl bg-zinc-800 animate-pulse"/>)}</div>
+            : recent.messages.length===0
+              ? <p className="p-5 text-zinc-600 text-sm font-light">No messages yet.</p>
+              : <div className="divide-y divide-zinc-800/30">
+                  {recent.messages.map((m)=>(
+                    <div key={m.id} className="flex items-center justify-between px-6 py-3.5 hover:bg-zinc-800/30 transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-white truncate">{m.name}</p>
+                        <p className="text-xs text-zinc-500 truncate font-light">{m.service||"General inquiry"}</p>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+                        {m.status==="new"&&<span className="w-1.5 h-1.5 rounded-full bg-emerald-400"/>}
+                        <span className="text-[11px] text-zinc-600">{new Date(m.created_at).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+          }
+        </div>
 
- const cards = [
- { label:"Portfolio", value:stats.portfolio, sub:null, href:"/admin/portfolio", color:"bg-blue-500/15 text-blue-400", icon:<path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
- { label:"Messages", value:stats.messages, sub:stats.messagesNew>0?`${stats.messagesNew} new`:null, href:"/admin/messages", color:"bg-emerald-500/15 text-emerald-400", icon:<path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/> },
- { label:"Reviews", value:stats.reviews, sub:stats.reviewsPending>0?`${stats.reviewsPending} pending`:null, href:"/admin/reviews", color:"bg-gold-500/15 text-gold-400", icon:<path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/> },
- { label:"Blog Posts", value:stats.blog, sub:`${stats.blogPublished} published`, href:"/admin/blog", color:"bg-violet-500/15 text-violet-400", icon:<path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/> },
- { label:"Services", value:stats.services, sub:"active on site", href:"/admin/services", color:"bg-rose-500/15 text-rose-400", icon:<path strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/> },
- ];
+        {/* Reviews */}
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/40">
+            <div className="flex items-center gap-2">
+              <div className="h-px w-4 bg-gold-500/40"/>
+              <h2 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Recent Reviews</h2>
+            </div>
+            <Link href="/admin/reviews" className="text-xs text-gold-400 hover:text-gold-300 transition-colors font-medium">View all →</Link>
+          </div>
+          {loading
+            ? <div className="p-5 space-y-3">{[...Array(4)].map((_,i)=><div key={i} className="h-10 rounded-xl bg-zinc-800 animate-pulse"/>)}</div>
+            : recent.reviews.length===0
+              ? <p className="p-5 text-zinc-600 text-sm font-light">No reviews yet.</p>
+              : <div className="divide-y divide-zinc-800/30">
+                  {recent.reviews.map((r)=>(
+                    <div key={r.id} className="flex items-center justify-between px-6 py-3.5 hover:bg-zinc-800/30 transition-colors">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-white truncate">{r.name}</p>
+                        <div className="flex gap-0.5 mt-0.5">
+                          {[1,2,3,4,5].map((s)=><svg key={s} className={`w-3 h-3 ${s<=r.rating?"text-gold-400":"text-zinc-700"}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>)}
+                        </div>
+                      </div>
+                      <span className={`text-[10px] px-2.5 py-1 rounded-full font-semibold border ${r.approved?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20":"bg-amber-500/10 text-amber-400 border-amber-500/20"}`}>
+                        {r.approved ? "Live" : "Pending"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+          }
+        </div>
+      </div>
 
- return (
- <div className="p-8 w-full">
- <div className="mb-8 flex items-start justify-between gap-4">
- <div>
- <h1 className="font-display text-3xl font-black text-white tracking-tight">Dashboard</h1>
- <p className="text-zinc-500 mt-1">Welcome back. Here&apos;s your studio at a glance.</p>
- </div>
- <a href="/admin/commission"
- className={`flex items-center gap-2 px-4 py-2 border text-sm font-semibold transition-all flex-shrink-0 ${
- commissionOpen === false
- ? "bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20"
- : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20"
- }`}
- >
- <span className={`w-2 h-2 rounded-full ${commissionOpen === false ? "bg-red-500" : "bg-emerald-400 animate-pulse"}`} />
- {commissionOpen === false ? "Commissions Closed" : "Commission Open"}
- </a>
- </div>
-
- {loading ? (
- <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
- {[...Array(5)].map((_,i)=><div key={i} className="h-28 bg-zinc-800/60 animate-pulse"/>)}
- </div>
- ) : (
- <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
- {cards.map((c) => (
- <Link key={c.label} href={c.href} className="group relative p-5 bg-[#0c0c0c] border border-zinc-800/60 hover:border-gold-500/30 transition-all overflow-hidden card-grain" style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)" }}>
- <div className={`w-9 h-9 flex items-center justify-center mb-3 ${c.color}`} style={{ clipPath: "polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)" }}>
- <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>{c.icon}</svg>
- </div>
- <p className="text-2xl font-black text-white font-display leading-none mb-1">{c.value}</p>
- <p className="text-xs text-zinc-500">{c.label}</p>
- {c.sub && <p className="text-[11px] text-gold-500 mt-0.5 font-semibold">{c.sub}</p>}
- </Link>
- ))}
- </div>
- )}
-
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
- <div className="lg:col-span-2 bg-[#0c0c0c] border border-zinc-800/60 p-6 card-grain" style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}>
- <div className="flex items-center gap-2 mb-1"><div className="h-px w-5 bg-gold-500/50"/><h2 className="text-[11px] font-bold tracking-[0.2em] uppercase text-gold-600">Messages</h2></div><p className="text-xs text-zinc-600 mb-1">Last 6 months</p>
- <p className="text-xs text-zinc-600 mb-5">Inquiries received per month</p>
- {loading ? <div className="h-16 bg-zinc-800/60 animate-pulse"/> : <MiniBar data={msgChart} color="bg-gold-500" />}
- </div>
- <div className="bg-[#0c0c0c] border border-zinc-800 p-6">
- <div className="flex items-center gap-2 mb-1"><div className="h-px w-5 bg-gold-500/50"/><h2 className="text-[11px] font-bold tracking-[0.2em] uppercase text-gold-600">Ratings</h2></div>
- <p className="text-xs text-zinc-600 mb-5">From approved reviews</p>
- {loading ? <div className="h-24 bg-zinc-800/60 animate-pulse"/> : <RatingDonut distribution={ratingDist} />}
- </div>
- </div>
-
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
- <div className="bg-[#0c0c0c] border border-zinc-800 overflow-hidden">
- <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60">
- <div className="flex items-center gap-2"><div className="h-px w-4 bg-gold-500/40"/><h2 className="text-[11px] font-bold tracking-[0.2em] uppercase text-zinc-400">Recent Messages</h2></div>
- <Link href="/admin/messages" className="text-xs text-gold-400 hover:text-gold-300 transition-colors">View all →</Link>
- </div>
- {loading ? <div className="p-5 space-y-3">{[...Array(4)].map((_,i)=><div key={i} className="h-10 bg-zinc-800/60 animate-pulse"/>)}</div>
- : recent.messages.length === 0 ? <p className="p-5 text-zinc-600 text-sm">No messages yet.</p>
- : <div className="divide-y divide-zinc-800/40">
- {recent.messages.map((m) => (
- <div key={m.id} className="flex items-center justify-between px-5 py-3 hover:bg-zinc-900/40 transition-colors">
- <div className="min-w-0">
- <p className="text-sm font-medium text-white truncate">{m.name}</p>
- <p className="text-xs text-zinc-500 truncate">{m.service || "General inquiry"}</p>
- </div>
- <div className="flex items-center gap-2 flex-shrink-0 ml-3">
- {m.status === "new" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"/>}
- <span className="text-[11px] text-zinc-600">{new Date(m.created_at).toLocaleDateString()}</span>
- </div>
- </div>
- ))}
- </div>}
- </div>
-
- <div className="bg-[#0c0c0c] border border-zinc-800 overflow-hidden">
- <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60">
- <div className="flex items-center gap-2"><div className="h-px w-4 bg-gold-500/40"/><h2 className="text-[11px] font-bold tracking-[0.2em] uppercase text-zinc-400">Recent Reviews</h2></div>
- <Link href="/admin/reviews" className="text-xs text-gold-400 hover:text-gold-300 transition-colors">View all →</Link>
- </div>
- {loading ? <div className="p-5 space-y-3">{[...Array(4)].map((_,i)=><div key={i} className="h-10 bg-zinc-800/60 animate-pulse"/>)}</div>
- : recent.reviews.length === 0 ? <p className="p-5 text-zinc-600 text-sm">No reviews yet.</p>
- : <div className="divide-y divide-zinc-800/40">
- {recent.reviews.map((r) => (
- <div key={r.id} className="flex items-center justify-between px-5 py-3 hover:bg-zinc-900/40 transition-colors">
- <div className="min-w-0">
- <p className="text-sm font-medium text-white truncate">{r.name}</p>
- <div className="flex gap-0.5 mt-0.5">
- {[1,2,3,4,5].map((s)=><svg key={s} className={`w-3 h-3 ${s<=r.rating?"text-gold-400":"text-zinc-700"}`} fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>)}
- </div>
- </div>
- <span className={`text-[10px] px-2 py-0.5 font-bold tracking-wide uppercase border ${r.approved?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20":"bg-amber-500/10 text-amber-400 border-amber-500/20"}`}>
- {r.approved ? "Live" : "Pending"}
- </span>
- </div>
- ))}
- </div>}
- </div>
- </div>
-
- <div>
- <h2 className="flex items-center gap-2 text-[10px] font-bold tracking-[0.25em] uppercase text-zinc-600 mb-3">Quick Actions</h2>
- <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
- {[{label:"Upload Portfolio",href:"/admin/portfolio"},{label:"Write Blog Post",href:"/admin/blog"},{label:"Review Messages",href:"/admin/messages"},{label:"Approve Reviews",href:"/admin/reviews"}].map((a)=>(
- <Link key={a.label} href={a.href} className="p-4 border border-zinc-800 text-zinc-400 text-sm font-medium hover:text-white hover:border-zinc-600 hover:bg-zinc-900/50 transition-all">
- {a.label} →
- </Link>
- ))}
- </div>
- </div>
- </div>
- );
+      {/* ── Quick actions ── */}
+      <div>
+        <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-zinc-600 mb-3">Quick Actions</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            {label:"Upload Portfolio", href:"/admin/portfolio", color:"bg-blue-500/10 text-blue-400 border-blue-500/20"},
+            {label:"Write Blog Post",  href:"/admin/blog",      color:"bg-violet-500/10 text-violet-400 border-violet-500/20"},
+            {label:"View Messages",    href:"/admin/messages",  color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"},
+            {label:"Approve Reviews",  href:"/admin/reviews",   color:"bg-gold-500/10 text-gold-400 border-gold-500/20"},
+          ].map((a)=>(
+            <Link key={a.label} href={a.href}
+              className={`rounded-2xl p-5 border text-sm font-medium transition-all hover:scale-[1.02] ${a.color}`}>
+              {a.label} →
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

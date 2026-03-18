@@ -80,35 +80,35 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className={compact ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
         <div>
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-body mb-1.5">
             Name <span className="text-red-400">*</span>
           </label>
           <input
             type="text" value={form.name} onChange={(e) => update("name", e.target.value)}
             placeholder="Your full name" required
-            className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 placeholder-zinc-400 focus:outline-none focus:border-coral-400/60 transition-all text-sm"
+            className="w-full px-4 py-3 border border-card bg-card text-page placeholder:text-muted focus:outline-none focus:border-coral-400/60 transition-all text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-body mb-1.5">
             Email <span className="text-red-400">*</span>
           </label>
           <input
             type="email" value={form.email} onChange={(e) => update("email", e.target.value)}
             placeholder="your@email.com" required
-            className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 placeholder-zinc-400 focus:outline-none focus:border-coral-400/60 transition-all text-sm"
+            className="w-full px-4 py-3 border border-card bg-card text-page placeholder:text-muted focus:outline-none focus:border-coral-400/60 transition-all text-sm"
           />
         </div>
       </div>
 
       {!compact && (
         <div>
-          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+          <label className="block text-sm font-medium text-body mb-1.5">
             Service Needed
           </label>
           <select
             value={form.service} onChange={(e) => update("service", e.target.value)}
-            className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 focus:outline-none focus:border-coral-400/60 transition-all text-sm"
+            className="w-full px-4 py-3 border border-card bg-card text-page focus:outline-none focus:border-coral-400/60 transition-all text-sm"
           >
             <option value="">Select a service</option>
             {services.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -117,20 +117,20 @@ export default function ContactForm({ compact = false }: ContactFormProps) {
       )}
 
       <div>
-        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
+        <label className="block text-sm font-medium text-body mb-1.5">
           Message <span className="text-red-400">*</span>
         </label>
         <textarea
           value={form.message} onChange={(e) => update("message", e.target.value)}
           placeholder="Tell us about your project..."
           required rows={compact ? 4 : 6}
-          className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 placeholder-zinc-400 focus:outline-none focus:border-coral-400/60 transition-all text-sm resize-none"
+          className="w-full px-4 py-3 border border-card bg-card text-page placeholder:text-muted focus:outline-none focus:border-coral-400/60 transition-all text-sm resize-none"
         />
       </div>
 
       <motion.button
         type="submit" disabled={loading} whileTap={{ scale: 0.98 }}
-        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 font-bold text-sm hover:bg-coral-400 dark:hover:bg-coral-400 dark:hover:text-white disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+        className="w-full py-4 gradient-primary text-white font-semibold text-sm hover:opacity-90 disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

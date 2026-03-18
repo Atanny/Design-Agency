@@ -104,10 +104,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-[#080808] flex">
-      <aside className="w-64 bg-[#0a0a0a] border-r border-zinc-800/60 flex flex-col fixed inset-y-0 left-0 z-30">
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
-
-        <div className="p-5 border-b border-zinc-800/60">
+      <aside className="w-60 bg-[#0a0a0a] flex flex-col fixed inset-y-0 left-0 z-30 p-3 gap-3">
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-4">
           <Link href="/" className="flex items-center gap-3 group">
             {logoImage ? (
               <img src={logoImage} alt={logoName} className="w-8 h-8 object-contain" />
@@ -126,7 +124,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
         </div>
 
-        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-3 space-y-0.5 overflow-y-auto">
           <p className="text-[9px] font-bold tracking-[0.25em] uppercase text-zinc-700 px-3 pt-2 pb-1.5">Navigation</p>
           {NAV.map((item) => {
             const active = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
@@ -156,7 +154,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div className="p-3 border-t border-zinc-800/60">
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-3">
           <div className="flex items-center gap-3 px-3 py-2.5 mb-1">
             <div className="w-7 h-7 gradient-gold flex items-center justify-center text-white text-xs font-black flex-shrink-0"
               style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
@@ -173,10 +171,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             Sign Out
           </button>
         </div>
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-zinc-800/60 to-transparent" />
       </aside>
 
-      <main className="flex-1 ml-64 min-h-screen bg-[#080808]">{children}</main>
+      <main className="flex-1 ml-60 min-h-screen bg-[#080808]">{children}</main>
     </div>
   );
 }
