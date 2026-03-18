@@ -22,7 +22,7 @@ function StarPicker({ value, onChange }: { value: number; onChange: (n: number) 
           <svg
             className={`w-8 h-8 transition-colors ${
               star <= (hovered || value)
-                ? "text-gold-500"
+                ? "text-coral-400"
                 : "text-zinc-200 dark:text-zinc-700"
             }`}
             fill="currentColor"
@@ -69,10 +69,10 @@ export default function ReviewForm() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+        <h3 className="font-display text-2xl font-bold text-espresso-800 dark:text-sand-50 mb-2">
           Thank You!
         </h3>
-        <p className="text-zinc-500 dark:text-zinc-400">
+        <p className="text-espresso-500 dark:text-espresso-400">
           Your review has been submitted and will be published after approval.
         </p>
       </motion.div>
@@ -91,7 +91,7 @@ export default function ReviewForm() {
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           placeholder="Jane Smith"
           required
-          className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm"
+          className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 placeholder-zinc-400 focus:outline-none focus:border-coral-400/60 transition-all text-sm"
         />
       </div>
 
@@ -112,7 +112,7 @@ export default function ReviewForm() {
           placeholder="Tell others about your experience..."
           required
           rows={5}
-          className="w-full px-4 py-3 border border-zinc-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-gold-500/60 transition-all text-sm resize-none"
+          className="w-full px-4 py-3 border border-sand-200 dark:border-zinc-700 bg-[#faf8f4] dark:bg-zinc-800 text-espresso-800 dark:text-sand-50 placeholder-zinc-400 focus:outline-none focus:border-coral-400/60 transition-all text-sm resize-none"
         />
       </div>
 
@@ -120,7 +120,7 @@ export default function ReviewForm() {
         type="submit"
         disabled={loading}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 font-bold text-sm hover:bg-coral-400 dark:hover:bg-coral-400 dark:hover:text-white disabled:opacity-60 transition-all shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
       >
         {loading ? "Submitting..." : "Submit Review"}
       </motion.button>

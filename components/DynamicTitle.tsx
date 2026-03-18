@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 export default function DynamicTitle({ fallbackName }: { fallbackName: string }) {
   useEffect(() => {
     const updateTitle = (name: string) => {
-      const studioName = name ? `${name} Studio` : (fallbackName ? `${fallbackName} Studio` : '--');
+      const studioName = name ? `${name} Studio` : (fallbackName ? `${fallbackName} Studio` : 'Design Studio');
       const current = document.title;
       if (current.includes(" | ")) {
         const pagePart = current.split(" | ")[0];

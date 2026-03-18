@@ -26,6 +26,9 @@ export default function AdminPortfolio() {
   const multiFileRef = useRef<HTMLInputElement>(null);
   const editMultiFileRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [viewMode, setViewMode] = useState<"grid"|"grouped">("grouped");
+  const [filterCat, setFilterCat] = useState("All");
+  const [sortBy, setSortBy] = useState<"newest"|"oldest"|"name">("newest");
 
   const fetchItems = async () => {
     const { data } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
@@ -265,6 +268,53 @@ export default function AdminPortfolio() {
         </div>
       )}
 
+      {/* ── Controls ── */}
+      {!loading && items.length > 0 && (
+        <div className="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-zinc-800/40">
+          {/* Filter by category */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {["All", ...Array.from(new Set(items.map(i => i.category)))].map(cat => (
+              <button key={cat} onClick={() => setFilterCat(cat)}
+                className={`px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] uppercase transition-all ${
+                  filterCat === cat
+                    ? "bg-gold-500 text-white"
+                    : "border border-zinc-800/60 text-zinc-500 hover:text-white hover:border-zinc-600"
+                }`}>
+                {cat}
+                {cat !== "All" && <span className="ml-1 opacity-60">({items.filter(i=>i.category===cat).length})</span>}
+              </button>
+            ))}
+          </div>
+
+          <div className="ml-auto flex items-center gap-2">
+            {/* Sort */}
+            <select value={sortBy} onChange={e => setSortBy(e.target.value as "newest"|"oldest"|"name")}
+              className="px-3 py-1.5 border border-zinc-800/60 bg-zinc-900 text-zinc-400 text-xs focus:outline-none focus:border-gold-500/50 transition-colors">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="name">A → Z</option>
+            </select>
+
+            {/* View mode */}
+            <div className="flex border border-zinc-800/60">
+              <button onClick={() => setViewMode("grid")} title="Grid view"
+                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grid" ? "bg-gold-500 text-white" : "text-zinc-600 hover:text-white"}`}>
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
+                  <rect x="1" y="1" width="6" height="6" rx="0.5"/><rect x="9" y="1" width="6" height="6" rx="0.5"/>
+                  <rect x="1" y="9" width="6" height="6" rx="0.5"/><rect x="9" y="9" width="6" height="6" rx="0.5"/>
+                </svg>
+              </button>
+              <button onClick={() => setViewMode("grouped")} title="Group by category"
+                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grouped" ? "bg-gold-500 text-white" : "text-zinc-600 hover:text-white"}`}>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Grid ── */}
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -275,29 +325,46 @@ export default function AdminPortfolio() {
           <p className="text-lg mb-2">No portfolio items yet.</p>
           <button onClick={()=>setShowForm(true)} className="text-gold-500 text-sm hover:text-gold-400 transition-colors">+ Add your first item</button>
         </div>
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {items.map(item => (
-            <div key={item.id} className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-gold-500/30 transition-all">
-              <div className="aspect-square relative" style={{ clipPath:"polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)" }}>
-                <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
-                <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
-                  <p className="text-white text-sm font-semibold truncate">{item.title}</p>
-                  <p className="text-zinc-400 text-xs">{item.category}</p>
-                  {(item.image_urls || []).length > 0 && (
-                    <p className="text-gold-400 text-[10px] mt-0.5">+{(item.image_urls||[]).length} more</p>
-                  )}
-                  <div className="flex items-center gap-2 mt-2">
-                    <button onClick={()=>setEditItem(item)}
-                      className="px-3 py-1 bg-white/20 backdrop-blur text-white text-xs font-semibold hover:bg-white/30 transition-colors">Edit</button>
-                    <button onClick={()=>setConfirm({ type:"delete", id:item.id, imageUrl:item.image_url })}
-                      className="px-3 py-1 bg-red-500/20 backdrop-blur text-red-400 text-xs font-semibold hover:bg-red-500/30 transition-colors">Delete</button>
-                  </div>
+      ) : (() => {
+        const sorted = [...items]
+          .filter(i => filterCat === "All" || i.category === filterCat)
+          .sort((a,b) =>
+            sortBy === "name" ? a.title.localeCompare(b.title) :
+            sortBy === "oldest" ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime() :
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+
+        const ItemCard = ({ item }: { item: PortfolioItem }) => (
+          <div className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-gold-500/30 transition-all">
+            <div className="aspect-square relative" style={{ clipPath:"polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)" }}>
+              <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
+              {(item.image_urls||[]).length > 0 && (
+                <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-gold-500/80 text-white text-[9px] font-bold">
+                  {(item.image_urls||[]).length + 1} imgs
+                </div>
+              )}
+              <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
+                <p className="text-white text-sm font-semibold truncate">{item.title}</p>
+                <p className="text-zinc-400 text-xs">{item.category}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <button onClick={()=>setEditItem(item)}
+                    className="px-3 py-1 bg-white/20 backdrop-blur text-white text-xs font-semibold hover:bg-white/30 transition-colors">Edit</button>
+                  <button onClick={()=>setConfirm({ type:"delete", id:item.id, imageUrl:item.image_url })}
+                    className="px-3 py-1 bg-red-500/20 backdrop-blur text-red-400 text-xs font-semibold hover:bg-red-500/30 transition-colors">Delete</button>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        );
+
+        if (sorted.length === 0) return (
+          <div className="text-center py-16 text-zinc-600">No items in this category.</div>
+        );
+
+        if (viewMode === "grid") return (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {sorted.map(item => <ItemCard key={item.id} item={item} />)}
         </div>
       )}
 

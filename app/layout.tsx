@@ -45,12 +45,12 @@ export async function generateMetadata(): Promise<Metadata> {
     getContent("navbar"),
   ]);
 
-  const studioName = navContent.logo_name ? `${navContent.logo_name} Studio` : "--";
+  const studioName = navContent.logo_name ? `${navContent.logo_name} Studio` : "Design Studio";
   const title = seo?.meta_title || `${studioName} — Design That Elevates Brands`;
   const description = seo?.meta_description || "Premium UI/UX, branding, and visual design services.";
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://lumisstudio.com"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yourstudio.com"),
     title: { default: title, template: `%s | ${studioName}` },
     description,
     keywords: ["UI/UX Design", "Branding", "Poster Design", "Social Media Graphics", "Website Design", "Design Agency", "Philippines"],
@@ -91,7 +91,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Toaster
             position="bottom-right"
             toastOptions={{
-              className: "!bg-white dark:!bg-zinc-900 !text-zinc-900 dark:!text-white !border !border-zinc-200 dark:!border-zinc-700 !shadow-xl",
+              className: "!bg-white dark:!bg-zinc-900 !text-espresso-800 dark:!text-white !border !border-sand-200 dark:!border-zinc-700 !shadow-xl",
               duration: 4000,
             }}
           />

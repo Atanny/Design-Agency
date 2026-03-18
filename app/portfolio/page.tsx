@@ -15,13 +15,13 @@ export default function PortfolioPage() {
         {/* Header */}
         <section className="py-20 md:py-28 text-center">
           <div className="max-w-3xl mx-auto px-6">
-            <p className="text-sm font-semibold uppercase tracking-widest text-gold-600 dark:text-gold-400 mb-4">
+            <p className="text-sm font-semibold uppercase tracking-widest text-coral-500 dark:text-coral-400 mb-4">
               Our Work
             </p>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-zinc-900 dark:text-white tracking-tight mb-6">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-espresso-800 dark:text-sand-50 tracking-tight mb-6">
               Portfolio
             </h1>
-            <p className="text-lg text-zinc-500 dark:text-zinc-400">
+            <p className="text-lg text-espresso-500 dark:text-espresso-400">
               A selection of our finest work. Each project represents our
               commitment to design excellence.
             </p>

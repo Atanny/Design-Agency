@@ -70,45 +70,45 @@ export default async function ContactPage() {
 
             
             <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-gold-600 dark:text-gold-400 mb-4">
+              <p className="text-sm font-semibold uppercase tracking-widest text-coral-500 dark:text-coral-400 mb-4">
                 {badge}
               </p>
-              <h1 className="font-display text-5xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tight mb-6">
+              <h1 className="font-display text-5xl md:text-6xl font-bold text-espresso-800 dark:text-sand-50 tracking-tight mb-6">
                 {headline}
               </h1>
-              <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed mb-10">
+              <p className="text-lg text-espresso-500 dark:text-espresso-400 leading-relaxed mb-10">
                 {subtext}
               </p>
 
               <div className="space-y-4">
                 {contactInfo.map((item) => (
-                  <div key={item.label} className="flex items-center gap-4 p-4 border border-zinc-200/60 dark:border-zinc-800/60 bg-[#faf8f4] dark:bg-[#0c0c0c]">
-                    <div className="w-10 h-10 bg-[#ede9e0] dark:bg-zinc-800/60 flex items-center justify-center text-zinc-600 dark:text-zinc-400 flex-shrink-0">
+                  <div key={item.label} className="flex items-center gap-4 p-4 border border-sand-200/60 dark:border-espresso-700/60 bg-[#faf8f4] dark:bg-[#0c0c0c]">
+                    <div className="w-10 h-10 bg-[#ede9e0] dark:bg-zinc-800/60 flex items-center justify-center text-espresso-600 dark:text-espresso-400 flex-shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider">{item.label}</p>
+                      <p className="text-xs font-medium text-espresso-400 uppercase tracking-wider">{item.label}</p>
                       {item.href ? (
-                        <a href={item.href} className="font-medium text-zinc-900 dark:text-white hover:text-gold-600 dark:hover:text-gold-400 transition-colors">
+                        <a href={item.href} className="font-medium text-espresso-800 dark:text-sand-50 hover:text-coral-500 dark:hover:text-coral-400 transition-colors">
                           {item.value}
                         </a>
                       ) : (
-                        <p className="font-medium text-zinc-900 dark:text-white">{item.value}</p>
+                        <p className="font-medium text-espresso-800 dark:text-sand-50">{item.value}</p>
                       )}
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-10 p-6 bg-[#060606] border border-zinc-800/40 card-grain">
+              <div className="mt-10 p-6 bg-[#060606] border border-espresso-700/40 card-grain">
                 <p className="text-white font-display text-xl font-bold mb-2">{discTitle}</p>
-                <p className="text-zinc-400 text-sm">{discText}</p>
+                <p className="text-espresso-400 text-sm">{discText}</p>
               </div>
             </div>
 
             
-            <div className="bg-[#faf8f4] dark:bg-[#0c0c0c] border border-zinc-200 dark:border-zinc-800/60 p-8 md:p-10 card-grain" style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}>
-              <h2 className="font-display text-2xl font-bold text-zinc-900 dark:text-white mb-8">
+            <div className="bg-[#faf8f4] dark:bg-[#0c0c0c] border border-sand-200 dark:border-espresso-700/60 p-8 md:p-10 card-grain">
+              <h2 className="font-display text-2xl font-bold text-espresso-800 dark:text-sand-50 mb-8">
                 {formTitle}
               </h2>
               <ContactForm />

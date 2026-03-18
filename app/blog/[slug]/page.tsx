@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Back */}
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors mb-10"
+            className="inline-flex items-center gap-2 text-sm text-espresso-500 hover:text-espresso-800 dark:hover:text-white transition-colors mb-10"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -59,25 +59,25 @@ export default async function BlogPostPage({ params }: Props) {
           </Link>
 
           <header className="mb-10">
-            <time className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+            <time className="text-xs font-medium text-espresso-400 uppercase tracking-wider">
               {new Date(post.created_at).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </time>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mt-3 mb-6 leading-tight">
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-espresso-800 dark:text-sand-50 mt-3 mb-6 leading-tight">
               {post.title}
             </h1>
             {post.meta_description && (
-              <p className="text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              <p className="text-xl text-espresso-500 dark:text-espresso-400 leading-relaxed">
                 {post.meta_description}
               </p>
             )}
           </header>
 
           {post.featured_image && (
-            <div className="relative aspect-video overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800" style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}>
+            <div className="relative aspect-video overflow-hidden mb-12 bg-zinc-100 dark:bg-zinc-800">
               <Image
                 src={post.featured_image}
                 alt={post.title}
@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: Props) {
           )}
 
           <div
-            className="prose prose-zinc dark:prose-invert prose-lg max-w-none prose-headings:font-display prose-a:text-gold-600 dark:prose-a:text-gold-400"
+            className="prose prose-zinc dark:prose-invert prose-lg max-w-none prose-headings:font-display prose-a:text-coral-500 dark:prose-a:text-coral-400"
             dangerouslySetInnerHTML={{ __html: post.content || "" }}
           />
         </article>
@@ -97,15 +97,15 @@ export default async function BlogPostPage({ params }: Props) {
         {/* CTA */}
         <section className="py-20 bg-zinc-50 dark:bg-zinc-900/50">
           <div className="max-w-2xl mx-auto px-6 text-center">
-            <h2 className="font-display text-3xl font-bold text-zinc-900 dark:text-white mb-4">
+            <h2 className="font-display text-3xl font-bold text-espresso-800 dark:text-sand-50 mb-4">
               Ready to start your project?
             </h2>
-            <p className="text-zinc-500 dark:text-zinc-400 mb-8">
+            <p className="text-espresso-500 dark:text-espresso-400 mb-8">
               Let&apos;s create something extraordinary together.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-bold text-sm hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 font-bold text-sm hover:opacity-90 transition-opacity"
             >
               Start a Project
             </Link>

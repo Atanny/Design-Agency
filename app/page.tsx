@@ -61,7 +61,7 @@ export default async function Home() {
         </svg>
 
         
-        <div className="absolute top-1/2 right-6 -translate-y-1/2 font-display font-black text-[clamp(120px,20vw,260px)] text-zinc-900/[0.02] dark:text-white/[0.02] select-none pointer-events-none leading-none">
+        <div className="absolute top-1/2 right-6 -translate-y-1/2 font-display font-black text-[clamp(120px,20vw,260px)] text-espresso-800/[0.02] dark:text-sand-50/[0.02] select-none pointer-events-none leading-none">
           HOW
         </div>
 
@@ -70,15 +70,15 @@ export default async function Home() {
             
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-px w-8 bg-gold-500" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{processContent.badge || "How We Work"}</span>
+                <div className="h-px w-8 bg-coral-400" />
+                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">{processContent.badge || "How We Work"}</span>
               </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95] mb-8">
+              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95] mb-8">
                 {processContent.headline_line1 || "Design built"}<br />
-                <span className="italic font-light text-zinc-400 dark:text-zinc-500">{processContent.headline_line2 || "around your"}</span><br />
+                <span className="italic font-light text-espresso-400 dark:text-espresso-500">{processContent.headline_line2 || "around your"}</span><br />
                 {processContent.headline_line3 || "goals"}
               </h2>
-              <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-12 font-light max-w-sm">
+              <p className="text-espresso-500 dark:text-espresso-400 leading-relaxed mb-12 font-light max-w-sm">
                 {processContent.subtext || "We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional."}
               </p>
 
@@ -90,16 +90,16 @@ export default async function Home() {
                   { step: processContent.step3_num || "03", title: processContent.step3_title || "Deliver",   desc: processContent.step3_desc || "Print-ready or screen-ready files, on time, every time." },
                 ].map((item, i) => (
                   <div key={item.step}
-                    className="group flex gap-6 items-start py-6 border-b border-zinc-200 dark:border-zinc-800/60 last:border-0 hover:pl-2 transition-all duration-300"
+                    className="group flex gap-6 items-start py-6 border-b border-sand-200 dark:border-espresso-700/60 last:border-0 hover:pl-2 transition-all duration-300"
                   >
-                    <span className="font-display text-[11px] font-black tracking-widest text-gold-500/60 group-hover:text-gold-500 transition-colors pt-0.5 flex-shrink-0">
+                    <span className="font-display text-[11px] font-black tracking-widest text-coral-400/60 group-hover:text-coral-400 transition-colors pt-0.5 flex-shrink-0">
                       {item.step}
                     </span>
                     <div>
-                      <h3 className="font-display font-bold text-zinc-900 dark:text-white mb-1.5 text-lg group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
+                      <h3 className="font-display font-bold text-espresso-800 dark:text-sand-50 mb-1.5 text-lg group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-zinc-500 dark:text-zinc-400 font-light">{item.desc}</p>
+                      <p className="text-sm text-espresso-500 dark:text-espresso-400 font-light">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -109,8 +109,7 @@ export default async function Home() {
             
             <div className="relative h-[520px] hidden lg:block">
               
-              <div className="absolute inset-0 border border-zinc-200 dark:border-zinc-800/60 overflow-hidden"
-                style={{ clipPath: "polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px))" }}
+              <div className="absolute inset-0 border border-sand-200 dark:border-espresso-700/60 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-zinc-50 dark:bg-[#0e0e0e]" />
                 
@@ -120,16 +119,15 @@ export default async function Home() {
                 
                 <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-3">
                   {[
-                    { label: "Brand Identity", icon: "🎨", grad: "from-gold-500/20 to-amber-600/10",    accent: "text-gold-400",    border: "border-gold-500/20" },
+                    { label: "Brand Identity", icon: "🎨", grad: "from-gold-500/20 to-amber-600/10",    accent: "text-coral-400",    border: "border-coral-400/20" },
                     { label: "UI Design",      icon: "🖥️",  grad: "from-blue-500/20 to-indigo-600/10",  accent: "text-blue-400",    border: "border-blue-500/20" },
                     { label: "Poster Design",  icon: "🖼️",  grad: "from-rose-500/20 to-pink-600/10",    accent: "text-rose-400",    border: "border-rose-500/20" },
                     { label: "Social Media",   icon: "✦",   grad: "from-emerald-500/20 to-teal-600/10", accent: "text-emerald-400", border: "border-emerald-500/20" },
                   ].map((item, i) => (
                     <div key={item.label}
                       className={`relative flex flex-col justify-between p-5 border ${item.border} bg-gradient-to-br ${item.grad} overflow-hidden`}
-                      style={{ clipPath: i === 1 ? "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)" : "none" }}
                     >
-                      <span className="absolute bottom-2 right-3 font-display font-black text-5xl text-white/5 dark:text-white/5 select-none leading-none">
+                      <span className="absolute bottom-2 right-3 font-display font-black text-5xl text-white/5 dark:text-sand-50/5 select-none leading-none">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span className="text-2xl mb-auto block">{item.icon}</span>
@@ -141,7 +139,7 @@ export default async function Home() {
                   ))}
                 </div>
               </div>
-              <div className="absolute -bottom-5 -right-5 w-16 h-16 border border-gold-400/25 rotate-45" />
+              <div className="absolute -bottom-5 -right-5 w-16 h-16 border border-coral-300/25 rotate-45" />
             </div>
           </div>
         </div>
@@ -153,12 +151,12 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-gold-500" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">
+                <div className="h-px w-8 bg-coral-400" />
+                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
                   {portfolioContent.badge || "Our Work"}
                 </span>
               </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95]">
+              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95]">
                 {portfolioContent.headline || "Selected Work"}
               </h2>
             </div>
@@ -199,13 +197,13 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-5">
-              <div className="h-px w-12 bg-gold-500/50" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">{whyUsContent.badge || "Why Choose Us"}</span>
-              <div className="h-px w-12 bg-gold-500/50" />
+              <div className="h-px w-12 bg-coral-400/50" />
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-400">{whyUsContent.badge || "Why Choose Us"}</span>
+              <div className="h-px w-12 bg-coral-400/50" />
             </div>
             <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight leading-[0.95]">
               {whyUsContent.headline || "Designed"}{" "}
-              <span className="italic font-light text-zinc-500">{whyUsContent.headline_italic || "differently"}</span>
+              <span className="italic font-light text-espresso-500">{whyUsContent.headline_italic || "differently"}</span>
             </h2>
           </div>
 
@@ -215,7 +213,7 @@ export default async function Home() {
                 num: "01",
                 title: whyUsContent.card1_title || "Fast Turnaround",
                 desc:  whyUsContent.card1_desc  || "Most projects delivered within 3–7 days without sacrificing quality.",
-                glow: "bg-gold-400/10", border: "border-gold-500/15", accent: "text-gold-400",
+                glow: "bg-gold-400/10", border: "border-coral-400/15", accent: "text-coral-400",
                 icon: (
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -250,20 +248,19 @@ export default async function Home() {
             ].map((item) => (
               <div key={item.title}
                 className={`group relative p-10 border ${item.border} bg-zinc-900 hover:bg-zinc-900/80 transition-all duration-300 overflow-hidden`}
-                style={{ clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)" }}
               >
                 
                 <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl ${item.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${item.deco} opacity-40`} />
-                <span className="absolute top-5 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-zinc-600 transition-colors">
+                <span className="absolute top-5 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-espresso-600 transition-colors">
                   {item.num}
                 </span>
                 <div className={`${item.accent} mb-6 relative`}>{item.icon}</div>
                 <h3 className={`font-display text-xl font-bold mb-3 transition-colors duration-300 text-white group-hover:${item.accent}`}>
                   {item.title}
                 </h3>
-                <p className="text-zinc-500 text-sm leading-relaxed font-light">{item.desc}</p>
+                <p className="text-espresso-500 text-sm leading-relaxed font-light">{item.desc}</p>
                 <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.deco} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
               </div>
             ))}
@@ -277,12 +274,12 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-16">
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-gold-500" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">
+                <div className="h-px w-8 bg-coral-400" />
+                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
                   {testimonialsContent.badge || "Client Reviews"}
                 </span>
               </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95]">
+              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95]">
                 {testimonialsContent.headline || "What clients say"}
               </h2>
             </div>
@@ -293,7 +290,7 @@ export default async function Home() {
             </div>
             <div className="mt-10">
               <Link href="/reviews"
-                className="inline-flex items-center gap-2 text-sm font-bold tracking-widest uppercase text-zinc-400 hover:text-gold-500 transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-bold tracking-widest uppercase text-espresso-400 hover:text-coral-400 transition-colors"
               >
                 Read all reviews
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -326,21 +323,20 @@ export default async function Home() {
 
         <div className="max-w-4xl mx-auto px-6 text-center relative">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-gold-500/40" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-400">
+            <div className="h-px w-12 bg-coral-400/40" />
+            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-400">
               {ctaContent.badge || "Let's Create"}
             </span>
-            <div className="h-px w-12 bg-gold-500/40" />
+            <div className="h-px w-12 bg-coral-400/40" />
           </div>
           <h2 className="font-display font-black text-5xl md:text-6xl lg:text-7xl tracking-tight text-white leading-[0.9] mb-6">
             {ctaContent.headline || "Ready to start something great?"}
           </h2>
-          <p className="text-zinc-500 text-lg mb-14 font-light max-w-xl mx-auto">
+          <p className="text-espresso-500 text-lg mb-14 font-light max-w-xl mx-auto">
             {ctaContent.subtext || "Tell us about your project and let's build something extraordinary together."}
           </p>
           <Link href="/contact"
-            className="group inline-flex items-center gap-3 px-10 py-5 bg-[#faf8f4] text-zinc-900 text-sm font-bold tracking-wide hover:bg-gold-500 hover:text-white transition-all duration-300 shadow-2xl shadow-black/40"
-            style={{ clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px))" }}
+            className="group inline-flex items-center gap-3 px-10 py-5 bg-[#faf8f4] text-espresso-800 text-sm font-bold tracking-wide hover:bg-coral-400 hover:text-white transition-all duration-300 shadow-2xl shadow-black/40"
           >
             {ctaContent.button_text || "Start a Project"}
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -355,18 +351,17 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="mb-14">
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-8 bg-gold-500" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">
+              <div className="h-px w-8 bg-coral-400" />
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
                 {contactContent.badge || "Get In Touch"}
               </span>
             </div>
-            <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95] mb-4">
+            <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95] mb-4">
               {contactContent.headline || "Start a conversation"}
             </h2>
-            <p className="text-zinc-500 dark:text-zinc-400 font-light max-w-sm">{contactContent.subtext}</p>
+            <p className="text-espresso-500 dark:text-espresso-400 font-light max-w-sm">{contactContent.subtext}</p>
           </div>
-          <div className="border border-zinc-100 dark:border-zinc-800/60 p-8 md:p-12 bg-[#faf8f4] dark:bg-[#0c0c0c] card-grain"
-            style={{ clipPath: "polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%)" }}
+          <div className="border border-sand-200 dark:border-espresso-700/60 p-8 md:p-12 bg-[#faf8f4] dark:bg-[#0c0c0c] card-grain"
           >
             <ContactForm compact />
           </div>

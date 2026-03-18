@@ -18,7 +18,7 @@ const ICON_PATHS: Record<string, string> = {
 
 const FALLBACK = [
   { id: "uiux",     title: "UI/UX Design",           description: "Intuitive interfaces that delight users and drive conversions.",               icon: "monitor",  accent: "text-blue-400",    bg_color: "bg-blue-500/10" },
-  { id: "branding", title: "Brand Identity Design",   description: "Complete brand systems — logos, typography, colors, and guidelines.",         icon: "palette",  accent: "text-gold-400",    bg_color: "bg-gold-500/10" },
+  { id: "branding", title: "Brand Identity Design",   description: "Complete brand systems — logos, typography, colors, and guidelines.",         icon: "palette",  accent: "text-coral-400",    bg_color: "bg-coral-400/10" },
   { id: "poster",   title: "Poster & Pubmats Design", description: "Posters, pubmats, and campaigns with visual impact. Print-ready files.",      icon: "image",    accent: "text-rose-400",    bg_color: "bg-rose-500/10" },
   { id: "website",  title: "Website UI Design",       description: "Beautiful, conversion-optimized website designs. Pixel-perfect layouts.",     icon: "globe",    accent: "text-emerald-400", bg_color: "bg-emerald-500/10" },
   { id: "social",   title: "Social Media Graphics",   description: "Scroll-stopping social content that builds brand recognition.",              icon: "chat",     accent: "text-violet-400",  bg_color: "bg-violet-500/10" },
@@ -63,14 +63,14 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
         >
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-8 bg-gold-500" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{badge}</span>
+              <div className="h-px w-8 bg-coral-400" />
+              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">{badge}</span>
             </div>
-            <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight text-zinc-900 dark:text-white leading-[0.95]">
+            <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95]">
               {headline}
             </h2>
           </div>
-          <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed font-light md:text-right">{subtext}</p>
+          <p className="text-base text-espresso-500 dark:text-espresso-400 max-w-xs leading-relaxed font-light md:text-right">{subtext}</p>
         </motion.div>
 
         
@@ -82,23 +82,22 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
               className="group relative bg-[#faf8f4] dark:bg-[#0c0c0c] p-8 hover:bg-white dark:hover:bg-zinc-900 transition-colors duration-300 card-grain"
             >
               
-              <span className="absolute top-6 right-6 font-display text-[11px] font-bold tracking-widest text-zinc-300 dark:text-zinc-700 group-hover:text-gold-400/40 transition-colors">
+              <span className="absolute top-6 right-6 font-display text-[11px] font-bold tracking-widest text-zinc-300 dark:text-zinc-700 group-hover:text-coral-400/40 transition-colors">
                 {String(i + 1).padStart(2, "0")}
               </span>
 
               
               <div className={`inline-flex p-3 mb-6 ${s.bg_color}`}
-                style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
               >
                 <svg className={`w-6 h-6 ${s.accent}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICON_PATHS[s.icon] || ICON_PATHS.monitor} />
                 </svg>
               </div>
 
-              <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white mb-3 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
+              <h3 className="font-display text-xl font-bold text-espresso-800 dark:text-sand-50 mb-3 group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
                 {s.title}
               </h3>
-              <p className="text-zinc-500 dark:text-zinc-500 text-sm leading-relaxed mb-8 font-light">{s.description}</p>
+              <p className="text-espresso-500 dark:text-espresso-500 text-sm leading-relaxed mb-8 font-light">{s.description}</p>
 
               
               <div className="flex items-center justify-between">
@@ -111,7 +110,7 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
                   </svg>
                 </Link>
                 <Link href={`/services#${s.id}`}
-                  className="text-[11px] font-semibold text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors tracking-wide"
+                  className="text-[11px] font-semibold text-espresso-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors tracking-wide"
                 >
                   Learn more →
                 </Link>

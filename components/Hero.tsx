@@ -6,262 +6,182 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 48 },
-  visible: (delay = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 1, delay, ease: [0.16, 1, 0.3, 1] },
-  }),
+  hidden: { opacity: 0, y: 32 },
+  visible: (d = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.7, delay: d, ease: [0.16,1,0.3,1] } }),
 };
 
-interface HeroProps {
-  content?: Record<string, string>;
-}
+interface HeroProps { content?: Record<string, string>; }
+interface LiveStats { portfolioCount: number|null; avgRating: number|null; satisfaction: number|null; }
 
-interface LiveStats {
-  portfolioCount: number | null;
-  avgRating: number | null;
-  satisfaction: number | null;
-  reviewCount: number | null;
-}
+function useHeroData() {
+  const [stats, setStats] = useState<LiveStats>({ portfolioCount:null, avgRating:null, satisfaction:null });
+  const [commissionOpen, setCommissionOpen] = useState<boolean|null>(null);
+  const [businessHours, setBusinessHours] = useState("");
 
-function useHeroStats(): LiveStats {
-  const [stats, setStats] = useState<LiveStats>({
-    portfolioCount: null, avgRating: null, satisfaction: null, reviewCount: null,
-  });
-
-  const fetchStats = async () => {
-    const [portResult, revResult] = await Promise.all([
-      supabase.from("portfolio").select("id", { count: "exact", head: true }),
+  const fetchAll = async () => {
+    const [portRes, revRes, commRes] = await Promise.all([
+      supabase.from("portfolio").select("id", { count:"exact", head:true }),
       supabase.from("reviews").select("rating").eq("approved", true),
+      supabase.from("site_content").select("key,value").eq("section","commission"),
     ]);
-    const portfolioCount = portResult.count ?? 0;
-    const ratings = (revResult.data || []).map((r: { rating: number }) => r.rating);
-    const reviewCount = ratings.length;
-    const avgRating = reviewCount > 0
-      ? Math.round((ratings.reduce((a: number, b: number) => a + b, 0) / reviewCount) * 10) / 10
-      : null;
-    const satisfaction = reviewCount > 0
-      ? Math.round((ratings.filter((r: number) => r >= 4).length / reviewCount) * 100)
-      : null;
-    setStats({ portfolioCount, avgRating, satisfaction, reviewCount });
+    const ratings = (revRes.data||[]).map((r:{rating:number})=>r.rating);
+    const count = ratings.length;
+    setStats({
+      portfolioCount: portRes.count ?? 0,
+      avgRating: count > 0 ? Math.round((ratings.reduce((a:number,b:number)=>a+b,0)/count)*10)/10 : null,
+      satisfaction: count > 0 ? Math.round((ratings.filter((r:number)=>r>=4).length/count)*100) : null,
+    });
+    if (commRes.data) {
+      const map: Record<string,string> = {};
+      commRes.data.forEach((r:{key:string;value:string})=>{ map[r.key]=r.value; });
+      setCommissionOpen(map.status !== "closed");
+      if (map.business_hours) setBusinessHours(map.business_hours);
+    } else setCommissionOpen(true);
   };
 
   useEffect(() => {
-    fetchStats();
-    const channel = supabase
-      .channel("hero-stats-watch")
-      .on("postgres_changes", { event: "*", schema: "public", table: "portfolio" }, fetchStats)
-      .on("postgres_changes", { event: "*", schema: "public", table: "reviews" }, fetchStats)
+    fetchAll();
+    const ch = supabase.channel("hero-live")
+      .on("postgres_changes",{event:"*",schema:"public",table:"portfolio"},fetchAll)
+      .on("postgres_changes",{event:"*",schema:"public",table:"reviews"},fetchAll)
+      .on("postgres_changes",{event:"*",schema:"public",table:"site_content",filter:"section=eq.commission"},fetchAll)
       .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    return () => { supabase.removeChannel(ch); };
   }, []);
 
-  return stats;
+  return { stats, commissionOpen, businessHours };
 }
 
 export default function Hero({ content = {} }: HeroProps) {
-  const [commissionOpen, setCommissionOpen] = useState<boolean | null>(null);
-  const [businessHours, setBusinessHours] = useState<string>("");
+  const { stats, commissionOpen, businessHours } = useHeroData();
 
-  useEffect(() => {
-    const fetch = async () => {
-      const { data } = await supabase.from("site_content").select("key,value").eq("section","commission");
-      if (data) {
-        const map: Record<string,string> = {};
-        data.forEach((r: { key:string; value:string }) => { map[r.key] = r.value; });
-        setCommissionOpen(map.status !== "closed");
-        if (map.business_hours) setBusinessHours(map.business_hours);
-      } else {
-        setCommissionOpen(true);
-      }
-    };
-    fetch();
-    const channel = supabase.channel("hero-commission-watch")
-      .on("postgres_changes", { event:"*", schema:"public", table:"site_content", filter:"section=eq.commission" }, fetch)
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, []);
-
-  const badge  = content.badge           || "Premium Design Studio";
   const line1  = content.headline_line1  || "We Design";
   const accent = content.headline_accent || "Experiences";
   const line2  = content.headline_line2  || "That Elevate";
   const line3  = content.headline_line3  || "Your Brand";
-  const sub    = content.subheadline     || "From brand identity to full digital experiences — we craft design that doesn't just look beautiful, it drives results.";
+  const sub    = content.subheadline     || "From brand identity to full digital experiences — we craft design that drives results.";
   const cta    = content.cta_button      || "Contact Us";
 
-  const liveStats = useHeroStats();
-
-  const stats = [
-    {
-      value: content.stat1_value
-        ? content.stat1_value
-        : (liveStats.portfolioCount !== null ? `${liveStats.portfolioCount}+` : "--"),
-      label: content.stat1_label || "Projects Completed",
-      live: !content.stat1_value,
-    },
-    {
-      value: liveStats.satisfaction !== null
-        ? `${liveStats.satisfaction}%`
-        : "--",
-      label: content.stat2_label || "Client Satisfaction",
-      live: true,
-    },
-    {
-      value: liveStats.avgRating !== null
-        ? `${liveStats.avgRating}★`
-        : "--",
-      label: content.stat3_label || "Average Rating",
-      live: true,
-    },
-  ];
-
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 md:pt-28 pb-16 md:pb-20">
+    <section className="relative min-h-screen bg-[#fdf9f5] dark:bg-[#1a1009] py-24 md:py-32 overflow-hidden">
+      {/* Background dots */}
+      <div className="absolute inset-0 dot-pattern opacity-40 dark:opacity-20 pointer-events-none" />
 
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[#e8e4dc] dark:bg-[#080808]" />
+      {/* Floating blobs */}
+      <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-coral-400/20 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 left-0 w-64 h-64 rounded-full bg-amber-300/25 blur-3xl pointer-events-none" />
 
-        {/* Gold grid */}
-        <div className="absolute inset-0 opacity-[0.07] dark:opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(rgba(200,137,26,1) 1px, transparent 1px), linear-gradient(90deg, rgba(200,137,26,1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+      <div className="relative max-w-6xl mx-auto px-5">
+        {/* BENTO GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
 
-        {/* Subtle center glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(200,137,26,0.06),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(200,137,26,0.08),transparent)]" />
-
-        {/* Corner bracket marks */}
-        <div className="absolute top-28 left-8 w-6 h-6 border-l-2 border-t-2 border-gold-400/30" />
-        <div className="absolute top-28 right-8 w-6 h-6 border-r-2 border-t-2 border-gold-400/30" />
-        <div className="absolute bottom-16 left-8 w-6 h-6 border-l-2 border-b-2 border-gold-400/20" />
-        <div className="absolute bottom-16 right-8 w-6 h-6 border-r-2 border-b-2 border-gold-400/20" />
-      </div>
-
-      <div className="w-full max-w-5xl mx-auto px-6 flex flex-col items-center text-center">
-        <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}
-          className="flex flex-col items-center gap-3 mb-10"
-        >
-          <div className="inline-flex items-center gap-3">
-            <div className="h-px w-8 bg-gold-500" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-gold-600 dark:text-gold-400">{badge}</span>
-            <div className="h-px w-8 bg-gold-500" />
-          </div>
-          {commissionOpen !== null && (
-            <div className="flex flex-col items-center gap-1.5">
-              <div className={`flex items-center gap-2 px-3 py-1.5 border text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
-                commissionOpen
-                  ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-400"
-                  : "border-red-500/30 bg-red-500/8 text-red-400"
-              }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${commissionOpen ? "bg-emerald-400 animate-pulse" : "bg-red-500"}`} />
-                {commissionOpen ? "Available for Commission" : "Commissions Closed"}
+          {/* ── Big headline tile ── */}
+          <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}
+            className="md:col-span-7 tile tile-dark p-8 md:p-12 min-h-[320px] flex flex-col justify-between">
+            {/* Commission pill */}
+            {commissionOpen !== null && (
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <span className={`pill ${commissionOpen ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${commissionOpen ? "bg-green-500 animate-pulse" : "bg-red-500"}`}/>
+                  {commissionOpen ? "Available for commission" : "Commissions closed"}
+                </span>
+                {businessHours && (
+                  <span className="pill bg-amber-300/20 text-amber-300">
+                    🕐 {businessHours}
+                  </span>
+                )}
               </div>
-              {businessHours && (
-                <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 tracking-wide">
-                  <svg className="w-3 h-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  {businessHours}
-                </div>
-              )}
+            )}
+            <div>
+              <h1 className="font-display font-black leading-[0.95] text-white text-balance"
+                style={{ fontSize:"clamp(2.8rem,8vw,6rem)" }}>
+                {line1}{" "}
+                <span className="text-gradient-primary">{accent}</span>
+                <br/>
+                <span className="font-light italic opacity-60">{line2}</span>
+                <br/>
+                {line3}
+              </h1>
             </div>
-          )}
-        </motion.div>
+            <div className="flex flex-col sm:flex-row gap-3 mt-8">
+              <Link href="/services"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full gradient-primary text-white font-bold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-coral-400/30">
+                View Services ✦
+              </Link>
+              <Link href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border-2 border-white/20 text-white font-semibold text-sm hover:bg-white/10 transition-colors">
+                {cta}
+              </Link>
+            </div>
+          </motion.div>
 
-        <motion.h1 custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
-          className="font-display font-black tracking-[-0.02em] leading-[0.95] text-zinc-900 dark:text-white mb-8 w-full"
-          style={{ fontSize: "clamp(3.8rem, 11vw, 9rem)" }}
-        >
-          {line1}{" "}
-          <span className="relative inline-block pb-2">
-            <span className="text-gradient-gold italic">{accent}</span>
-            <svg className="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 300 6" preserveAspectRatio="none">
-              <path d="M0 5 Q75 0 150 4 Q225 8 300 3" stroke="url(#goldline)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <defs>
-                <linearGradient id="goldline" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#c8891a" />
-                  <stop offset="50%" stopColor="#e8bd5a" />
-                  <stop offset="100%" stopColor="#c8891a" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </span>
-          <br />
-          <span className="font-light italic text-zinc-400 dark:text-zinc-500">{line2}</span>
-          <br />
-          {line3}
-        </motion.h1>
+          {/* ── Stats column ── */}
+          <div className="md:col-span-5 flex flex-col gap-4">
+            {/* Projects stat */}
+            <motion.div custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
+              className="tile tile-coral p-6 flex-1">
+              <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">{content.stat1_label||"Projects Completed"}</p>
+              <p className="font-display font-black text-white leading-none"
+                style={{ fontSize:"clamp(2.5rem,6vw,4rem)" }}>
+                {content.stat1_value || (stats.portfolioCount !== null ? `${stats.portfolioCount}+` : "—")}
+              </p>
+              <span className="absolute bottom-4 right-5 text-6xl opacity-10 font-black">✦</span>
+            </motion.div>
 
-        <motion.div custom={0.25} initial="hidden" animate="visible" variants={fadeUp}
-          className="flex items-center gap-3 mb-6"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-gold-400/50" />
-          <div className="w-1 h-1 rounded-full bg-gold-500/60" />
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-gold-400/50" />
-        </motion.div>
-
-        <motion.p custom={0.32} initial="hidden" animate="visible" variants={fadeUp}
-          className="text-base md:text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl font-light mb-12"
-        >
-          {sub}
-        </motion.p>
-
-        <motion.div custom={0.42} initial="hidden" animate="visible" variants={fadeUp}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
-        >
-          <Link href="/services"
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-bold tracking-wide hover:bg-gold-500 dark:hover:bg-gold-500 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
-            style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
-          >
-            View Services
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-          <Link href="/contact"
-            className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 hover:text-gold-600 dark:hover:text-gold-400 transition-colors underline underline-offset-4 decoration-zinc-300 dark:decoration-zinc-700 hover:decoration-gold-400"
-          >
-            {cta}
-          </Link>
-        </motion.div>
-
-        <motion.div custom={0.55} initial="hidden" animate="visible" variants={fadeUp}
-          className="w-full grid grid-cols-3 pt-10 border-t border-zinc-200/60 dark:border-zinc-800/40"
-        >
-          {stats.map((stat, i) => (
-            <div key={stat.label}
-              className={`py-6 flex flex-col items-center ${i > 0 ? "border-l border-zinc-200/60 dark:border-zinc-800/40" : ""}`}
-            >
-              <motion.div
-                key={stat.value}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="font-display text-4xl md:text-5xl font-black text-gradient-gold leading-none mb-2"
-              >
-                {stat.value}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Satisfaction */}
+              <motion.div custom={0.15} initial="hidden" animate="visible" variants={fadeUp}
+                className="tile tile-amber p-5">
+                <p className="text-espresso-700 text-[10px] font-bold uppercase tracking-widest mb-1">{content.stat2_label||"Satisfaction"}</p>
+                <p className="font-display font-black text-espresso-800 text-3xl leading-none">
+                  {stats.satisfaction !== null ? `${stats.satisfaction}%` : "—"}
+                </p>
               </motion.div>
-              <div className="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-400">{stat.label}</div>
 
+              {/* Rating */}
+              <motion.div custom={0.2} initial="hidden" animate="visible" variants={fadeUp}
+                className="tile tile-dark p-5">
+                <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-1">{content.stat3_label||"Avg Rating"}</p>
+                <p className="font-display font-black text-amber-300 text-3xl leading-none">
+                  {stats.avgRating !== null ? `${stats.avgRating}★` : "—"}
+                </p>
+              </motion.div>
             </div>
-          ))}
-        </motion.div>
-      </div>
+          </div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-        className="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pb-1"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-1.5"
-        >
-          <motion.div className="w-px h-8 bg-gradient-to-b from-gold-400/50 to-transparent" />
-          <svg className="w-3 h-3 text-gold-500/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-          </svg>
-        </motion.div>
-        <span className="text-[8px] font-bold tracking-[0.35em] uppercase text-zinc-500">Scroll</span>
-      </motion.div>
+          {/* ── Subheadline tile ── */}
+          <motion.div custom={0.25} initial="hidden" animate="visible" variants={fadeUp}
+            className="md:col-span-5 tile tile-sand dark:bg-espresso-700 p-6">
+            <p className="text-espresso-700 dark:text-sand-200 text-base leading-relaxed">{sub}</p>
+          </motion.div>
+
+          {/* ── Scroll indicator tile ── */}
+          <motion.div custom={0.3} initial="hidden" animate="visible" variants={fadeUp}
+            className="md:col-span-3 tile bg-coral-50 dark:bg-espresso-700 p-6 flex flex-col items-center justify-center gap-3">
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="w-10 h-10 rounded-full bg-coral-400 flex items-center justify-center text-white">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
+              </svg>
+            </motion.div>
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">Scroll</span>
+          </motion.div>
+
+          {/* ── Decorative pattern tile ── */}
+          <motion.div custom={0.35} initial="hidden" animate="visible" variants={fadeUp}
+            className="md:col-span-4 tile bg-espresso-800 p-6 overflow-hidden">
+            <div className="dot-pattern absolute inset-0 opacity-30" />
+            <div className="relative z-10 flex flex-wrap gap-2">
+              {["UI/UX Design","Branding","Motion","Print","Web"].map(s=>(
+                <span key={s} className="pill bg-white/10 text-white/80">{s}</span>
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
+      </div>
     </section>
   );
 }

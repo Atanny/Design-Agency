@@ -14,26 +14,63 @@ const config: Config = {
         body: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
       },
       colors: {
-        gold: {
-          50: "#fdf8ee",
-          100: "#f8eccc",
-          200: "#f0d795",
-          300: "#e8bd5a",
-          400: "#e0a430",
-          500: "#c8891a",
-          600: "#a86c14",
-          700: "#8a5212",
-          800: "#6f3f13",
-          900: "#5a3311",
+        // Primary — coral orange (60%)
+        coral: {
+          50:  "#fff3ed",
+          100: "#ffe4d0",
+          200: "#ffc5a0",
+          300: "#ff9f6b",
+          400: "#f5945c",  // PRIMARY
+          500: "#e87d43",
+          600: "#d4652a",
+          700: "#b34f1e",
+          800: "#8f3d18",
+          900: "#6e2f14",
         },
-        surface: {
-          DEFAULT: "#0a0a0a",
-          50: "#f8f8f8",
-          100: "#f0f0f0",
-          200: "#e8e8e8",
-          800: "#1a1a1a",
-          900: "#0a0a0a",
+        // Secondary — dark espresso (30%)
+        espresso: {
+          50:  "#f5f0ec",
+          100: "#e8ddd5",
+          200: "#d0baab",
+          300: "#b59480",
+          400: "#96705a",
+          500: "#6b4a33",
+          600: "#4a3322",
+          700: "#381f10",
+          800: "#281B13",  // SECONDARY
+          900: "#1a1009",
         },
+        // Accent — warm amber (10%)
+        amber: {
+          50:  "#fffbf0",
+          100: "#fff3d0",
+          200: "#fee59a",
+          300: "#fec76f",  // ACCENT
+          400: "#feb84a",
+          500: "#f5a020",
+          600: "#d4850e",
+          700: "#a86508",
+          800: "#7f4c06",
+          900: "#5c3705",
+        },
+        // Neutral warm
+        sand: {
+          50:  "#fdfcfa",
+          100: "#faf7f2",
+          200: "#f5f0e8",
+          300: "#ede6d8",
+          400: "#e0d5c0",
+          500: "#c8b99a",
+          600: "#a8956e",
+          700: "#7a6a4a",
+          800: "#4e4230",
+          900: "#2a2118",
+        },
+      },
+      borderRadius: {
+        "4xl": "2rem",
+        "5xl": "2.5rem",
+        "6xl": "3rem",
       },
       spacing: {
         "18": "4.5rem",
@@ -43,7 +80,8 @@ const config: Config = {
       animation: {
         "fade-up": "fadeUp 0.6s ease forwards",
         "fade-in": "fadeIn 0.4s ease forwards",
-        shimmer: "shimmer 2s infinite linear",
+        "bounce-slow": "bounce 3s infinite",
+        "spin-slow": "spin 8s linear infinite",
       },
       keyframes: {
         fadeUp: {
@@ -53,10 +91,6 @@ const config: Config = {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-1000px 0" },
-          "100%": { backgroundPosition: "1000px 0" },
         },
       },
     },
