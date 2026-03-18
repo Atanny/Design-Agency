@@ -7,14 +7,9 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import type { PortfolioItem } from "@/types";
 
-function SkeletonCard() {
-  return <div className="overflow-hidden bg-zinc-100 dark:bg-zinc-800/60 animate-pulse aspect-[4/3]" />;
-}
-
 function ImageModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
   const allImages = [item.image_url, ...(item.image_urls || [])].filter(Boolean);
   const [current, setCurrent] = useState(0);
-
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -25,79 +20,59 @@ function ImageModal({ item, onClose }: { item: PortfolioItem; onClose: () => voi
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
   }, [onClose, allImages.length]);
-
   const prev = () => setCurrent(i => (i - 1 + allImages.length) % allImages.length);
   const next = () => setCurrent(i => (i + 1) % allImages.length);
-
   return (
     <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
-      onClick={onClose}
-    >
-      <div className="absolute inset-0 bg-zinc-950/85 backdrop-blur-md" />
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
       <motion.div
-        initial={{ scale:0.94, opacity:0, y:12 }}
-        animate={{ scale:1, opacity:1, y:0 }}
-        exit={{ scale:0.94, opacity:0, y:8 }}
-        transition={{ duration:0.25, ease:[0.16,1,0.3,1] }}
-        className="relative w-full max-w-xl bg-[#faf8f4] dark:bg-[#0c0c0c] shadow-2xl card-grain flex flex-col max-h-[90vh]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close */}
+        initial={{ scale:0.94, opacity:0, y:12 }} animate={{ scale:1, opacity:1, y:0 }}
+        exit={{ scale:0.94, opacity:0 }} transition={{ duration:0.25, ease:[0.16,1,0.3,1] }}
+        className="relative w-full max-w-2xl rounded-2xl overflow-hidden bg-zinc-900 shadow-2xl flex flex-col max-h-[90vh]"
+        onClick={e => e.stopPropagation()}>
         <button onClick={onClose}
-          className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center bg-zinc-900/70 text-white hover:bg-coral-400 transition-colors">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-coral-400 transition-colors">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
-
-        {/* Image slideshow */}
-        <div className="relative w-full aspect-[16/9] flex-shrink-0 bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
+        <div className="relative w-full aspect-[16/10] flex-shrink-0 bg-zinc-950 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div key={current} initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:-20 }}
               transition={{ duration:0.25 }} className="absolute inset-0">
               <Image src={allImages[current]} alt={item.title} fill className="object-cover" priority />
             </motion.div>
           </AnimatePresence>
-
           {allImages.length > 1 && (
             <>
-              <button onClick={(e) => { e.stopPropagation(); prev(); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 text-white hover:bg-coral-400 transition-colors flex items-center justify-center z-10">
+              <button onClick={e => { e.stopPropagation(); prev(); }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-coral-400 flex items-center justify-center z-10">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
               </button>
-              <button onClick={(e) => { e.stopPropagation(); next(); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 text-white hover:bg-coral-400 transition-colors flex items-center justify-center z-10">
+              <button onClick={e => { e.stopPropagation(); next(); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-coral-400 flex items-center justify-center z-10">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
               </button>
-              {/* Dots */}
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {allImages.map((_, i) => (
-                  <button key={i} onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
-                    className={`transition-all ${i === current ? "w-5 h-1.5 bg-coral-400" : "w-1.5 h-1.5 bg-white/50 hover:bg-white"}`} />
+                  <button key={i} onClick={e => { e.stopPropagation(); setCurrent(i); }}
+                    className={`transition-all rounded-full ${i===current ? "w-5 h-1.5 bg-coral-400" : "w-1.5 h-1.5 bg-white/50"}`} />
                 ))}
-              </div>
-              {/* Counter */}
-              <div className="absolute top-3 left-3 px-2 py-0.5 bg-black/60 text-white text-[10px] font-bold tracking-wider z-10">
-                {current + 1} / {allImages.length}
               </div>
             </>
           )}
         </div>
-
-        {/* Content */}
-        <div className="flex flex-col overflow-y-auto p-5 gap-3">
+        <div className="p-6 flex flex-col gap-3 overflow-y-auto">
           <div className="flex items-center gap-2">
-            <div className="h-px w-5 bg-coral-400" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">{item.category}</span>
+            <div className="h-px w-4 bg-coral-400" />
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{item.category}</span>
           </div>
-          <h3 className="font-display text-xl font-black text-espresso-800 dark:text-sand-50 tracking-tight leading-tight">{item.title}</h3>
-          {item.description && (
-            <p className="text-espresso-500 dark:text-espresso-400 text-sm leading-relaxed">{item.description}</p>
-          )}
+          <h3 className="font-display text-xl font-black text-white">{item.title}</h3>
+          {item.description && <p className="text-zinc-400 text-sm leading-relaxed">{item.description}</p>}
           {item.project_url && (
             <a href={item.project_url} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-1 px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 text-sm font-bold hover:bg-coral-400 dark:hover:bg-coral-400 dark:hover:text-white transition-all self-start shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+              className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full bg-coral-400 text-white text-sm font-bold hover:bg-coral-500 transition-colors self-start">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
@@ -143,18 +118,36 @@ export default function PortfolioGrid({ limit, showFilters = true, showViewAll =
 
   useEffect(() => { fetchItems(); }, [fetchItems]);
 
+  // Bento spanning — alternate patterns for visual interest
+  const getSpan = (i: number) => {
+    const pattern = [
+      "col-span-12 md:col-span-8",
+      "col-span-12 md:col-span-4",
+      "col-span-12 md:col-span-4",
+      "col-span-12 md:col-span-4",
+      "col-span-12 md:col-span-4",
+      "col-span-6 md:col-span-6",
+      "col-span-6 md:col-span-6",
+    ];
+    return pattern[i % pattern.length];
+  };
+
+  const getAspect = (i: number) => {
+    const pattern = ["aspect-[4/3]","aspect-square","aspect-square","aspect-square","aspect-square","aspect-[4/3]","aspect-[4/3]"];
+    return pattern[i % pattern.length];
+  };
+
   return (
     <div>
       {showFilters && (
-        <div className="flex flex-wrap gap-2 mb-10">
-          {categories.map((cat) => (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {categories.map(cat => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-1.5 text-sm font-semibold transition-all ${
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                 activeCategory === cat
-                  ? "bg-zinc-900 dark:bg-white text-white dark:text-espresso-800"
-                  : "bg-zinc-100 dark:bg-zinc-800 text-espresso-600 dark:text-espresso-400 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-              }`}
-            >
+                  ? "bg-coral-400 text-white shadow-md shadow-coral-400/20"
+                  : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+              }`}>
               {cat}
             </button>
           ))}
@@ -162,44 +155,36 @@ export default function PortfolioGrid({ limit, showFilters = true, showViewAll =
       )}
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(limit || 6)].map((_, i) => <SkeletonCard key={i} />)}
+        <div className="grid grid-cols-12 gap-3">
+          {[...Array(limit || 6)].map((_, i) => (
+            <div key={i} className={`${getSpan(i)} ${getAspect(i)} rounded-2xl bg-zinc-900 animate-pulse`} />
+          ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-20 text-espresso-400">
+        <div className="text-center py-20 text-zinc-500">
           <p className="text-lg">No portfolio items yet.</p>
-          <p className="text-sm mt-2">Check back soon!</p>
         </div>
       ) : (
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div layout className="grid grid-cols-12 gap-3">
           <AnimatePresence mode="popLayout">
             {items.map((item, index) => (
               <motion.div key={item.id} layout
                 initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, scale:0.95 }}
                 transition={{ duration:0.3, delay: index * 0.05 }}
-                className="group cursor-pointer"
-                onClick={() => setSelected(item)}
-              >
-                <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800/60">
-                  <Image src={item.image_url} alt={item.title} fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"/>
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                    <div className="w-full">
-                      <span className="inline-block px-2 py-0.5 bg-white/20 backdrop-blur text-white text-xs mb-1.5 font-semibold tracking-wide">
-                        {item.category}
-                      </span>
-                      <p className="text-white font-semibold mb-2">{item.title}</p>
-                      {item.project_url && (
-                        <a href={item.project_url} target="_blank" rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/15 backdrop-blur border border-white/25 text-white text-xs font-semibold hover:bg-white/25 transition-colors">
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                          View Live
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                className={`group cursor-pointer rounded-2xl overflow-hidden relative bg-zinc-900 ${getSpan(index)} ${getAspect(index)}`}
+                onClick={() => setSelected(item)}>
+                <Image src={item.image_url} alt={item.title} fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
+                <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <span className="inline-block px-2.5 py-1 rounded-full bg-coral-400/90 text-white text-[10px] font-bold mb-2">{item.category}</span>
+                  <p className="text-white font-bold text-sm">{item.title}</p>
                 </div>
+                {(item.image_urls||[]).length > 0 && (
+                  <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-black/60 text-white text-[10px] font-bold">
+                    {(item.image_urls||[]).length + 1} imgs
+                  </div>
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
@@ -207,9 +192,9 @@ export default function PortfolioGrid({ limit, showFilters = true, showViewAll =
       )}
 
       {showViewAll && (
-        <div className="text-center mt-12">
+        <div className="mt-6">
           <Link href="/portfolio"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-sand-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all">
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-700 text-zinc-300 text-sm font-semibold hover:border-coral-400 hover:text-coral-400 transition-all">
             View Full Portfolio
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
           </Link>

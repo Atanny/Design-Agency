@@ -28,139 +28,137 @@ const ICON_PATHS: Record<string,string> = {
   lightning: "M13 10V3L4 14h7v7l9-11h-7z",
 };
 
-const accentToColor = (accent: string) => {
-  if (accent.includes("blue"))    return { bg:"bg-blue-50 dark:bg-blue-900/20",    text:"text-blue-600 dark:text-blue-400",    badge:"bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300" };
-  if (accent.includes("gold") || accent.includes("amber")) return { bg:"bg-amber-50 dark:bg-amber-900/20", text:"text-amber-600 dark:text-amber-400", badge:"bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300" };
-  if (accent.includes("rose") || accent.includes("pink"))  return { bg:"bg-rose-50 dark:bg-rose-900/20",   text:"text-rose-600 dark:text-rose-400",   badge:"bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300" };
-  if (accent.includes("violet") || accent.includes("purple")) return { bg:"bg-violet-50 dark:bg-violet-900/20", text:"text-violet-600 dark:text-violet-400", badge:"bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300" };
-  if (accent.includes("emerald") || accent.includes("teal")) return { bg:"bg-emerald-50 dark:bg-emerald-900/20", text:"text-emerald-600 dark:text-emerald-400", badge:"bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300" };
-  if (accent.includes("cyan"))    return { bg:"bg-cyan-50 dark:bg-cyan-900/20",    text:"text-cyan-600 dark:text-cyan-400",    badge:"bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300" };
-  return { bg:"bg-zinc-100 dark:bg-zinc-800", text:"text-espresso-600 dark:text-espresso-400", badge:"bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300" };
-};
+// Tile accent colors cycle
+const TILE_ACCENTS = [
+  { tile:"bg-zinc-900 border border-zinc-800/50", num:"text-zinc-800", badge:"bg-coral-400/10 text-coral-400" },
+  { tile:"bg-coral-400", num:"text-coral-300/30", badge:"bg-white/20 text-white" },
+  { tile:"bg-zinc-900 border border-zinc-800/50", num:"text-zinc-800", badge:"bg-amber-300/10 text-amber-300" },
+  { tile:"bg-amber-300", num:"text-amber-200/30", badge:"bg-espresso-800/20 text-espresso-800" },
+  { tile:"bg-zinc-900 border border-zinc-800/50", num:"text-zinc-800", badge:"bg-emerald-400/10 text-emerald-400" },
+  { tile:"bg-espresso-800", num:"text-espresso-700", badge:"bg-coral-400/20 text-coral-300" },
+];
 
 export default async function ServicesPage() {
   const supabase = createServerClient();
-  const pageContent = await getContent("services_page");
-  const offerCard  = await getContent("offer_card");
-
-  const { data: dbServices } = await supabase
-    .from("services").select("*").eq("active", true).order("sort_order", { ascending: true });
-
+  const [pageContent, offerCard] = await Promise.all([
+    getContent("services_page"),
+    getContent("offer_card"),
+  ]);
+  const { data: dbServices } = await supabase.from("services").select("*").eq("active",true).order("sort_order",{ascending:true});
   const services = (dbServices as DBService[]) || [];
+  const bgImage = pageContent.bg_image || "";
 
   return (
-    <main className="pt-24">
-      <section className="py-20 md:py-28 text-center">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="h-px w-8 bg-coral-400" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
-              {pageContent.badge || "Services"}
-            </span>
-            <div className="h-px w-8 bg-coral-400" />
+    <div className="bg-[#0a0a0a] pt-6 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Hero bento */}
+        <div className="grid grid-cols-12 gap-3 mb-3">
+          <div className="col-span-12 md:col-span-8 rounded-2xl overflow-hidden relative min-h-[220px] flex items-end p-8"
+            style={{ background: bgImage ? undefined : "linear-gradient(145deg,#1a1009,#0f0a06)" }}>
+            {bgImage && (
+              <>
+                <img src={bgImage} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+                <div className="absolute inset-0 bg-black/60" />
+              </>
+            )}
+            {!bgImage && <div className="absolute inset-0 dot-pattern opacity-20" />}
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="h-px w-6 bg-coral-400" />
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{pageContent.badge||"Services"}</span>
+              </div>
+              <h1 className="font-display font-black text-4xl md:text-6xl text-white leading-[0.9]">
+                {pageContent.headline||"Design Services"}
+              </h1>
+            </div>
           </div>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-black text-espresso-800 dark:text-sand-50 tracking-tight mb-6 leading-[0.95]">
-            {pageContent.headline || "Design Services"}
-          </h1>
-          <p className="text-lg text-espresso-500 dark:text-espresso-400 leading-relaxed font-light">
-            {pageContent.subtext || "Premium design services tailored to grow your brand."}
-          </p>
+          <div className="col-span-12 md:col-span-4 rounded-2xl bg-zinc-900 p-8 flex flex-col justify-between">
+            <p className="text-zinc-500 text-sm leading-relaxed">{pageContent.subtext||"Premium design services tailored to grow your brand."}</p>
+            <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-coral-400 text-white text-sm font-bold hover:bg-coral-500 transition-all mt-4 self-start">
+              Get a Quote →
+            </Link>
+          </div>
         </div>
-      </section>
 
-      {services.length === 0 ? (
-        <div className="text-center py-20 text-espresso-500 max-w-md mx-auto px-6">
-          <p className="text-lg mb-2">No services configured yet.</p>
-          <p className="text-sm">Add services in Admin → Services to populate this page.</p>
-        </div>
-      ) : (
-        <div className="max-w-7xl mx-auto px-6 pb-32 space-y-32">
-          {services.map((service, idx) => {
-            const colors = accentToColor(service.accent);
-            const features = service.features
-              ? service.features.split("\n").map(f => f.trim()).filter(Boolean)
-              : [];
-            const slug = service.title.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+        {/* Services bento grid */}
+        {services.length === 0 ? (
+          <div className="rounded-2xl bg-zinc-900 p-16 text-center text-zinc-500 mb-12">
+            <p>No services configured yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-12 gap-3 mb-3">
+            {services.map((service, idx) => {
+              const theme = TILE_ACCENTS[idx % TILE_ACCENTS.length];
+              const features = service.features ? service.features.split("\n").map((f:string) => f.trim()).filter(Boolean) : [];
+              const slug = service.title.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+              const isLight = theme.tile.includes("amber-300");
+              const textColor = isLight ? "text-espresso-800" : theme.tile.includes("coral-400") ? "text-white" : theme.tile.includes("espresso") ? "text-white" : "text-white";
+              const subColor = isLight ? "text-espresso-600" : theme.tile.includes("zinc-900") ? "text-zinc-500" : "text-white/70";
+              const span = idx % 3 === 0 ? "col-span-12 md:col-span-7" : idx % 3 === 1 ? "col-span-12 md:col-span-5" : "col-span-12 md:col-span-4";
 
-            return (
-              <section key={service.id} id={slug} className="scroll-mt-24">
-                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-start ${idx % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
-                  <div className={idx % 2 === 1 ? "lg:col-start-2" : ""}>
-                    <span className={`inline-block px-3 py-1 text-xs font-semibold mb-4 ${colors.badge}`}>
-                      {service.title}
-                    </span>
-                    <h2 className="font-display text-3xl md:text-4xl font-black text-espresso-800 dark:text-sand-50 mb-3 leading-[0.95]">
-                      {(service as DBService & {subtitle?:string}).subtitle || service.title}
-                    </h2>
-                    {(service as DBService & {subtitle?:string}).subtitle && (
-                      <p className="text-espresso-500 dark:text-espresso-400 leading-relaxed mb-6 font-light">
-                        {service.description}
-                      </p>
-                    )}
-
-                    {features.length > 0 && (
-                      <>
-                        <h3 className="font-semibold text-espresso-800 dark:text-sand-50 mb-4 text-xs uppercase tracking-[0.15em]">
-                          What&apos;s Included
-                        </h3>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
-                          {features.map((feature) => (
-                            <li key={feature} className="flex items-center gap-2 text-sm text-espresso-600 dark:text-espresso-400">
-                              <span className={`w-4 h-4 flex items-center justify-center flex-shrink-0 ${colors.bg}`}>
-                                <svg className={`w-2.5 h-2.5 ${colors.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
-                                </svg>
-                              </span>
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-
-                    <Link href="/contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 text-sm font-bold hover:bg-coral-400 dark:hover:bg-coral-400 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-                      Start This Project
-                    </Link>
-                  </div>
-
-                  <div className={idx % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}>
-                    <div className="border border-sand-200 dark:border-espresso-700 bg-[#faf8f4] dark:bg-[#0c0c0c] flex flex-col items-center text-center gap-6 p-10 card-grain">
-                      <div className={`p-4 ${service.bg_color}`}>
-                        <svg className={`w-10 h-10 ${service.accent}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              return (
+                <div key={service.id} id={slug}
+                  className={`${span} ${theme.tile} rounded-2xl p-8 flex flex-col justify-between min-h-[300px] scroll-mt-24`}>
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${theme.badge}`}>
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICON_PATHS[service.icon]||ICON_PATHS.monitor}/>
                         </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-display text-2xl font-black text-espresso-800 dark:text-sand-50 mb-2">
-                          {offerCard.title || "Get a Custom Offer"}
-                        </h3>
-                        <p className="text-espresso-500 dark:text-espresso-400 text-sm leading-relaxed max-w-xs font-light">
-                          {offerCard.description || "Every project is unique. Tell us what you need and we'll send you a tailored quote — no obligation."}
-                        </p>
-                      </div>
-                      <ul className="space-y-2 text-left w-full max-w-xs">
-                        {[offerCard.item1||"Free consultation", offerCard.item2||"Custom pricing for your scope", offerCard.item3||"Response within 24 hours", offerCard.item4||"No hidden fees"].map((f) => (
-                          <li key={f} className="flex items-center gap-2 text-sm text-espresso-600 dark:text-espresso-400">
-                            <svg className={`w-3.5 h-3.5 flex-shrink-0 ${colors.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {service.title}
+                      </span>
+                      <span className={`font-display font-black text-4xl ${theme.num}`}>{String(idx+1).padStart(2,"0")}</span>
+                    </div>
+                    <p className={`text-sm leading-relaxed mb-5 ${subColor}`}>{service.description}</p>
+                    {features.length > 0 && (
+                      <ul className="space-y-2">
+                        {features.slice(0,4).map((f:string) => (
+                          <li key={f} className={`flex items-center gap-2 text-xs ${subColor}`}>
+                            <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
                             </svg>
                             {f}
                           </li>
                         ))}
                       </ul>
-                      <Link href="/contact"
-                        className="w-full py-3.5 text-sm font-bold text-center bg-zinc-900 dark:bg-white text-white dark:text-espresso-800 hover:bg-coral-400 dark:hover:bg-coral-400 dark:hover:text-white transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-                        {offerCard.button_text || "Request an Offer"}
-                      </Link>
-                    </div>
+                    )}
                   </div>
+                  <Link href="/contact"
+                    className={`inline-flex items-center gap-2 mt-6 text-sm font-bold ${textColor} hover:opacity-70 transition-opacity`}>
+                    Start This Project →
+                  </Link>
                 </div>
-              </section>
-            );
-          })}
-        </div>
-      )}
-    </main>
+              );
+            })}
+
+            {/* Offer card tile */}
+            <div className="col-span-12 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-8">
+              <div className="grid md:grid-cols-3 gap-8 items-center">
+                <div className="md:col-span-2">
+                  <h3 className="font-display font-black text-2xl text-white mb-3">{offerCard.title||"Get a Custom Offer"}</h3>
+                  <p className="text-zinc-500 text-sm leading-relaxed mb-5">{offerCard.description||"Every project is unique. Tell us what you need and we'll send you a tailored quote — no obligation."}</p>
+                  <ul className="grid grid-cols-2 gap-2">
+                    {[offerCard.item1||"Free consultation",offerCard.item2||"Custom pricing",offerCard.item3||"24hr response",offerCard.item4||"No hidden fees"].map(f=>(
+                      <li key={f} className="flex items-center gap-2 text-zinc-400 text-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-coral-400 flex-shrink-0"/>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex justify-center md:justify-end">
+                  <Link href="/contact"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-coral-400 text-white font-bold hover:bg-coral-500 transition-all shadow-lg shadow-coral-400/20">
+                    {offerCard.button_text||"Request an Offer"} ✦
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="pb-12" />
+      </div>
+    </div>
   );
 }

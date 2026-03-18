@@ -45,9 +45,10 @@ const LABELS: Record<string, Record<string, string>> = {
  stat1_label: "Stat 1 Label",
  stat2_label: "Stat 2 Label (Client Satisfaction — auto from reviews)",
  stat3_label: "Stat 3 Label (Average Rating — auto from reviews)",
+ bg_image: "Hero Background Image (optional — shown behind headline tile)",
  },
  services_section: { badge: "Badge", headline: "Headline", subtext: "Subtext" },
- portfolio_section: { badge: "Badge", headline: "Headline", view_all: "View All Button" },
+ portfolio_section: { badge: "Badge", headline: "Headline", view_all: "View All Button", bg_image: "Page Header Background Image" },
  process_section: {
  badge: "Section Badge",
  headline_line1: "Headline Line 1",
@@ -63,6 +64,7 @@ const LABELS: Record<string, Record<string, string>> = {
  step3_num: "Step 3 Number",
  step3_title: "Step 3 Title",
  step3_desc: "Step 3 Description",
+ bg_image: "Section Background Image (shown in the visual tile)",
  },
  why_us_section: {
  badge: "Section Badge",
@@ -74,14 +76,16 @@ const LABELS: Record<string, Record<string, string>> = {
  card2_desc: "Card 2 Description",
  card3_title: "Card 3 Title",
  card3_desc: "Card 3 Description",
+ bg_image: "Section Header Background Image",
  },
  testimonials_section: { badge: "Badge", headline: "Headline" },
- cta_section: { badge: "Badge", headline: "Headline", subtext: "Subtext", button_text: "Button Text" },
+ cta_section: { badge: "Badge", headline: "Headline", subtext: "Subtext", button_text: "Button Text", bg_image: "CTA Section Background Image" },
  contact_section: { badge: "Badge", headline: "Headline", subtext: "Subtext" },
  contact_page: {
  badge: "Badge", headline: "Page Headline", subtext: "Page Subtext",
  email: "Contact Email", location: "Location", response: "Response Time",
  discovery_title: "Discovery Box Title", discovery_text: "Discovery Box Text",
+ bg_image: "Page Header Background Image",
  },
  reviews_section: {
  badge: "Section Badge",
@@ -100,11 +104,11 @@ const LABELS: Record<string, Record<string, string>> = {
  button_text: "Button Text",
  },
  footer: { tagline: "Tagline", copyright_suffix: "Copyright Suffix", made_in: "Made In Location" },
- services_page: { badge: "Page Badge", headline: "Page Headline", subtext: "Page Subtext" },
+ services_page: { badge: "Page Badge", headline: "Page Headline", subtext: "Page Subtext", bg_image: "Page Header Background Image" },
 };
 
 const TEXTAREA_KEYS = ["subheadline", "subtext", "tagline", "discovery_text", "step1_desc", "step2_desc", "step3_desc", "card1_desc", "card2_desc", "card3_desc"];
-const IMAGE_KEYS = ["logo_image"];
+const IMAGE_KEYS = ["logo_image", "bg_image"];
 const URL_KEYS = ["social_facebook", "social_instagram", "social_tiktok", "social_behance"];
 
 export default function AdminContent() {
@@ -135,23 +139,21 @@ export default function AdminContent() {
 
  useEffect(() => { fetchSection(activeSection); }, [activeSection]);
 
- const handleLogoUpload = async (file: File) => {
+ const handleImageUpload = async (file: File, key: string) => {
  if (!file) return;
  setUploading(true);
  try {
  const ext = file.name.split(".").pop();
- const path = `logos/logo_${Date.now()}.${ext}`;
+ const folder = key === "logo_image" ? "logos" : "section-backgrounds";
+ const path = `${folder}/${key}_${Date.now()}.${ext}`;
  const { error: uploadError } = await supabase.storage
  .from("site-assets")
  .upload(path, file, { upsert: true });
-
  if (uploadError) throw uploadError;
-
  const { data: urlData } = supabase.storage.from("site-assets").getPublicUrl(path);
  const url = urlData.publicUrl;
-
- setData((d) => ({ ...d, logo_image: url }));
- toast.success("Logo uploaded! Click Save Changes to apply.");
+ setData((d) => ({ ...d, [key]: url }));
+ toast.success("Image uploaded! Click Save Changes to apply.");
  } catch (err) {
  toast.error("Upload failed. Make sure you have a 'site-assets' bucket in Supabase.");
  console.error(err);
@@ -314,22 +316,25 @@ export default function AdminContent() {
  const isTextarea = !isImage && !isUrl && (TEXTAREA_KEYS.some((t) => key.includes(t)) || (data[key] || "").length > 80);
 
  if (isImage) {
+ const isBg = key === "bg_image";
+ const uploadId = `upload-${activeSection}-${key}`;
  return (
  <div key={key}>
  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">
  {labels[key] || key.replace(/_/g, " ")}
  </label>
- <div className="flex items-center gap-4">
+ <div className="flex items-start gap-4">
  {data[key] ? (
- <div className="relative">
+ <div className="relative flex-shrink-0">
  {/* eslint-disable-next-line @next/next/no-img-element */}
- <img src={data[key]} alt="Logo" className="w-16 h-16 object-contain border border-zinc-800 bg-zinc-800 p-2" />
+ <img src={data[key]} alt="Preview"
+ className={isBg ? "w-36 h-20 object-cover border border-zinc-800" : "w-16 h-16 object-contain border border-zinc-800 bg-zinc-800 p-2"} />
  <button onClick={() => setData((d) => ({ ...d, [key]: "" }))}
- className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center"
+ className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center"
  >×</button>
  </div>
  ) : (
- <div className="w-16 h-16 border-2 border-dashed border-zinc-800 flex items-center justify-center text-zinc-600">
+ <div className={`${isBg ? "w-36 h-20" : "w-16 h-16"} border-2 border-dashed border-zinc-800 flex items-center justify-center text-zinc-600 flex-shrink-0`}>
  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
  </svg>
@@ -337,20 +342,19 @@ export default function AdminContent() {
  )}
  <div>
  <input
- ref={fileInputRef}
+ ref={key === "logo_image" ? fileInputRef : undefined}
+ id={uploadId}
  type="file"
  accept="image/*"
  className="hidden"
- onChange={(e) => e.target.files?.[0] && handleLogoUpload(e.target.files[0])}
+ onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], key)}
  />
- <button
- onClick={() => fileInputRef.current?.click()}
- disabled={uploading}
- className="px-4 py-2 bg-zinc-700 text-white text-sm hover:bg-zinc-600 disabled:opacity-50 transition-colors"
- >
- {uploading ? "Uploading..." : data[key] ? "Change Logo" : "Upload Logo"}
- </button>
- <p className="text-xs text-zinc-600 mt-1">PNG, JPG, SVG · Recommended 64×64px</p>
+ <label htmlFor={uploadId}
+ className="inline-block px-4 py-2 bg-zinc-700 text-white text-sm hover:bg-zinc-600 cursor-pointer transition-colors">
+ {uploading ? "Uploading..." : data[key] ? `Change ${isBg ? "Image" : "Logo"}` : `Upload ${isBg ? "Background Image" : "Logo"}`}
+ </label>
+ {isBg && <p className="text-xs text-zinc-600 mt-1">Recommended: 1920×1080px or larger. Displayed behind the section with an overlay.</p>}
+ {!isBg && <p className="text-xs text-zinc-600 mt-1">PNG, JPG, SVG · Recommended 64×64px</p>}
  <p className="text-xs text-zinc-600">Requires a <code className="text-gold-500">site-assets</code> bucket in Supabase Storage</p>
  </div>
  </div>

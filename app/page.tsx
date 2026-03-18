@@ -14,359 +14,270 @@ export const revalidate = 0;
 async function getFeaturedReviews(): Promise<Review[]> {
   try {
     const supabase = createServerClient();
-    const { data } = await supabase
-      .from("reviews").select("*").eq("approved", true)
-      .order("created_at", { ascending: false }).limit(3);
+    const { data } = await supabase.from("reviews").select("*").eq("approved", true)
+      .order("created_at", { ascending: false }).limit(6);
     return (data as Review[]) || [];
   } catch { return []; }
 }
 
 export default async function Home() {
-  const [reviews, heroContent, servicesContent, portfolioContent, testimonialsContent, ctaContent, contactContent, processContent, whyUsContent] =
-    await Promise.all([
-      getFeaturedReviews(),
-      getContent("hero"), getContent("services_section"), getContent("portfolio_section"),
-      getContent("testimonials_section"), getContent("cta_section"), getContent("contact_section"),
-      getContent("process_section"), getContent("why_us_section"),
-    ]);
+  const [
+    reviews,
+    heroContent, servicesContent, portfolioContent,
+    testimonialsContent, ctaContent, contactContent,
+    processContent, whyUsContent,
+  ] = await Promise.all([
+    getFeaturedReviews(),
+    getContent("hero"), getContent("services_section"), getContent("portfolio_section"),
+    getContent("testimonials_section"), getContent("cta_section"), getContent("contact_section"),
+    getContent("process_section"), getContent("why_us_section"),
+  ]);
+
+  const ctaBg      = ctaContent.bg_image     || "";
+  const processBg  = processContent.bg_image || "";
+  const whyUsBg    = whyUsContent.bg_image   || "";
 
   return (
-    <>
+    <div className="bg-[#0a0a0a]">
       <Hero content={heroContent} />
 
       <ServicesSection content={servicesContent} />
 
-      
-      <section className="section-pad relative overflow-hidden bg-[#dedad2] dark:bg-[#0a0a0a] relative overflow-hidden">
-        <img src="/abstracts/blob_section_process.png" alt="" aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none opacity-20 dark:opacity-25" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-800 to-transparent" />
-
-        
-        <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-40 dark:opacity-20 pointer-events-none" viewBox="0 0 500 500" fill="none">
-          <circle cx="400" cy="100" r="160" fill="url(#pg1)" />
-          <ellipse cx="460" cy="320" rx="80" ry="140" fill="url(#pg2)" transform="rotate(20 460 320)" />
-          <polygon points="300,50 480,150 450,320 280,380 150,280 180,100" fill="url(#pg3)" opacity="0.4" />
-          <defs>
-            <radialGradient id="pg1"><stop offset="0%" stopColor="#c8891a" stopOpacity="0.75"/><stop offset="100%" stopColor="#e8bd5a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="pg2"><stop offset="0%" stopColor="#f59e0b" stopOpacity="0.60"/><stop offset="100%" stopColor="#d97706" stopOpacity="0"/></radialGradient>
-            <radialGradient id="pg3"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.45"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
-          </defs>
-        </svg>
-        <svg className="absolute bottom-0 left-0 w-[300px] h-[300px] opacity-35 dark:opacity-15 pointer-events-none" viewBox="0 0 300 300" fill="none">
-          <circle cx="80" cy="250" r="120" fill="url(#pg4)" />
-          <defs>
-            <radialGradient id="pg4"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
-          </defs>
-        </svg>
-
-        
-        <div className="absolute top-1/2 right-6 -translate-y-1/2 font-display font-black text-[clamp(120px,20vw,260px)] text-espresso-800/[0.02] dark:text-sand-50/[0.02] select-none pointer-events-none leading-none">
-          HOW
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-px w-8 bg-coral-400" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">{processContent.badge || "How We Work"}</span>
-              </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95] mb-8">
-                {processContent.headline_line1 || "Design built"}<br />
-                <span className="italic font-light text-espresso-400 dark:text-espresso-500">{processContent.headline_line2 || "around your"}</span><br />
-                {processContent.headline_line3 || "goals"}
-              </h2>
-              <p className="text-espresso-500 dark:text-espresso-400 leading-relaxed mb-12 font-light max-w-sm">
-                {processContent.subtext || "We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional."}
-              </p>
-
-              
-              <div className="space-y-0">
-                {[
-                  { step: processContent.step1_num || "01", title: processContent.step1_title || "Discovery", desc: processContent.step1_desc || "We learn your brand, goals, and audience inside out." },
-                  { step: processContent.step2_num || "02", title: processContent.step2_title || "Design",    desc: processContent.step2_desc || "We craft visuals that are both beautiful and purposeful." },
-                  { step: processContent.step3_num || "03", title: processContent.step3_title || "Deliver",   desc: processContent.step3_desc || "Print-ready or screen-ready files, on time, every time." },
-                ].map((item, i) => (
-                  <div key={item.step}
-                    className="group flex gap-6 items-start py-6 border-b border-sand-200 dark:border-espresso-700/60 last:border-0 hover:pl-2 transition-all duration-300"
-                  >
-                    <span className="font-display text-[11px] font-black tracking-widest text-coral-400/60 group-hover:text-coral-400 transition-colors pt-0.5 flex-shrink-0">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h3 className="font-display font-bold text-espresso-800 dark:text-sand-50 mb-1.5 text-lg group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-espresso-500 dark:text-espresso-400 font-light">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            
-            <div className="relative h-[520px] hidden lg:block">
-              
-              <div className="absolute inset-0 border border-sand-200 dark:border-espresso-700/60 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-zinc-50 dark:bg-[#0e0e0e]" />
-                
-                <div className="absolute top-8 right-8 w-32 h-32 rounded-full bg-gold-400/10 blur-2xl" />
-                <div className="absolute bottom-12 left-8 w-24 h-24 rounded-full bg-violet-400/10 blur-xl" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-rose-400/6 blur-2xl" />
-                
-                <div className="absolute inset-6 grid grid-cols-2 grid-rows-2 gap-3">
-                  {[
-                    { label: "Brand Identity", icon: "🎨", grad: "from-gold-500/20 to-amber-600/10",    accent: "text-coral-400",    border: "border-coral-400/20" },
-                    { label: "UI Design",      icon: "🖥️",  grad: "from-blue-500/20 to-indigo-600/10",  accent: "text-blue-400",    border: "border-blue-500/20" },
-                    { label: "Poster Design",  icon: "🖼️",  grad: "from-rose-500/20 to-pink-600/10",    accent: "text-rose-400",    border: "border-rose-500/20" },
-                    { label: "Social Media",   icon: "✦",   grad: "from-emerald-500/20 to-teal-600/10", accent: "text-emerald-400", border: "border-emerald-500/20" },
-                  ].map((item, i) => (
-                    <div key={item.label}
-                      className={`relative flex flex-col justify-between p-5 border ${item.border} bg-gradient-to-br ${item.grad} overflow-hidden`}
-                    >
-                      <span className="absolute bottom-2 right-3 font-display font-black text-5xl text-white/5 dark:text-sand-50/5 select-none leading-none">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-2xl mb-auto block">{item.icon}</span>
-                      <div>
-                        <div className={`w-8 h-px mb-2 opacity-60 bg-current ${item.accent}`} />
-                        <span className={`text-sm font-bold ${item.accent}`}>{item.label}</span>
-                      </div>
-                    </div>
-                  ))}
+      {/* ── PORTFOLIO SECTION ── */}
+      <section className="py-12 md:py-16 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          {/* Header bento row */}
+          <div className="grid grid-cols-12 gap-3 mb-3">
+            <div className="col-span-12 md:col-span-9 rounded-2xl bg-zinc-900 p-8 flex items-end justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-px w-6 bg-coral-400" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{portfolioContent.badge || "Our Work"}</span>
                 </div>
+                <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.95]">
+                  {portfolioContent.headline || "Selected Work"}
+                </h2>
               </div>
-              <div className="absolute -bottom-5 -right-5 w-16 h-16 border border-coral-300/25 rotate-45" />
+              <Link href="/portfolio"
+                className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-700 text-zinc-400 text-sm font-semibold hover:border-coral-400 hover:text-coral-400 transition-all flex-shrink-0">
+                View all work
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+              </Link>
+            </div>
+            <div className="col-span-12 md:col-span-3 rounded-2xl bg-espresso-800 p-6 flex flex-col justify-center items-center text-center gap-2">
+              <span className="font-display font-black text-4xl text-white">✦</span>
+              <p className="text-zinc-400 text-xs leading-relaxed">Every pixel crafted with intention</p>
+            </div>
+          </div>
+          <PortfolioGrid limit={7} showFilters={false} showViewAll />
+        </div>
+      </section>
+
+      {/* ── PROCESS SECTION ── */}
+      <section className="py-12 md:py-16 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-12 gap-3">
+
+            {/* Process visual tile — image bg if set */}
+            <div className="col-span-12 md:col-span-5 rounded-2xl overflow-hidden relative min-h-[360px]"
+              style={{ background: processBg ? undefined : "linear-gradient(145deg,#1a1009,#0f0a06)" }}>
+              {processBg ? (
+                <>
+                  <img src={processBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/60" />
+                </>
+              ) : (
+                <div className="absolute inset-0 dot-pattern opacity-20" />
+              )}
+              <div className="relative z-10 p-8 h-full flex flex-col justify-end">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-px w-6 bg-coral-400" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{processContent.badge || "How We Work"}</span>
+                </div>
+                <h2 className="font-display font-black text-3xl md:text-4xl text-white leading-[0.95]">
+                  {processContent.headline_line1 || "Design built"}{" "}
+                  <span className="italic font-light text-white/50">{processContent.headline_line2 || "around your"}</span>{" "}
+                  {processContent.headline_line3 || "goals"}
+                </h2>
+                <p className="text-zinc-400 text-sm mt-4 font-light">
+                  {processContent.subtext || "We start with a deep understanding of your brand, audience, and objectives."}
+                </p>
+              </div>
+            </div>
+
+            {/* Steps tiles */}
+            <div className="col-span-12 md:col-span-7 grid grid-cols-1 gap-3">
+              {[
+                { step: processContent.step1_num||"01", title: processContent.step1_title||"Discovery", desc: processContent.step1_desc||"We learn your brand, goals, and audience inside out.", accent:"bg-coral-400/10 text-coral-400" },
+                { step: processContent.step2_num||"02", title: processContent.step2_title||"Design",    desc: processContent.step2_desc||"We craft visuals that are both beautiful and purposeful.", accent:"bg-amber-300/10 text-amber-300" },
+                { step: processContent.step3_num||"03", title: processContent.step3_title||"Deliver",   desc: processContent.step3_desc||"Print-ready or screen-ready files, on time, every time.", accent:"bg-emerald-400/10 text-emerald-400" },
+              ].map((item) => (
+                <div key={item.step} className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 flex items-start gap-5 group hover:border-zinc-700 transition-colors">
+                  <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-sm flex-shrink-0 ${item.accent}`}>{item.step}</span>
+                  <div>
+                    <h3 className="font-display font-bold text-white text-lg mb-1">{item.title}</h3>
+                    <p className="text-zinc-500 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      
-      <section className="section-pad">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-coral-400" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
-                  {portfolioContent.badge || "Our Work"}
-                </span>
+      {/* ── WHY US SECTION ── */}
+      <section className="py-12 md:py-16 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          {/* Header */}
+          <div className="grid grid-cols-12 gap-3 mb-3">
+            <div className="col-span-12 rounded-2xl bg-zinc-900 p-8 text-center relative overflow-hidden">
+              {whyUsBg && (
+                <>
+                  <img src={whyUsBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15" />
+                  <div className="absolute inset-0 bg-[#0a0a0a]/70" />
+                </>
+              )}
+              <div className="relative z-10">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="h-px w-8 bg-coral-400/40" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{whyUsContent.badge||"Why Choose Us"}</span>
+                  <div className="h-px w-8 bg-coral-400/40" />
+                </div>
+                <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.95]">
+                  {whyUsContent.headline||"Designed"}{" "}
+                  <span className="italic font-light text-zinc-500">{whyUsContent.headline_italic||"differently"}</span>
+                </h2>
               </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95]">
-                {portfolioContent.headline || "Selected Work"}
-              </h2>
             </div>
-
           </div>
-          <PortfolioGrid limit={6} showFilters={false} showViewAll />
-        </div>
-      </section>
-
-      
-      <section className="py-24 md:py-32 bg-[#060606] text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
-
-        
-        <svg className="absolute top-0 left-0 w-[600px] h-[600px] opacity-[0.18] pointer-events-none" viewBox="0 0 600 600" fill="none">
-          <circle cx="100" cy="100" r="200" fill="url(#wu1)" />
-          <polygon points="300,0 600,150 550,450 250,580 0,400 50,100" fill="url(#wu2)" opacity="0.5" />
-          <defs>
-            <radialGradient id="wu1"><stop offset="0%" stopColor="#e8bd5a" stopOpacity="1"/><stop offset="100%" stopColor="#c8891a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="wu2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
-          </defs>
-        </svg>
-        <svg className="absolute bottom-0 right-0 w-[400px] h-[400px] opacity-[0.15] pointer-events-none" viewBox="0 0 400 400" fill="none">
-          <ellipse cx="350" cy="350" rx="200" ry="150" fill="url(#wu3)" transform="rotate(-30 350 350)" />
-          <circle cx="280" cy="200" r="100" fill="url(#wu4)" />
-          <defs>
-            <radialGradient id="wu3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
-            <radialGradient id="wu4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.75"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
-          </defs>
-        </svg>
-        
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="font-display font-black text-[clamp(80px,16vw,180px)] text-white/[0.015] whitespace-nowrap tracking-tight">
-            LUMIS STUDIO
-          </span>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <div className="h-px w-12 bg-coral-400/50" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-400">{whyUsContent.badge || "Why Choose Us"}</span>
-              <div className="h-px w-12 bg-coral-400/50" />
-            </div>
-            <h2 className="font-display font-black text-4xl md:text-6xl tracking-tight leading-[0.95]">
-              {whyUsContent.headline || "Designed"}{" "}
-              <span className="italic font-light text-espresso-500">{whyUsContent.headline_italic || "differently"}</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Feature tiles */}
+          <div className="grid grid-cols-12 gap-3">
             {[
-              {
-                num: "01",
-                title: whyUsContent.card1_title || "Fast Turnaround",
-                desc:  whyUsContent.card1_desc  || "Most projects delivered within 3–7 days without sacrificing quality.",
-                glow: "bg-gold-400/10", border: "border-coral-400/15", accent: "text-coral-400",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                deco: "from-gold-500/20 via-amber-400/10 to-transparent",
-              },
-              {
-                num: "02",
-                title: whyUsContent.card2_title || "Strategy-First",
-                desc:  whyUsContent.card2_desc  || "Every design decision is grounded in your brand goals and audience.",
-                glow: "bg-violet-400/10", border: "border-violet-500/15", accent: "text-violet-400",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                ),
-                deco: "from-violet-500/20 via-purple-400/10 to-transparent",
-              },
-              {
-                num: "03",
-                title: whyUsContent.card3_title || "Unlimited Revisions",
-                desc:  whyUsContent.card3_desc  || "We iterate until you're fully satisfied. No extra charges for revisions.",
-                glow: "bg-emerald-400/10", border: "border-emerald-500/15", accent: "text-emerald-400",
-                icon: (
-                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                ),
-                deco: "from-emerald-500/20 via-teal-400/10 to-transparent",
-              },
-            ].map((item) => (
-              <div key={item.title}
-                className={`group relative p-10 border ${item.border} bg-zinc-900 hover:bg-zinc-900/80 transition-all duration-300 overflow-hidden`}
-              >
-                
-                <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl ${item.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${item.deco} opacity-40`} />
-                <span className="absolute top-5 right-6 font-display text-[10px] font-black tracking-[0.2em] text-zinc-700 group-hover:text-espresso-600 transition-colors">
-                  {item.num}
-                </span>
-                <div className={`${item.accent} mb-6 relative`}>{item.icon}</div>
-                <h3 className={`font-display text-xl font-bold mb-3 transition-colors duration-300 text-white group-hover:${item.accent}`}>
-                  {item.title}
-                </h3>
-                <p className="text-espresso-500 text-sm leading-relaxed font-light">{item.desc}</p>
-                <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.deco} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
+              { num:"01", title:whyUsContent.card1_title||"Fast Turnaround",    desc:whyUsContent.card1_desc||"Most projects delivered within 3–7 days without sacrificing quality.", bg:"bg-coral-400", text:"text-white" },
+              { num:"02", title:whyUsContent.card2_title||"Strategy-First",     desc:whyUsContent.card2_desc||"Every design decision is grounded in your brand goals and audience.", bg:"bg-zinc-900 border border-zinc-800", text:"text-white" },
+              { num:"03", title:whyUsContent.card3_title||"Unlimited Revisions", desc:whyUsContent.card3_desc||"We iterate until you're fully satisfied. No extra charges.", bg:"bg-amber-300", text:"text-espresso-800" },
+            ].map((card, i) => (
+              <div key={card.title} className={`col-span-12 md:col-span-4 rounded-2xl ${card.bg} p-8 flex flex-col justify-between min-h-[200px]`}>
+                <span className={`font-display font-black text-5xl leading-none opacity-15 ${card.text}`}>{card.num}</span>
+                <div>
+                  <h3 className={`font-display font-bold text-xl mb-2 ${card.text}`}>{card.title}</h3>
+                  <p className={`text-sm leading-relaxed ${i===1?"text-zinc-500":i===2?"text-espresso-600":"text-white/80"}`}>{card.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      
+      {/* ── REVIEWS SECTION ── */}
       {reviews.length > 0 && (
-        <section className="section-pad">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="mb-16">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-coral-400" />
-                <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
-                  {testimonialsContent.badge || "Client Reviews"}
-                </span>
+        <section className="py-12 md:py-16 bg-[#0a0a0a]">
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-12 gap-3 mb-3">
+              <div className="col-span-12 md:col-span-8 rounded-2xl bg-zinc-900 p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-px w-6 bg-coral-400" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{testimonialsContent.badge||"Client Reviews"}</span>
+                </div>
+                <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.95]">
+                  {testimonialsContent.headline||"What clients say"}
+                </h2>
               </div>
-              <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95]">
-                {testimonialsContent.headline || "What clients say"}
-              </h2>
+              <div className="col-span-12 md:col-span-4 rounded-2xl bg-espresso-800 p-6 flex flex-col justify-center gap-3">
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(s=><span key={s} className="text-amber-400 text-lg">★</span>)}
+                </div>
+                <p className="text-zinc-400 text-sm">Consistently top-rated by our clients</p>
+                <Link href="/reviews" className="text-coral-400 text-xs font-bold tracking-widest uppercase hover:text-coral-300 transition-colors">
+                  Read all reviews →
+                </Link>
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-12 gap-3">
               {reviews.map((review, i) => (
-                <ReviewCard key={review.id} review={review} index={i} />
+                <div key={review.id} className={`${i===0?"col-span-12 md:col-span-5":i===1?"col-span-12 md:col-span-7":i===2?"col-span-12 md:col-span-7":i===3?"col-span-12 md:col-span-5":"col-span-12 md:col-span-4"}`}>
+                  <ReviewCard review={review} index={i} />
+                </div>
               ))}
-            </div>
-            <div className="mt-10">
-              <Link href="/reviews"
-                className="inline-flex items-center gap-2 text-sm font-bold tracking-widest uppercase text-espresso-400 hover:text-coral-400 transition-colors"
-              >
-                Read all reviews
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
             </div>
           </div>
         </section>
       )}
 
-      
-      <section className="py-32 md:py-40 bg-[#060606] relative overflow-hidden">
-        <img src="/abstracts/blob_section_cta.png" alt="" aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none opacity-40 mix-blend-luminosity" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
-        
-        <svg className="absolute inset-0 w-full h-full opacity-[0.15] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
-          <circle cx="600" cy="300" r="300" fill="url(#cta1)" />
-          <ellipse cx="200" cy="500" rx="200" ry="150" fill="url(#cta2)" />
-          <ellipse cx="1000" cy="100" rx="180" ry="130" fill="url(#cta3)" />
-          <polygon points="600,50 900,200 850,500 350,500 300,200" fill="url(#cta4)" opacity="0.4" />
-          <defs>
-            <radialGradient id="cta1"><stop offset="0%" stopColor="#e8bd5a" stopOpacity="1"/><stop offset="100%" stopColor="#c8891a" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta2"><stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta3"><stop offset="0%" stopColor="#10b981" stopOpacity="0.75"/><stop offset="100%" stopColor="#059669" stopOpacity="0"/></radialGradient>
-            <radialGradient id="cta4"><stop offset="0%" stopColor="#ec4899" stopOpacity="0.75"/><stop offset="100%" stopColor="#db2777" stopOpacity="0"/></radialGradient>
-          </defs>
-        </svg>
-
-        <div className="max-w-4xl mx-auto px-6 text-center relative">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-coral-400/40" />
-            <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-400">
-              {ctaContent.badge || "Let's Create"}
-            </span>
-            <div className="h-px w-12 bg-coral-400/40" />
-          </div>
-          <h2 className="font-display font-black text-5xl md:text-6xl lg:text-7xl tracking-tight text-white leading-[0.9] mb-6">
-            {ctaContent.headline || "Ready to start something great?"}
-          </h2>
-          <p className="text-espresso-500 text-lg mb-14 font-light max-w-xl mx-auto">
-            {ctaContent.subtext || "Tell us about your project and let's build something extraordinary together."}
-          </p>
-          <Link href="/contact"
-            className="group inline-flex items-center gap-3 px-10 py-5 bg-[#faf8f4] text-espresso-800 text-sm font-bold tracking-wide hover:bg-coral-400 hover:text-white transition-all duration-300 shadow-2xl shadow-black/40"
-          >
-            {ctaContent.button_text || "Start a Project"}
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-      </section>
-
-      
-      <section className="section-pad">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-14">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-8 bg-coral-400" />
-              <span className="text-[11px] font-bold tracking-[0.25em] uppercase text-coral-500 dark:text-coral-400">
-                {contactContent.badge || "Get In Touch"}
-              </span>
+      {/* ── CTA SECTION ── */}
+      <section className="py-12 md:py-16 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="relative rounded-2xl overflow-hidden min-h-[360px] flex items-center justify-center p-10 md:p-16 text-center"
+            style={{ background: ctaBg ? undefined : "linear-gradient(145deg,#1a1009,#0f0a06)" }}>
+            {ctaBg ? (
+              <>
+                <img src={ctaBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/70" />
+              </>
+            ) : (
+              <>
+                <div className="absolute inset-0 dot-pattern opacity-10" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-coral-400/10 blur-3xl" />
+              </>
+            )}
+            <div className="relative z-10 max-w-2xl">
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div className="h-px w-8 bg-coral-400/50" />
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{ctaContent.badge||"Let's Create"}</span>
+                <div className="h-px w-8 bg-coral-400/50" />
+              </div>
+              <h2 className="font-display font-black text-4xl md:text-6xl text-white leading-[0.9] mb-5">
+                {ctaContent.headline||"Ready to start something great?"}
+              </h2>
+              <p className="text-zinc-400 text-lg mb-10 font-light">
+                {ctaContent.subtext||"Tell us about your project and let's build something extraordinary together."}
+              </p>
+              <Link href="/contact"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-coral-400 text-white text-sm font-bold hover:bg-coral-500 transition-all shadow-xl shadow-coral-400/25">
+                {ctaContent.button_text||"Start a Project"}
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                </svg>
+              </Link>
             </div>
-            <h2 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tight text-espresso-800 dark:text-sand-50 leading-[0.95] mb-4">
-              {contactContent.headline || "Start a conversation"}
-            </h2>
-            <p className="text-espresso-500 dark:text-espresso-400 font-light max-w-sm">{contactContent.subtext}</p>
-          </div>
-          <div className="border border-sand-200 dark:border-espresso-700/60 p-8 md:p-12 bg-[#faf8f4] dark:bg-[#0c0c0c] card-grain"
-          >
-            <ContactForm compact />
           </div>
         </div>
       </section>
-    </>
+
+      {/* ── CONTACT SECTION ── */}
+      <section className="py-12 md:py-16 bg-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-12 gap-3">
+            <div className="col-span-12 md:col-span-5 rounded-2xl bg-zinc-900 p-8 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px w-6 bg-coral-400" />
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{contactContent.badge||"Get In Touch"}</span>
+                </div>
+                <h2 className="font-display font-black text-3xl md:text-4xl text-white leading-[0.95] mb-4">
+                  {contactContent.headline||"Start a conversation"}
+                </h2>
+                <p className="text-zinc-500 text-sm leading-relaxed">{contactContent.subtext||"Drop us a message and we'll get back to you within 24 hours."}</p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-zinc-800 space-y-3">
+                {[
+                  { icon:"📍", label:"Philippines" },
+                  { icon:"⚡", label:"24hr response" },
+                  { icon:"✦", label:"Free consultation" },
+                ].map(item=>(
+                  <div key={item.label} className="flex items-center gap-3 text-zinc-500 text-sm">
+                    <span>{item.icon}</span>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-8">
+              <ContactForm compact />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

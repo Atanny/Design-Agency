@@ -7,100 +7,79 @@ import type { BlogPost } from "@/types";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description:
-    "Design insights, tips, and inspiration from our studio team.",
+  description: "Design insights, tips, and inspiration from our studio team.",
 };
 
 async function getPosts(): Promise<BlogPost[]> {
   try {
     const supabase = createServerClient();
-    const { data } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", { ascending: false });
+    const { data } = await supabase.from("blog_posts").select("*").eq("published", true).order("created_at", { ascending: false });
     return (data as BlogPost[]) || [];
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 }
 
 export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
-    <>
-      <main className="pt-24">
-        <section className="py-20 md:py-28 text-center">
-          <div className="max-w-3xl mx-auto px-6">
-            <p className="text-sm font-semibold uppercase tracking-widest text-coral-500 dark:text-coral-400 mb-4">
-              Journal
-            </p>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-espresso-800 dark:text-sand-50 tracking-tight mb-6">
-              Design Blog
-            </h1>
-            <p className="text-lg text-espresso-500 dark:text-espresso-400">
-              Insights on design, brand strategy, and creative process from our
-              studio.
-            </p>
-          </div>
-        </section>
-
-        <section className="max-w-7xl mx-auto px-6 pb-32">
-          {posts.length === 0 ? (
-            <div className="text-center py-20 text-espresso-400">
-              <p className="text-lg">No posts published yet.</p>
-              <p className="text-sm mt-2">Check back soon for design insights.</p>
+    <div className="bg-[#0a0a0a] pt-6 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Header bento */}
+        <div className="grid grid-cols-12 gap-3 mb-3">
+          <div className="col-span-12 md:col-span-8 rounded-2xl bg-zinc-900 p-8 flex flex-col justify-between min-h-[180px]">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-6 bg-coral-400" />
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">Journal</span>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="group"
-                >
-                  <article>
-                    {post.featured_image && (
-                      <div className="relative aspect-[16/9] overflow-hidden mb-5 bg-zinc-100 dark:bg-zinc-800">
-                        <Image
-                          src={post.featured_image}
-                          alt={post.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
+            <h1 className="font-display font-black text-4xl md:text-6xl text-white leading-[0.9]">Design Blog</h1>
+          </div>
+          <div className="col-span-12 md:col-span-4 rounded-2xl bg-coral-400 p-8 flex flex-col justify-end">
+            <p className="text-white/80 text-sm leading-relaxed">Insights on design, brand strategy, and creative process from our studio.</p>
+          </div>
+        </div>
+
+        {/* Posts bento */}
+        {posts.length === 0 ? (
+          <div className="rounded-2xl bg-zinc-900 p-16 text-center text-zinc-500 mb-12">
+            <p className="text-lg">No posts published yet.</p>
+            <p className="text-sm mt-2">Check back soon for design insights.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-12 gap-3 pb-12 md:pb-16">
+            {posts.map((post, i) => {
+              const span = i === 0 ? "col-span-12 md:col-span-8" : i === 1 ? "col-span-12 md:col-span-4" : "col-span-12 md:col-span-4";
+              const isLarge = i === 0;
+              return (
+                <Link key={post.id} href={`/blog/${post.slug}`}
+                  className={`group ${span} rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800/50 hover:border-zinc-700 transition-colors flex flex-col`}>
+                  {post.cover_image && (
+                    <div className={`relative w-full overflow-hidden ${isLarge ? "aspect-[16/7]" : "aspect-[4/3]"}`}>
+                      <Image src={post.cover_image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col gap-2 flex-1">
+                    {post.category && (
+                      <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-coral-400">{post.category}</span>
                     )}
-                    <div>
-                      <time className="text-xs font-medium text-espresso-400 uppercase tracking-wider">
-                        {new Date(post.created_at).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </time>
-                      <h2 className="font-display text-xl font-bold text-espresso-800 dark:text-sand-50 mt-2 mb-3 group-hover:text-coral-500 dark:group-hover:text-coral-400 transition-colors leading-snug">
-                        {post.title}
-                      </h2>
-                      {post.meta_description && (
-                        <p className="text-sm text-espresso-500 dark:text-espresso-400 leading-relaxed line-clamp-2">
-                          {post.meta_description}
-                        </p>
-                      )}
-                      <span className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-coral-500 dark:text-coral-400 group-hover:gap-2 transition-all">
-                        Read More
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                    <h2 className={`font-display font-black text-white leading-tight group-hover:text-coral-400 transition-colors ${isLarge ? "text-2xl md:text-3xl" : "text-lg"}`}>
+                      {post.title}
+                    </h2>
+                    {post.excerpt && <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.excerpt}</p>}
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-zinc-800">
+                      <span className="text-zinc-600 text-xs">
+                        {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <span className="text-coral-400 text-xs font-bold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+                        Read more →
                       </span>
                     </div>
-                  </article>
+                  </div>
                 </Link>
-              ))}
-            </div>
-          )}
-        </section>
-      </main>
-    </>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
