@@ -1,5 +1,5 @@
 import type { Review } from "@/types";
-interface ReviewCardProps { review: Review; }
+interface ReviewCardProps { review: Review; index?: number; }
 export default function ReviewCard({ review }: ReviewCardProps) {
   return (
     <div className="tile bg-white dark:bg-espresso-700 p-6 h-full flex flex-col gap-4">

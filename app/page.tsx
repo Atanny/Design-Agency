@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import ServicesSection from "@/components/ServicesSection";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import ContactForm from "@/components/ContactForm";
-import { ReviewCard } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabaseClient";
 import { getContent } from "@/lib/content";

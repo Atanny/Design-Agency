@@ -1,7 +1,7 @@
 export const revalidate = 0;
 import { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
-import { ReviewCard } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
 import ReviewForm from "./ReviewForm";
 import LiveRatingBadge from "./LiveRatingBadge";
 import { createServerClient } from "@/lib/supabaseClient";
