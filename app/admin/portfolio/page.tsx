@@ -15,14 +15,17 @@ export default function AdminPortfolio() {
  const [loading, setLoading] = useState(true);
  const [uploading, setUploading] = useState(false);
  const [showForm, setShowForm] = useState(false);
- const [form, setForm] = useState({ title:"", description:"", category:"UI/UX", image_url:"", project_url:"" });
+ const [form, setForm] = useState<{ title:string; description:string; category:string; image_url:string; project_url:string; image_urls:string[] }>({ title:"", description:"", category:"UI/UX Design", image_url:"", project_url:"", image_urls:[] });
  const [editItem, setEditItem] = useState<PortfolioItem|null>(null);
  const [saving, setSaving] = useState(false);
  const [editUploading, setEditUploading] = useState(false);
  const [confirm, setConfirm] = useState<{ type: "delete"; id: string; imageUrl: string } | null>(null);
  const fileRef = useRef<HTMLInputElement>(null);
  const editFileRef = useRef<HTMLInputElement>(null);
+ const multiFileRef = useRef<HTMLInputElement>(null);
+ const editMultiFileRef = useRef<HTMLInputElement>(null);
  const [previewUrl, setPreviewUrl] = useState("");
+ const [uploadingExtra, setUploadingExtra] = useState(false);
 
  useEffect(() => {
  supabase.from("services").select("title").eq("active", true).order("sort_order", {ascending:true}).then(({ data }) => {
@@ -79,6 +82,44 @@ export default function AdminPortfolio() {
  setPreviewUrl("");
  fetchItems();
  }
+ };
+
+ const handleMultiImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+ const files = Array.from(e.target.files || []);
+ if (!files.length) return;
+ setUploadingExtra(true);
+ const uploaded: string[] = [];
+ for (const file of files) {
+   const ext = file.name.split(".").pop();
+   const filename = `portfolio-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+   const { error, data } = await supabase.storage.from("portfolio").upload(filename, file, { upsert: true });
+   if (!error && data) {
+     const { data: url } = supabase.storage.from("portfolio").getPublicUrl(data.path);
+     uploaded.push(url.publicUrl);
+   }
+ }
+ setForm(f => ({ ...f, image_urls: [...(f.image_urls || []), ...uploaded] }));
+ setUploadingExtra(false);
+ if (uploaded.length) toast.success(`${uploaded.length} image(s) added!`);
+ };
+
+ const handleEditMultiImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+ const files = Array.from(e.target.files || []);
+ if (!files.length || !editItem) return;
+ setUploadingExtra(true);
+ const uploaded: string[] = [];
+ for (const file of files) {
+   const ext = file.name.split(".").pop();
+   const filename = `portfolio-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+   const { error, data } = await supabase.storage.from("portfolio").upload(filename, file, { upsert: true });
+   if (!error && data) {
+     const { data: url } = supabase.storage.from("portfolio").getPublicUrl(data.path);
+     uploaded.push(url.publicUrl);
+   }
+ }
+ setEditItem(i => i ? { ...i, image_urls: [...(i.image_urls || []), ...uploaded] } : i);
+ setUploadingExtra(false);
+ if (uploaded.length) toast.success(`${uploaded.length} image(s) added!`);
  };
 
  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
