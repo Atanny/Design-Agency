@@ -16,15 +16,6 @@ interface ItemCardProps {
 }
 
 function ItemCard({ item, onEdit, onDelete }: ItemCardProps) {
-  const sorted = [...items]
-    .filter(i => filterCat === "All" || i.category === filterCat)
-    .sort((a,b) =>
-      sortBy === "name" ? a.title.localeCompare(b.title) :
-      sortBy === "oldest" ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime() :
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
-  const groups = Array.from(new Set(sorted.map(i => i.category)));
-
   return (
     <div className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-coral-400/30 transition-all rounded-2xl">
       <div className="aspect-square relative overflow-hidden rounded-2xl">
@@ -70,6 +61,16 @@ export default function AdminPortfolio() {
   const [viewMode, setViewMode] = useState<"grid"|"grouped">("grouped");
   const [filterCat, setFilterCat] = useState("All");
   const [sortBy, setSortBy] = useState<"newest"|"oldest"|"name">("newest");
+
+  // Derived — computed in the parent where state lives
+  const sorted = [...items]
+    .filter(i => filterCat === "All" || i.category === filterCat)
+    .sort((a,b) =>
+      sortBy === "name" ? a.title.localeCompare(b.title) :
+      sortBy === "oldest" ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime() :
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+  const groups = Array.from(new Set(sorted.map(i => i.category)));
 
   const fetchItems = async () => {
     const { data } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
@@ -204,12 +205,6 @@ export default function AdminPortfolio() {
     else { toast.success("Item deleted."); setItems(prev => prev.filter(i => i.id !== id)); }
   };
 
-
-
-
-
-
-
   return (
     <div className="p-8 w-full">
       <div className="flex items-center justify-between mb-8">
@@ -318,7 +313,6 @@ export default function AdminPortfolio() {
       {/* ── Controls ── */}
       {!loading && items.length > 0 && (
         <div className="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-zinc-800/40">
-          {/* Filter by category */}
           <div className="flex items-center gap-1.5 flex-wrap">
             {["All", ...Array.from(new Set(items.map(i => i.category)))].map(cat => (
               <button key={cat} onClick={() => setFilterCat(cat)}
@@ -332,17 +326,13 @@ export default function AdminPortfolio() {
               </button>
             ))}
           </div>
-
           <div className="ml-auto flex items-center gap-2">
-            {/* Sort */}
             <select value={sortBy} onChange={e => setSortBy(e.target.value as "newest"|"oldest"|"name")}
               className="px-3 py-1.5 border border-zinc-800/60 bg-zinc-900 text-zinc-400 text-xs focus:outline-none focus:border-gold-500/50 transition-colors">
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
               <option value="name">A → Z</option>
             </select>
-
-            {/* View mode */}
             <div className="flex border border-zinc-800/60">
               <button onClick={() => setViewMode("grid")} title="Grid view"
                 className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grid" ? "bg-gold-500 text-white" : "text-zinc-600 hover:text-white"}`}>
@@ -362,7 +352,7 @@ export default function AdminPortfolio() {
         </div>
       )}
 
-      {/* ── Grid ── */}
+      {/* ── Content ── */}
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {[...Array(8)].map((_,i)=><div key={i} className="aspect-square bg-zinc-900 animate-pulse"/>)}
@@ -372,14 +362,30 @@ export default function AdminPortfolio() {
           <p className="text-lg mb-2">No portfolio items yet.</p>
           <button onClick={()=>setShowForm(true)} className="text-gold-500 text-sm hover:text-gold-400 transition-colors">+ Add your first item</button>
         </div>
+      ) : sorted.length === 0 ? (
+        <div className="text-center py-16 text-zinc-600">No items in this category.</div>
+      ) : viewMode === "grid" ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {sorted.map(item => (
+            <ItemCard key={item.id} item={item} onEdit={setEditItem} onDelete={(id,url)=>setConfirm({type:"delete",id,imageUrl:url})} />
+          ))}
+        </div>
       ) : (
-        <>
-        {sorted.length === 0 ? (
-          <div className="text-center py-16 text-zinc-600">No items in this category.</div>
-        ) : viewMode === "grid" ? (
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {sorted.map(item => <ItemCard key={item.id} item={item} onEdit={setEditItem} onDelete={(id,url)=>setConfirm({type:"delete",id,imageUrl:url})} />)}
+        <div className="space-y-10">
+          {groups.map(group => (
+            <div key={group}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-px w-6 bg-gold-500" />
+                <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold-600">{group}</h2>
+                <span className="text-zinc-700 text-xs">({sorted.filter(i=>i.category===group).length})</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {sorted.filter(i => i.category === group).map(item => (
+                  <ItemCard key={item.id} item={item} onEdit={setEditItem} onDelete={(id,url)=>setConfirm({type:"delete",id,imageUrl:url})} />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -398,7 +404,6 @@ export default function AdminPortfolio() {
               </button>
             </div>
             <form onSubmit={handleEdit} className="p-6 space-y-4">
-              {/* Cover image replace */}
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Cover Image</label>
                 <div className="flex items-center gap-4">
@@ -416,7 +421,6 @@ export default function AdminPortfolio() {
                     </button>
                   </div>
                 </div>
-                {/* Additional images */}
                 <div className="mt-3">
                   <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Additional Images (slideshow)</label>
                   <div className="flex flex-wrap gap-2">
