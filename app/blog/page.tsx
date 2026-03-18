@@ -52,19 +52,16 @@ export default async function BlogPage() {
               return (
                 <Link key={post.id} href={`/blog/${post.slug}`}
                   className={`group ${span} rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800/50 hover:border-zinc-700 transition-colors flex flex-col`}>
-                  {post.cover_image && (
+                  {post.featured_image && (
                     <div className={`relative w-full overflow-hidden ${isLarge ? "aspect-[16/7]" : "aspect-[4/3]"}`}>
-                      <Image src={post.cover_image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={post.featured_image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   )}
                   <div className="p-6 flex flex-col gap-2 flex-1">
-                    {post.category && (
-                      <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-coral-400">{post.category}</span>
-                    )}
                     <h2 className={`font-display font-black text-white leading-tight group-hover:text-coral-400 transition-colors ${isLarge ? "text-2xl md:text-3xl" : "text-lg"}`}>
                       {post.title}
                     </h2>
-                    {post.excerpt && <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.excerpt}</p>}
+                    {post.meta_description && <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.meta_description}</p>}
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-zinc-800">
                       <span className="text-zinc-600 text-xs">
                         {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
