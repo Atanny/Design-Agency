@@ -21,7 +21,7 @@ interface NavbarProps {
   logoImage?: string;
 }
 
-export default function Navbar({ logoName = "", ctaText = "Start a Project", logoImage }: NavbarProps) {
+export default function Navbar({ logoName = "", ctaText = "Hire Me", logoImage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();

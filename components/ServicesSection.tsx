@@ -17,22 +17,12 @@ const ICON_PATHS: Record<string, string> = {
 };
 
 const FALLBACK = [
-  { id:"uiux",     title:"UI/UX Design",           description:"Intuitive interfaces that delight users and drive conversions.", icon:"monitor",  accent:"text-blue-400",    bg_color:"bg-blue-500/10" },
-  { id:"branding", title:"Brand Identity Design",   description:"Complete brand systems — logos, typography, colors, and guidelines.", icon:"palette",  accent:"text-coral-400",  bg_color:"bg-coral-400/10" },
-  { id:"poster",   title:"Poster & Pubmats Design", description:"Posters, pubmats, and campaigns with visual impact.", icon:"image",    accent:"text-rose-400",   bg_color:"bg-rose-500/10" },
-  { id:"website",  title:"Website UI Design",       description:"Beautiful, conversion-optimized website designs.", icon:"globe",    accent:"text-emerald-400",bg_color:"bg-emerald-500/10" },
-  { id:"social",   title:"Social Media Graphics",   description:"Scroll-stopping social content that builds brand recognition.", icon:"chat",     accent:"text-violet-400", bg_color:"bg-violet-500/10" },
-  { id:"product",  title:"Product & App Design",    description:"End-to-end product design from wireframes to polished UI.", icon:"phone",    accent:"text-cyan-400",   bg_color:"bg-cyan-500/10" },
-];
-
-// Bento span mapping per index
-const SPANS = [
-  "col-span-12 md:col-span-5",
-  "col-span-12 md:col-span-4",
-  "col-span-12 md:col-span-3",
-  "col-span-12 md:col-span-4",
-  "col-span-12 md:col-span-4",
-  "col-span-12 md:col-span-4",
+  { id:"uiux",     title:"UI/UX Design",           description:"Intuitive interfaces your users will actually enjoy. From wireframes to pixel-perfect screens.",               icon:"monitor",  accent:"text-blue-400",    bg_color:"bg-blue-500/10" },
+  { id:"branding", title:"Brand Identity",          description:"A complete identity system — logo, typography, color palette, and brand guidelines you'll use for years.",   icon:"palette",  accent:"text-coral-400",  bg_color:"bg-coral-400/10" },
+  { id:"poster",   title:"Poster & Print Design",   description:"Eye-catching posters, flyers, and pubmats that stand out in a crowded feed — or on a real wall.",            icon:"image",    accent:"text-rose-400",   bg_color:"bg-rose-500/10" },
+  { id:"website",  title:"Website UI Design",       description:"Beautiful, conversion-focused website designs. Pixel-perfect mockups ready for handoff or development.",       icon:"globe",    accent:"text-emerald-400",bg_color:"bg-emerald-500/10" },
+  { id:"social",   title:"Social Media Graphics",   description:"Consistent, scroll-stopping content that builds brand recognition across every platform.",                    icon:"chat",     accent:"text-violet-400", bg_color:"bg-violet-500/10" },
+  { id:"product",  title:"Product & App Design",    description:"End-to-end product design from early wireframes to polished, developer-ready UI.",                            icon:"phone",    accent:"text-cyan-400",   bg_color:"bg-cyan-500/10" },
 ];
 
 interface ServicesSectionProps { content?: Record<string, string>; }
@@ -44,31 +34,35 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
       .then(({ data }) => { if (data && data.length > 0) setServices(data); });
   }, []);
 
-  const badge    = content.badge    || "What We Do";
-  const headline = content.headline || "Design Services";
-  const subtext  = content.subtext  || "From brand foundations to full digital products, we offer the complete design spectrum.";
+  const badge   = content.badge   || "What I Do";
+  const headline = content.headline || "My Services";
+  const subtext  = content.subtext  || "From brand foundations to polished digital products — I offer end-to-end design that works.";
 
   return (
-    <section className="py-12 md:py-16 bg-[#0a0a0a]">
+    <section className="py-10 md:py-14 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        {/* Header tile */}
+
+        {/* Section header row */}
         <div className="grid grid-cols-12 gap-3 mb-3">
-          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6 }}
-            className="col-span-12 md:col-span-8 rounded-2xl bg-zinc-900 p-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-px w-6 bg-coral-400" />
-                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{badge}</span>
-              </div>
-              <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.95]">{headline}</h2>
+          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.55 }}
+            className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-7 flex flex-col justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-5 bg-coral-400" />
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-coral-400">{badge}</span>
             </div>
-            <p className="text-zinc-500 text-sm leading-relaxed md:max-w-[200px] md:text-right">{subtext}</p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+              <h2 className="font-display font-black text-3xl md:text-5xl text-white leading-[0.93]">{headline}</h2>
+              <p className="text-zinc-500 text-sm leading-relaxed md:max-w-[200px] md:text-right flex-shrink-0">{subtext}</p>
+            </div>
           </motion.div>
-          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6, delay:0.1 }}
-            className="col-span-12 md:col-span-4 rounded-2xl bg-coral-400 p-8 flex flex-col justify-between">
-            <span className="text-white/70 text-[10px] font-bold uppercase tracking-widest">Ready to start?</span>
-            <Link href="/contact" className="inline-flex items-center gap-2 mt-4 text-white font-bold text-sm group">
-              Get a free quote
+
+          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.55, delay:0.1 }}
+            className="col-span-12 md:col-span-5 rounded-2xl bg-coral-400 p-7 flex flex-col justify-between gap-3">
+            <p className="text-white/70 text-[11px] font-semibold leading-relaxed">
+              Every service is delivered personally by me — no handoffs, no outsourcing.
+            </p>
+            <Link href="/contact" className="inline-flex items-center gap-2 text-white font-bold text-sm group self-start">
+              Let's discuss your project
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/>
               </svg>
@@ -76,32 +70,42 @@ export default function ServicesSection({ content = {} }: ServicesSectionProps) 
           </motion.div>
         </div>
 
-        {/* Service tiles bento */}
+        {/* Service cards — responsive bento spans */}
         <div className="grid grid-cols-12 gap-3">
-          {services.map((s, i) => (
-            <motion.div key={s.id}
-              initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }}
-              viewport={{ once:true, margin:"-60px" }} transition={{ duration:0.5, delay: i * 0.07 }}
-              className={`group ${SPANS[i] || "col-span-12 md:col-span-4"} rounded-2xl bg-zinc-900 p-6 md:p-8 flex flex-col justify-between min-h-[200px] border border-zinc-800/50 hover:border-zinc-700 transition-colors`}>
-              <div>
-                <div className={`inline-flex p-3 rounded-xl mb-5 ${s.bg_color}`}>
-                  <svg className={`w-5 h-5 ${s.accent}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICON_PATHS[s.icon] || ICON_PATHS.monitor} />
-                  </svg>
+          {services.map((s, i) => {
+            // Pattern: 5-4-3 / 4-4-4 / 6-6
+            const spans = ["col-span-12 md:col-span-5","col-span-12 md:col-span-4","col-span-12 md:col-span-3","col-span-12 md:col-span-4","col-span-12 md:col-span-4","col-span-12 md:col-span-4"];
+            return (
+              <motion.div key={s.id}
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }}
+                viewport={{ once:true, margin:"-60px" }} transition={{ duration:0.45, delay: i * 0.06 }}
+                className={`group ${spans[i] || "col-span-12 md:col-span-4"} rounded-2xl bg-zinc-900 border border-zinc-800/50 p-7 flex flex-col justify-between min-h-[210px] hover:border-zinc-700 hover:bg-zinc-900/80 transition-all duration-200`}>
+                <div>
+                  {/* Icon */}
+                  <div className={`inline-flex p-2.5 rounded-xl mb-5 ${s.bg_color}`}>
+                    <svg className={`w-5 h-5 ${s.accent}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={ICON_PATHS[s.icon] || ICON_PATHS.monitor} />
+                    </svg>
+                  </div>
+                  <h3 className="font-display font-bold text-white text-lg mb-2 leading-snug">{s.title}</h3>
+                  <p className="text-zinc-500 text-sm leading-relaxed">{s.description}</p>
                 </div>
-                <h3 className={`font-display text-lg font-bold text-white mb-2 group-hover:${s.accent} transition-colors`}>{s.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{s.description}</p>
-              </div>
-              <div className="flex items-center justify-between mt-6 pt-5 border-t border-zinc-800">
-                <Link href="/contact" className={`text-xs font-bold tracking-widest uppercase ${s.accent} hover:opacity-70 transition-opacity flex items-center gap-1.5`}>
-                  Get Offer
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
-                </Link>
-                <span className="text-zinc-700 font-display font-black text-2xl">{String(i+1).padStart(2,"0")}</span>
-              </div>
-            </motion.div>
-          ))}
+                {/* Footer */}
+                <div className="flex items-center justify-between mt-6 pt-5 border-t border-zinc-800/60">
+                  <Link href="/contact"
+                    className={`text-[11px] font-bold tracking-widest uppercase ${s.accent} hover:opacity-70 transition-opacity flex items-center gap-1.5`}>
+                    Get a quote
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+                  </Link>
+                  <span className="font-display font-black text-zinc-800 text-2xl leading-none select-none">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+
       </div>
     </section>
   );

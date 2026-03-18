@@ -35,27 +35,35 @@ export default async function ReviewsPage() {
   return (
     <div className="bg-[#0a0a0a] pt-6 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
+
         {/* Header bento */}
         <div className="grid grid-cols-12 gap-3 mb-3">
-          <div className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-8 flex flex-col justify-between min-h-[200px]">
+          <div className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-8 flex flex-col justify-between min-h-[180px]">
             <div className="flex items-center gap-3">
-              <div className="h-px w-6 bg-coral-400" />
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-coral-400">{reviewsContent.badge||"Client Reviews"}</span>
+              <div className="h-px w-5 bg-coral-400" />
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-coral-400">
+                {reviewsContent.badge || "Client Reviews"}
+              </span>
             </div>
             <div>
-              <h1 className="font-display font-black text-4xl md:text-6xl text-white leading-[0.9] mb-3">
-                {reviewsContent.headline||"What Clients Say"}
+              <h1 className="font-display font-black text-4xl md:text-6xl text-white leading-[0.9] mb-2">
+                {reviewsContent.headline || "Kind words"}
               </h1>
-              {reviewsContent.subtext && <p className="text-zinc-500 font-light text-sm">{reviewsContent.subtext}</p>}
+              {reviewsContent.subtext && (
+                <p className="text-zinc-500 text-sm font-light leading-relaxed">{reviewsContent.subtext}</p>
+              )}
             </div>
           </div>
+
           <div className="col-span-12 md:col-span-5 grid grid-cols-2 gap-3">
             <div className="rounded-2xl bg-coral-400 p-6 flex flex-col justify-between">
               <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest">Avg Rating</p>
               <div>
                 <p className="font-display font-black text-5xl text-white leading-none">{avgRating || "—"}</p>
                 <div className="flex gap-0.5 mt-2">
-                  {[1,2,3,4,5].map(s=><span key={s} className={`text-sm ${s<=Math.round(avgRating)?"text-white":"text-white/30"}`}>★</span>)}
+                  {[1,2,3,4,5].map(s => (
+                    <span key={s} className={`text-sm ${s <= Math.round(avgRating) ? "text-white" : "text-white/25"}`}>★</span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -69,15 +77,14 @@ export default async function ReviewsPage() {
           </div>
         </div>
 
-        {/* Reviews bento grid */}
+        {/* Reviews grid */}
         {reviews.length === 0 ? (
           <div className="rounded-2xl bg-zinc-900 p-16 text-center text-zinc-500 mb-3">
-            <p>No reviews yet. Be the first to leave one below!</p>
+            <p>No reviews yet — be the first to share your experience!</p>
           </div>
         ) : (
           <div className="grid grid-cols-12 gap-3 mb-3">
             {reviews.map((review, i) => {
-              // Vary sizes for visual interest
               const span = i % 5 === 0 ? "col-span-12 md:col-span-5"
                 : i % 5 === 1 ? "col-span-12 md:col-span-7"
                 : i % 5 === 2 ? "col-span-12 md:col-span-7"
@@ -98,14 +105,14 @@ export default async function ReviewsPage() {
             <span className="text-white/70 text-[10px] font-bold uppercase tracking-widest">Share your experience</span>
             <div>
               <h2 className="font-display font-black text-3xl text-white leading-tight mb-3">
-                {reviewsContent.cta_title||"Leave a Review"}
+                {reviewsContent.cta_title || "Leave a Review"}
               </h2>
               <p className="text-white/80 text-sm leading-relaxed">
-                {reviewsContent.cta_text||"Worked with us? Your review helps others. Published within 24 hours after approval."}
+                {reviewsContent.cta_text || "Worked with me? I'd really appreciate hearing your thoughts. Reviews go live within 24 hours."}
               </p>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-8">
+          <div className="col-span-12 md:col-span-7 rounded-2xl bg-zinc-900 p-7 md:p-8">
             <ReviewForm />
           </div>
         </div>

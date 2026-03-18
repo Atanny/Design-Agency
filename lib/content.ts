@@ -4,101 +4,110 @@ const DEFAULTS: Record<string, Record<string, string>> = {
   navbar: {
     logo_name: "",
     logo_image: "",
-    cta_button: "Contact Us",
+    cta_button: "Hire Me",
     social_facebook: "#",
     social_instagram: "#",
     social_tiktok: "#",
     social_behance: "#",
   },
   hero: {
-    badge: "Premium Design Studio",
-    headline_line1: "We Design",
-    headline_accent: "Experiences",
-    headline_line2: "That Elevate",
-    headline_line3: "Your Brand",
-    subheadline: "From brand identity to full digital experiences — we craft design that doesn't just look beautiful, it drives results.",
-    cta_button: "Contact Us",
+    badge: "Open for Freelance",
+    headline_line1: "I Design",
+    headline_accent: "Brands",
+    headline_line2: "That People",
+    headline_line3: "Remember",
+    subheadline: "Freelance designer crafting brand identities, UI/UX, and visual experiences that make your business impossible to ignore.",
+    cta_button: "Hire Me",
     stat1_value: "",
-    stat1_label: "Projects Completed",
+    stat1_label: "Projects Delivered",
     stat2_label: "Client Satisfaction",
     stat3_label: "Average Rating",
     bg_image: "",
   },
   services_section: {
-    badge: "What We Do",
-    headline: "Design Services",
-    subtext: "From brand foundations to full digital products, we offer the complete design spectrum.",
+    badge: "What I Do",
+    headline: "My Services",
+    subtext: "From brand foundations to polished digital products — I offer end-to-end design that works.",
   },
   portfolio_section: {
-    badge: "Our Work",
-    headline: "Recent Projects",
-    view_all: "View All Work",
+    badge: "My Work",
+    headline: "Selected Projects",
+    view_all: "See All Projects",
     bg_image: "",
   },
   process_section: {
-    badge: "How We Work",
-    headline_line1: "Design built",
-    headline_line2: "around your",
-    headline_line3: "goals",
-    subtext: "We start with a deep understanding of your brand, audience, and objectives. Every design decision is intentional.",
-    step1_num: "01", step1_title: "Discovery",  step1_desc: "We learn your brand, goals, and audience inside out.",
-    step2_num: "02", step2_title: "Design",     step2_desc: "We craft visuals that are both beautiful and purposeful.",
-    step3_num: "03", step3_title: "Deliver",    step3_desc: "Print-ready or screen-ready files, on time, every time.",
+    badge: "How I Work",
+    headline_line1: "Simple process,",
+    headline_line2: "extraordinary",
+    headline_line3: "results",
+    subtext: "I keep things clear and collaborative. You'll know exactly what's happening at every stage.",
+    step1_num: "01", step1_title: "We Talk",     step1_desc: "Tell me about your project, goals, and timeline. I'll ask the right questions to understand exactly what you need.",
+    step2_num: "02", step2_title: "I Design",    step2_desc: "I create focused concepts tailored to your brand. You review, give feedback, and I refine until it's perfect.",
+    step3_num: "03", step3_title: "You Launch",  step3_desc: "You get print-ready or screen-ready files, properly organised. No extra fees, no surprises.",
     bg_image: "",
   },
   why_us_section: {
-    badge: "Why Choose Us",
-    headline: "Designed",
-    headline_italic: "differently",
-    card1_title: "Fast Turnaround",    card1_desc: "Most projects delivered within 3–7 days without sacrificing quality.",
-    card2_title: "Strategy-First",    card2_desc: "Every design decision is grounded in your brand goals and audience.",
-    card3_title: "Unlimited Revisions", card3_desc: "We iterate until you're fully satisfied. No extra charges for revisions.",
+    badge: "Why Work With Me",
+    headline: "Personal attention",
+    headline_italic: "every project",
+    card1_title: "Fast Turnaround",      card1_desc: "Most projects delivered within 3–7 days. I respect your deadlines like they're my own.",
+    card2_title: "Direct Communication", card2_desc: "You work directly with me — no account managers, no handoffs, no miscommunication.",
+    card3_title: "Unlimited Revisions",  card3_desc: "I refine until you're genuinely happy. Your satisfaction is the only milestone that matters.",
     bg_image: "",
   },
   testimonials_section: {
-    badge: "Testimonials",
-    headline: "What Clients Say",
+    badge: "Client Words",
+    headline: "What clients say",
   },
   cta_section: {
-    badge: "Ready?",
-    headline: "Ready to bring your brand to life?",
-    subtext: "Let's create something extraordinary together.",
-    button_text: "Contact Us",
+    badge: "Let's Work Together",
+    headline: "Got a project in mind?",
+    subtext: "I'd love to hear about it. Let's create something you're proud to show off.",
+    button_text: "Start a Conversation",
     bg_image: "",
   },
   contact_section: {
     badge: "Get In Touch",
-    headline: "Tell Us About Your Project",
-    subtext: "Fill out the form below and we'll get back to you within 24 hours.",
+    headline: "Let's talk about your project",
+    subtext: "Drop me a message and I'll get back to you within 24 hours.",
   },
   contact_page: {
     badge: "Contact",
     headline: "Let's Work Together",
-    subtext: "Ready to start a project? Tell us about it.",
+    subtext: "I'm currently available for new projects. Tell me what you're building and let's see if we're a good fit.",
     email: "",
     location: "Philippines",
     response: "Within 24 hours",
     discovery_title: "Free Discovery Call",
-    discovery_text: "Book a 30-minute free consultation to discuss your project before committing.",
+    discovery_text: "Not sure what you need yet? Book a free 30-minute call — no pressure, no commitment.",
     form_title: "Project Inquiry",
     bg_image: "",
   },
   reviews_section: {
     badge: "Client Reviews",
-    headline: "What Clients Say",
-    subtext: "Real words from real clients who trusted us with their brand.",
+    headline: "Kind words",
+    subtext: "Real feedback from real clients. I'm proud of every project here.",
     cta_title: "Leave a Review",
-    cta_text: "Worked with us? Reviews are published within 24 hours after approval.",
+    cta_text: "Worked with me? I'd really appreciate hearing your thoughts. Reviews go live within 24 hours.",
+  },
+  offer_card: {
+    title: "Get a Custom Quote",
+    description: "Every project is different. Tell me what you need and I'll send a tailored proposal — no obligation, no pressure.",
+    item1: "Free initial consultation",
+    item2: "Pricing tailored to your scope",
+    item3: "Response within 24 hours",
+    item4: "No hidden fees, ever",
+    button_text: "Request a Quote",
   },
   footer: {
-    tagline: "We craft premium digital experiences that elevate brands. Design is not just what it looks like — it's how it works.",
+    tagline: "Freelance designer crafting brands, interfaces, and visual experiences that get noticed.",
     copyright_suffix: "All rights reserved.",
     made_in: "Philippines",
   },
   services_page: {
     badge: "Services",
-    headline: "Design Services",
-    subtext: "Premium design services tailored to grow your brand.",
+    headline: "What I Offer",
+    subtext: "Focused design services delivered personally by me — not outsourced, not templated.",
     bg_image: "",
   },
 };
@@ -108,18 +117,11 @@ type ContentMap = Record<string, string>;
 export async function getContent(section: string): Promise<ContentMap> {
   try {
     const supabase = createServerClient();
-    const { data } = await supabase
-      .from("site_content")
-      .select("key, value")
-      .eq("section", section);
-
+    const { data } = await supabase.from("site_content").select("key, value").eq("section", section);
     const base = DEFAULTS[section] || {};
     if (!data || data.length === 0) return base;
-
     const fromDb: ContentMap = {};
-    data.forEach((row: { key: string; value: string }) => {
-      fromDb[row.key] = row.value;
-    });
+    data.forEach((row: { key: string; value: string }) => { fromDb[row.key] = row.value; });
     return { ...base, ...fromDb };
   } catch {
     return DEFAULTS[section] || {};
@@ -138,9 +140,7 @@ export async function getAllContent(): Promise<Record<string, Record<string, str
       });
     }
     return result;
-  } catch {
-    return DEFAULTS;
-  }
+  } catch { return DEFAULTS; }
 }
 
 export { DEFAULTS };
