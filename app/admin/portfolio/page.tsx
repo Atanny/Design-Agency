@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 import ConfirmModal from "@/components/ConfirmModal";
 import type { PortfolioItem } from "@/types";
 
-const DEFAULT_CATEGORIES = ["UI/UX", "Branding", "Poster", "Social Media", "Website", "Other"];
+const DEFAULT_CATEGORIES = ["UI/UX Design", "Brand Identity", "Poster Design", "Social Media", "Website Design", "Other"];
 
 export default function AdminPortfolio() {
  const [items, setItems] = useState<PortfolioItem[]>([]);
@@ -75,7 +75,7 @@ export default function AdminPortfolio() {
  } else {
  toast.success("Portfolio item added!");
  setShowForm(false);
- setForm({ title:"", description:"", category:"UI/UX", image_url:"", project_url:"" });
+ setForm({ title:"", description:"", category:categories[0]||"UI/UX Design", image_url:"", project_url:"", image_urls:[] as string[] });
  setPreviewUrl("");
  fetchItems();
  }
@@ -196,6 +196,26 @@ export default function AdminPortfolio() {
  {previewUrl && <Image src={previewUrl} alt="preview" width={64} height={64} className="object-cover w-16 h-16"/>}
  </div>
  <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden"/>
+ </div>
+ {previewUrl && (
+   <div className="mt-3">
+     <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Additional Images (optional slideshow)</label>
+     <div className="flex flex-wrap gap-2 mb-2">
+       {(form.image_urls || []).map((url, i) => (
+         <div key={i} className="relative group">
+           <img src={url} alt="" className="w-14 h-14 object-cover" style={{ clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)" }}/>
+           <button type="button" onClick={() => setForm(f => ({ ...f, image_urls: (f.image_urls||[]).filter((_,j)=>j!==i) }))}
+             className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
+         </div>
+       ))}
+       <input ref={multiFileRef} type="file" accept="image/*" multiple onChange={handleMultiImageUpload} className="hidden"/>
+       <button type="button" onClick={() => multiFileRef.current?.click()} disabled={uploadingExtra}
+         className="w-14 h-14 border border-dashed border-zinc-700 text-zinc-600 text-xs hover:border-gold-500/50 hover:text-zinc-400 flex items-center justify-center transition-colors">
+         {uploadingExtra ? "..." : "+ Add"}
+       </button>
+     </div>
+   </div>
+ )}
  </div>
  <div className="flex gap-3 pt-2">
  <button type="submit" disabled={uploading || !form.image_url}

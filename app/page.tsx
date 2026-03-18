@@ -162,14 +162,7 @@ export default async function Home() {
                 {portfolioContent.headline || "Selected Work"}
               </h2>
             </div>
-            <Link href="/portfolio"
-              className="group inline-flex items-center gap-2.5 text-sm font-bold tracking-widest uppercase text-zinc-500 dark:text-zinc-400 hover:text-gold-600 dark:hover:text-gold-400 transition-colors"
-            >
-              {portfolioContent.view_all || "View All Work"}
-              <svg className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
+
           </div>
           <PortfolioGrid limit={6} showFilters={false} showViewAll />
         </div>
