@@ -8,15 +8,15 @@
 @layer base {
   /* ── Light mode (default) ── */
   :root {
-    --bg-page:      #fdf9f5;
-    --bg-section:   #f5f0e8;
-    --bg-card:      #ffffff;
-    --bg-card-alt:  #faf7f2;
-    --border-card:  rgba(40,27,19,0.09);
+    --bg-page:      #e8e0d5;
+    --bg-section:   #ddd5c8;
+    --bg-card:      #f5efe6;
+    --bg-card-alt:  #ede5d8;
+    --border-card:  rgba(40,27,19,0.13);
     --text-primary: #1a0f08;
     --text-body:    #4a3322;
-    --text-muted:   #8a6a50;
-    --text-faint:   #b59480;
+    --text-muted:   #7a5a3c;
+    --text-faint:   #a8856a;
     --primary: 245 148 92;
     --accent:  254 199 111;
   }
