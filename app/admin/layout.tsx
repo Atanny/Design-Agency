@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (checking) return (
     <div className="min-h-screen bg-[#080808] flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-coral-400 border-t-transparent rounded-full animate-spin" />
         <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-zinc-600">Loading</span>
       </div>
     </div>
@@ -110,13 +110,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {logoImage ? (
               <img src={logoImage} alt={logoName} className="w-8 h-8 object-contain" />
             ) : (
-              <span className="w-8 h-8 gradient-gold flex items-center justify-center text-white font-display font-black text-sm shadow-lg shadow-gold-500/20"
-                style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
+              <span className="w-8 h-8 gradient-primary flex items-center justify-center text-white font-display font-black text-sm shadow-lg shadow-coral-400/20"
+                >
                 {logoName ? logoName.charAt(0).toUpperCase() : "--"}
               </span>
             )}
             <div>
-              <span className="font-display font-bold text-white text-sm block leading-none group-hover:text-gold-400 transition-colors">
+              <span className="font-display font-bold text-white text-sm block leading-none group-hover:text-amber-400 transition-colors">
                 {logoName ? `${logoName} Studio` : "--"}
               </span>
               <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-600 mt-0.5 block">Dashboard</span>
@@ -136,16 +136,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     ? "text-white bg-white/8"
                     : "text-zinc-500 hover:text-white hover:bg-white/4"
                 }`}
-                style={active ? { clipPath: "polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)" } : {}}
+                className={active ? "rounded-xl" : ""}
               >
-                {active && <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gold-500" />}
-                <span className={`transition-colors ${active ? "text-gold-400" : "text-zinc-600 group-hover:text-zinc-400"}`}>
+                {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full bg-coral-400" />}
+                <span className={`transition-colors ${active ? "text-amber-400" : "text-zinc-600 group-hover:text-zinc-400"}`}>
                   {ICONS[item.icon]}
                 </span>
                 <span className="flex-1">{item.label}</span>
                 {count > 0 && (
-                  <span className="min-w-[18px] h-[18px] px-1 bg-gold-500 text-white text-[9px] font-black flex items-center justify-center leading-none"
-                    style={{ clipPath: "polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)" }}>
+                  <span className="min-w-[18px] h-[18px] px-1 gradient-primary text-white text-[9px] font-black flex items-center justify-center leading-none"
+                    style={{ borderRadius: "99px" }}>
                     {count > 99 ? "99+" : count}
                   </span>
                 )}
@@ -156,8 +156,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-3">
           <div className="flex items-center gap-3 px-3 py-2.5 mb-1">
-            <div className="w-7 h-7 gradient-gold flex items-center justify-center text-white text-xs font-black flex-shrink-0"
-              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
+            <div className="w-7 h-7 gradient-primary flex items-center justify-center text-white text-xs font-black flex-shrink-0"
+              >
               {userEmail.charAt(0).toUpperCase()}
             </div>
             <p className="text-xs text-zinc-500 truncate min-w-0 font-medium">{userEmail}</p>

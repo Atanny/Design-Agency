@@ -66,7 +66,7 @@ export default function AdminSeo() {
  <div className="h-px w-8 bg-gold-500" />
  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
  </div>
- <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">SEO Settings</h1>
+ <h1 className="font-display text-3xl font-black text-white leading-none">SEO Settings</h1>
  <p className="text-zinc-600 text-sm mt-2">Control meta titles, descriptions, and Open Graph images for each page.</p>
  </div>
 

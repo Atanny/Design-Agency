@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
   noStore();
   const [seo, navContent] = await Promise.all([getHomeSEO(), getContent("navbar")]);
   const name = navContent.logo_name ? `${navContent.logo_name}` : "Freelance Designer";
-  const title = seo?.meta_title || `${name} — Design That Elevates Brands`;
+  const title = seo?.meta_title || `${name} — Freelance Designer for Hire`;
   const description = seo?.meta_description || "Freelance UI/UX, branding, and visual design services.";
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yourstudio.com"),

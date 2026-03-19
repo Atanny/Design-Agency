@@ -202,3 +202,29 @@ html.dark ::selection { color: #fff; }
 .bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
 }
+
+/* ── GRADIENT TILE BACKGROUNDS ── */
+/* Replace flat primary color tiles with rich gradients */
+.tile-gradient-coral {
+  background: linear-gradient(145deg, #f5945c 0%, #fec76f 60%, #f5945c 100%);
+}
+.tile-gradient-amber {
+  background: linear-gradient(145deg, #fec76f 0%, #feb84a 60%, #fec76f 100%);
+}
+.tile-gradient-dark {
+  background: linear-gradient(145deg, #281B13 0%, #4a3322 60%, #1a1009 100%);
+}
+.tile-gradient-espresso {
+  background: linear-gradient(145deg, #381f10 0%, #281B13 50%, #1a1009 100%);
+}
+.tile-gradient-violet {
+  background: linear-gradient(145deg, #7c3aed 0%, #a78bfa 50%, #7c3aed 100%);
+}
+.tile-gradient-emerald {
+  background: linear-gradient(145deg, #059669 0%, #34d399 50%, #059669 100%);
+}
+
+/* Active nav pill gradient */
+.nav-active {
+  background: linear-gradient(135deg, #f5945c 0%, #fec76f 100%);
+}

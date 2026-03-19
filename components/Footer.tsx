@@ -49,7 +49,7 @@ export default function Footer({ content={}, logoName="", logoImage }: FooterPro
           </div>
 
           {/* CTA */}
-          <div className="lg:col-span-4 rounded-2xl bg-coral-400 p-7 flex flex-col justify-between">
+          <div className="lg:col-span-4 tile-gradient-coral rounded-2xl p-7 flex flex-col justify-between">
             <p className="text-white/70 text-sm font-light leading-relaxed">Ready to start something great?</p>
             <div>
               <p className="font-display font-black text-white text-xl leading-tight mb-4">Let's talk about your project.</p>

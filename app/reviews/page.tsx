@@ -42,7 +42,7 @@ export default async function ReviewsPage() {
           </div>
 
           <div className="md:col-span-5 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-coral-400 relative overflow-hidden p-6 flex flex-col justify-between min-h-[100px]">
+            <div className="tile-gradient-coral rounded-2xl relative overflow-hidden p-6 flex flex-col justify-between min-h-[100px]">
               <BgDots dark opacity={0.5} />
               <p className="relative z-10 text-white/70 text-[10px] font-semibold uppercase tracking-widest">Avg Rating</p>
               <div className="relative z-10">
@@ -79,7 +79,7 @@ export default async function ReviewsPage() {
 
         {/* Leave a review */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 pb-14">
-          <div className="lg:col-span-5 rounded-2xl bg-coral-400 relative overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[280px]">
+          <div className="lg:col-span-5 tile-gradient-coral rounded-2xl relative overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[280px]">
             <BgDots dark opacity={0.5} />
             <BgHex dark opacity={0.4} />
             <span className="relative z-10 text-white/70 text-[10px] font-semibold uppercase tracking-widest">Share your experience</span>

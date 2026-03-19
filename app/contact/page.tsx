@@ -67,7 +67,7 @@ export default async function ContactPage() {
           </div>
 
           <div className="lg:col-span-4 flex flex-col gap-3">
-            <div className="rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex-1 flex flex-col justify-between min-h-[200px]">
+            <div className="tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex-1 flex flex-col justify-between min-h-[200px]">
               <BgDots dark opacity={0.5} />
               <div className="relative z-10 w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-2xl">📞</div>
               <div className="relative z-10">

@@ -60,7 +60,7 @@ export default async function BlogPostPage({ params }:Props) {
               dangerouslySetInnerHTML={{ __html: post.content || "" }}/>
           </div>
           <div className="lg:col-span-4 flex flex-col gap-3">
-            <div className="rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex flex-col justify-between min-h-[200px]">
+            <div className="tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex flex-col justify-between min-h-[200px]">
               <BgDots dark opacity={0.5}/>
               <span className="relative z-10 text-white/70 text-[10px] font-semibold uppercase tracking-widest">Ready to create?</span>
               <div className="relative z-10">

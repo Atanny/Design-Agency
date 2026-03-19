@@ -127,7 +127,7 @@ export default function Hero({ content={} }: HeroProps) {
 
             {/* Projects stat */}
             <motion.div custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
-              className="col-span-1 rounded-2xl bg-coral-400 relative overflow-hidden p-6 flex flex-col justify-between min-h-[170px]">
+              className="col-span-1 tile-gradient-coral rounded-2xl relative overflow-hidden p-6 flex flex-col justify-between min-h-[170px]">
               <BgDots dark opacity={0.5} />
               <p className="relative z-10 text-white/70 text-[10px] font-semibold uppercase tracking-widest leading-tight">
                 {content.stat1_label || "Projects Delivered"}
@@ -155,27 +155,55 @@ export default function Hero({ content={} }: HeroProps) {
               </div>
             </motion.div>
 
-            {/* Social proof / quote */}
+            {/* Social proof — live ratings */}
             <motion.div custom={0.2} initial="hidden" animate="visible" variants={fadeUp}
-              className="col-span-2 bento-card relative overflow-hidden p-6 flex flex-col gap-4 min-h-[160px]">
+              className="col-span-2 bento-card relative overflow-hidden p-6 flex flex-col justify-between gap-4 min-h-[160px]">
               <BgHex opacity={0.6} />
               <BgGlowBlob color="amber" position="br" />
+
               {stats.avgRating !== null ? (
-                <div className="relative z-10 flex items-center gap-2">
+                /* Has real reviews — show the live data prominently */
+                <div className="relative z-10 flex flex-col gap-3">
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-0.5">
+                        {[1,2,3,4,5].map(s=>(
+                          <svg key={s} className={`w-5 h-5 ${s<=Math.round(stats.avgRating||0)?"text-amber-400":"text-faint"}`} fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="font-display font-black text-amber-400 text-2xl leading-none">{stats.avgRating}</span>
+                      <span className="text-muted text-xs font-light">out of 5</span>
+                    </div>
+                    {stats.satisfaction !== null && (
+                      <span className="text-body text-xs font-light">
+                        <span className="text-page font-semibold">{stats.satisfaction}%</span> of clients rated 4★ or above
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-body text-sm font-light leading-relaxed">
+                    Based on <span className="text-page font-semibold">{stats.portfolioCount}+ projects</span> delivered — see what clients say on the{" "}
+                    <a href="/reviews" className="text-coral-500 hover:underline">reviews page</a>.
+                  </p>
+                </div>
+              ) : (
+                /* No reviews yet — neutral placeholder, still freelancer-voiced */
+                <div className="relative z-10 flex flex-col gap-2">
                   <div className="flex gap-0.5">
                     {[1,2,3,4,5].map(s=>(
-                      <svg key={s} className={`w-4 h-4 ${s<=Math.round(stats.avgRating||0)?"text-amber-400":"text-faint"}`} fill="currentColor" viewBox="0 0 20 20">
+                      <svg key={s} className="w-5 h-5 text-faint" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                       </svg>
                     ))}
                   </div>
-                  <span className="text-amber-500 font-bold text-sm">{stats.avgRating}</span>
-                  <span className="text-muted text-xs">average rating</span>
+                  <p className="text-body text-sm font-light leading-relaxed">
+                    Ratings coming soon — be the first to{" "}
+                    <a href="/reviews" className="text-coral-500 hover:underline">leave a review</a>.
+                  </p>
                 </div>
-              ) : null}
-              <p className="relative z-10 text-body text-sm leading-relaxed font-light flex-1">
-                "I put everything into every project — no shortcuts, no templates, no compromise."
-              </p>
+              )}
+
               <div className="relative z-10 flex flex-wrap gap-2 pt-3 border-t border-card">
                 {["UI/UX","Branding","Print","Social","Web"].map(tag=>(
                   <span key={tag} className="px-2.5 py-1 rounded-full border border-card text-muted text-[11px] font-medium">{tag}</span>

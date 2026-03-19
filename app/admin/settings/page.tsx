@@ -62,13 +62,13 @@ export default function AdminSettings() {
  ];
 
  return (
- <div className="p-8 w-full">
+ <div className="p-6 w-full max-w-full">
  <div className="mb-8">
  <div className="flex items-center gap-3 mb-2">
  <div className="h-px w-8 bg-gold-500" />
  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
  </div>
- <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Settings</h1>
+ <h1 className="font-display text-3xl font-black text-white leading-none">Settings</h1>
  <p className="text-zinc-600 text-sm mt-2">Email configuration and environment setup.</p>
  </div>
 

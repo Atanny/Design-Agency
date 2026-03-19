@@ -22,7 +22,7 @@ async function getFeaturedReviews(): Promise<Review[]> {
 function Badge({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-3">
-      <div className="h-px w-5 bg-coral-400 flex-shrink-0" />
+      <div className="h-px w-5 tile-gradient-coral flex-shrink-0" />
       <span className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-500">{label}</span>
     </div>
   );
@@ -74,15 +74,15 @@ export default async function Home() {
             </div>
 
             {/* Accent tile */}
-            <div className="md:col-span-4 rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex flex-col justify-between h-full min-h-[180px]">
+            <div className="md:col-span-4 tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex flex-col justify-between h-full min-h-[180px]">
               <BgDots dark opacity={0.5} />
               <BgCornerAccent dark />
               <div className="relative z-10">
-                <span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">Every pixel</span>
+                <span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">Handpicked work</span>
               </div>
               <div className="relative z-10">
-                <p className="font-display font-black text-white text-2xl leading-tight">crafted with intention.</p>
-                <p className="text-white/70 text-sm mt-2 font-light leading-relaxed">Real problems. Real solutions. Real results.</p>
+                <p className="font-display font-black text-white text-2xl leading-tight">Projects I'm genuinely proud of.</p>
+                <p className="text-white/70 text-sm mt-2 font-light leading-relaxed">Each one was a real challenge, solved personally by me.</p>
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default async function Home() {
           {/* Feature tiles — 3 equal columns */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Fast */}
-            <div className="rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex flex-col justify-between min-h-[260px]">
+            <div className="tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex flex-col justify-between min-h-[260px]">
               <BgDots dark opacity={0.5} />
               <BgCornerAccent dark />
               <div className="relative z-10 w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
@@ -240,7 +240,7 @@ export default async function Home() {
                   </h2>
                 </div>
                 <div className="relative z-10 mt-6">
-                  <p className="text-body text-sm font-light">From real clients who trusted me with their brand.</p>
+                  <p className="text-body text-sm font-light">Real words from real people I've worked with directly.</p>
                 </div>
               </div>
               {/* Stats tile */}
@@ -251,7 +251,7 @@ export default async function Home() {
                   {[1,2,3,4,5].map(s=><span key={s} className="text-amber-400 text-xl">★</span>)}
                 </div>
                 <div className="relative z-10">
-                  <p className="text-white/60 text-xs leading-relaxed font-light mb-4">Consistently rated 5 stars by people who trusted me with their brand.</p>
+                  <p className="text-white/60 text-xs leading-relaxed font-light mb-4">Every review is from a real client — no agency middlemen, just honest feedback from people I worked with personally.</p>
                   <Link href="/reviews" className="inline-flex items-center gap-2 text-coral-400 text-[11px] font-semibold tracking-widest uppercase hover:text-coral-300 transition-colors">
                     Read all reviews
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>

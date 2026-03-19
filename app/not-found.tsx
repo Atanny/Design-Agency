@@ -11,7 +11,7 @@ export default function NotFound() {
           <h1 className="relative z-10 font-display text-2xl font-black text-page mt-2 mb-2">Page not found</h1>
           <p className="relative z-10 text-body text-sm font-light">That page doesn't exist or has been moved.</p>
         </div>
-        <Link href="/" className="rounded-2xl bg-coral-400 relative overflow-hidden p-7 flex flex-col justify-between min-h-[140px] hover:opacity-90 transition-opacity">
+        <Link href="/" className="tile-gradient-coral rounded-2xl relative overflow-hidden p-7 flex flex-col justify-between min-h-[140px] hover:opacity-90 transition-opacity">
           <BgDots dark opacity={0.5}/>
           <span className="relative z-10 text-white/70 text-xs font-semibold uppercase tracking-widest">Go back</span>
           <span className="relative z-10 text-white font-display font-black text-xl leading-tight">Home →</span>

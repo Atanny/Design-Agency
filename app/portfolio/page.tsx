@@ -33,16 +33,16 @@ export default async function PortfolioPage() {
             </div>
           </div>
 
-          <div className="md:col-span-4 rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex flex-col justify-between min-h-[240px]">
+          <div className="md:col-span-4 tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex flex-col justify-between min-h-[240px]">
             <BgDots dark opacity={0.5} />
             <div className="relative z-10 flex flex-col gap-2">
-              <span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">Real projects</span>
-              <p className="font-display font-black text-white text-2xl leading-tight">Every pixel crafted with intention.</p>
+              <span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">My work</span>
+              <p className="font-display font-black text-white text-2xl leading-tight">Projects I'm proud to put my name on.</p>
             </div>
             <div className="relative z-10">
-              <p className="text-white/70 text-sm font-light leading-relaxed mb-4">Each project is a story of a design challenge solved with care.</p>
+              <p className="text-white/70 text-sm font-light leading-relaxed mb-4">Real clients, real briefs, real results — all done personally by me.</p>
               <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-coral-500 text-sm font-semibold hover:bg-espresso-800 hover:text-white transition-all">
-                Start a project →
+                Hire me →
               </Link>
             </div>
           </div>

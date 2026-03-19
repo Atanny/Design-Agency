@@ -7,7 +7,7 @@ export default function ReviewCard({ review, index=0 }: ReviewCardProps) {
   const variant = index % 4;
   const styles = [
     { wrap:"bento-card",           quote:"text-body",         name:"text-page",    sub:"text-muted",  star:"text-amber-400",    starOff:"text-faint",    divider:"border-card",  avatar:"bg-coral-400/10 text-coral-500" },
-    { wrap:"bg-coral-400",         quote:"text-white/80",     name:"text-white",   sub:"text-white/60", star:"text-white",      starOff:"text-white/25", divider:"border-white/20", avatar:"bg-white/20 text-white" },
+    { wrap:"tile-gradient-coral",         quote:"text-white/80",     name:"text-white",   sub:"text-white/60", star:"text-white",      starOff:"text-white/25", divider:"border-white/20", avatar:"bg-white/20 text-white" },
     { wrap:"bg-amber-300",         quote:"text-espresso-700", name:"text-espresso-800", sub:"text-espresso-600", star:"text-espresso-700", starOff:"text-espresso-400/30", divider:"border-espresso-400/20", avatar:"bg-espresso-800/15 text-espresso-800" },
     { wrap:"bg-espresso-800",      quote:"text-zinc-400",     name:"text-white",   sub:"text-zinc-500", star:"text-amber-400",  starOff:"text-zinc-700", divider:"border-zinc-700/60", avatar:"bg-coral-400/20 text-coral-400" },
   ];

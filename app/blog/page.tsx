@@ -29,7 +29,7 @@ export default async function BlogPage() {
             </div>
             <div className="relative z-10"><p className="text-body text-sm font-light">Insights on design, brand strategy, and creative process.</p></div>
           </div>
-          <div className="md:col-span-4 rounded-2xl bg-coral-400 relative overflow-hidden p-8 flex flex-col justify-between min-h-[220px]">
+          <div className="md:col-span-4 tile-gradient-coral rounded-2xl relative overflow-hidden p-8 flex flex-col justify-between min-h-[220px]">
             <BgDots dark opacity={0.5} />
             <div className="relative z-10"><span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">From my desk</span></div>
             <div className="relative z-10">

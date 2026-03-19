@@ -62,7 +62,7 @@ export default function Navbar({ logoName="", ctaText="Hire Me", logoImage }: Na
               <Link key={link.href} href={link.href}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   pathname === link.href
-                    ? "bg-coral-400 text-white shadow-sm"
+                    ? "nav-active text-white shadow-sm"
                     : "text-muted hover:text-page hover:bg-section"
                 }`}>
                 {link.label}
@@ -113,7 +113,7 @@ export default function Navbar({ logoName="", ctaText="Hire Me", logoImage }: Na
                 <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
                   className={`px-4 py-3 rounded-xl text-base font-medium transition-all ${
                     pathname === link.href
-                      ? "bg-coral-400 text-white"
+                      ? "nav-active text-white"
                       : "text-body hover:bg-card hover:text-page"
                   }`}>
                   {link.label}

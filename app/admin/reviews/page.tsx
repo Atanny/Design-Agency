@@ -80,7 +80,7 @@ export default function AdminReviews() {
  <div className="h-px w-8 bg-gold-500" />
  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
  </div>
- <h1 className="font-display text-4xl font-black text-white tracking-tight leading-none">Reviews</h1>
+ <h1 className="font-display text-3xl font-black text-white leading-none">Reviews</h1>
  <p className="text-zinc-500 mt-0.5">
  {pendingCount > 0
  ? <span className="text-amber-400 font-medium">{pendingCount} pending approval</span>

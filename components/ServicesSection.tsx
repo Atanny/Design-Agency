@@ -86,7 +86,7 @@ export default function ServicesSection({ content={} }: ServicesSectionProps) {
 
           {/* CTA tile */}
           <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.55,delay:0.1}}
-            className="md:col-span-5 rounded-2xl bg-coral-400 relative overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
+            className="md:col-span-5 tile-gradient-coral rounded-2xl relative overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
             <BgDots dark opacity={0.5} />
             <div className="relative z-10 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
