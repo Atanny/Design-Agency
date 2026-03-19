@@ -192,159 +192,134 @@ export default function AdminContent() {
  const labels = LABELS[activeSection] || {};
  const hasChanges = JSON.stringify(data) !== JSON.stringify(original);
 
- return (
- <div className="p-8 w-full max-w-full">
- <div className="grid grid-cols-1 gap-3 mb-4">
-        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 min-h-[110px] flex flex-col justify-between">
-          <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-400">Admin</p>
+  const IMAGE_KEYS = ["logo_image","bg_image"];
+  const URL_KEYS   = ["social_facebook","social_instagram","social_tiktok","social_behance","email"];
+  const TEXTAREA_KEYS = ["subtext","description","subheadline","step1_desc","step2_desc","step3_desc","cta_text","discovery_text"];
+
+  return (
+    <div className="p-6 w-full">
+
+      {/* Bento header */}
+      <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 mb-4 flex flex-col justify-between min-h-[110px]">
+        <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-400">Admin</p>
+        <div>
           <h1 className="font-display text-3xl font-black text-white leading-none">Content</h1>
+          <p className="text-zinc-500 text-sm mt-1 font-light">Edit site-wide copy and section content.</p>
         </div>
       </div>
- <div>
- <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Button Text</label>
- <input type="text" value={data.button_text||""} onChange={(e)=>setData(d=>({...d,button_text:e.target.value}))}
- placeholder="Request an Offer"
- className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors"/>
- </div>
- </div>
 
- <div>
- <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Live Preview</p>
- <div className="rounded-2xl border border-zinc-800/50 bg-zinc-900/50 p-6 flex flex-col items-center text-center gap-4"
- >
- <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center">
- <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
- </svg>
- </div>
- <div>
- <h3 className="font-display text-lg font-bold text-white mb-1">{data.title||"Get a Custom Offer"}</h3>
- <p className="text-zinc-400 text-xs leading-relaxed">{data.description||"Every project is unique. Tell us what you need and we'll send you a tailored quote."}</p>
- </div>
- <ul className="space-y-1.5 text-left w-full">
- {["item1","item2","item3","item4"].map((k,i)=>{
- const val=(data as Record<string,string>)[k]||["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i];
- return val?(
- <li key={k} className="flex items-center gap-2 text-xs text-zinc-300">
- <svg className="w-3 h-3 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
- {val}
- </li>
- ):null;
- })}
- </ul>
- <div className="w-full py-2.5 bg-white/10 text-white text-xs font-bold text-center">
- {data.button_text||"Request an Offer"}
- </div>
- </div>
- <p className="text-xs text-zinc-600 mt-3 text-center">This card appears on every service in the Services page</p>
- </div>
- </div>
- </div>
- ) : (
- <div className="space-y-5">
- {keys.map((key) => {
- const isImage = IMAGE_KEYS.includes(key);
- const isUrl = URL_KEYS.includes(key);
- const isTextarea = !isImage && !isUrl && (TEXTAREA_KEYS.some((t) => key.includes(t)) || (data[key] || "").length > 80);
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
 
- if (isImage) {
- const isBg = key === "bg_image";
- const uploadId = `upload-${activeSection}-${key}`;
- return (
- <div key={key}>
- <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">
- {labels[key] || key.replace(/_/g, " ")}
- </label>
- <div className="flex items-start gap-4">
- {data[key] ? (
- <div className="relative flex-shrink-0">
- {/* eslint-disable-next-line @next/next/no-img-element */}
- <img src={data[key]} alt="Preview"
- className={isBg ? "w-36 h-20 object-cover border border-zinc-800" : "w-16 h-16 object-contain border border-zinc-800 bg-zinc-800 p-2"} />
- <button onClick={() => setData((d) => ({ ...d, [key]: "" }))}
- className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center"
- >×</button>
- </div>
- ) : (
- <div className={`${isBg ? "w-36 h-20" : "w-16 h-16"} border-2 border-dashed border-zinc-800 flex items-center justify-center text-zinc-600 flex-shrink-0`}>
- <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
- </svg>
- </div>
- )}
- <div>
- <input
- ref={key === "logo_image" ? fileInputRef : undefined}
- id={uploadId}
- type="file"
- accept="image/*"
- className="hidden"
- onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], key)}
- />
- <label htmlFor={uploadId}
- className="inline-block px-4 py-2 bg-zinc-700 text-white text-sm hover:bg-zinc-600 cursor-pointer transition-colors">
- {uploading ? "Uploading..." : data[key] ? `Change ${isBg ? "Image" : "Logo"}` : `Upload ${isBg ? "Background Image" : "Logo"}`}
- </label>
- {isBg && <p className="text-xs text-zinc-600 mt-1">Recommended: 1920×1080px or larger. Displayed behind the section with an overlay.</p>}
- {!isBg && <p className="text-xs text-zinc-600 mt-1">PNG, JPG, SVG · Recommended 64×64px</p>}
- <p className="text-xs text-zinc-600">Requires a <code className="text-amber-400">site-assets</code> bucket in Supabase Storage</p>
- </div>
- </div>
- </div>
- );
- }
+        {/* Section sidebar */}
+        <div className="lg:col-span-3 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-3 flex flex-col gap-1 h-fit lg:sticky lg:top-6">
+          <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-600 px-3 pt-2 pb-1.5">Sections</p>
+          {SECTIONS.map(s=>(
+            <button key={s.key} onClick={()=>setActiveSection(s.key)}
+              className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                activeSection===s.key?"gradient-primary text-white":"text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+              }`}>
+              {s.label}
+            </button>
+          ))}
+        </div>
 
- return (
- <div key={key}>
- <label className="block text-xs font-medium text-zinc-400 mb-1.5 capitalize">
- {labels[key] || key.replace(/_/g, " ")}
- </label>
- {isTextarea ? (
- <textarea
- value={data[key] || ""}
- onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
- rows={3}
- className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 resize-none transition-all"
- />
- ) : (
- <input
- type={isUrl ? "url" : "text"}
- value={data[key] || ""}
- onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
- placeholder={isUrl ? "https://..." : ""}
- className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 transition-all"
- />
- )}
- </div>
- );
- })}
- </div>
- )}
+        {/* Fields panel */}
+        <div className="lg:col-span-9 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-xl font-bold text-white">
+              {SECTIONS.find(s=>s.key===activeSection)?.label}
+            </h2>
+            {hasChanges&&(
+              <span className="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold border border-amber-500/20">Unsaved changes</span>
+            )}
+          </div>
 
- <div className="flex gap-3 mt-8 pt-6 border-t border-zinc-800/60">
- <button onClick={() => setConfirmSave(true)} disabled={saving || !hasChanges}
- className="px-6 py-2.5 gradient-primary text-white rounded-xl text-sm font-black tracking-wide hover:opacity-90 disabled:opacity-50 transition-all"
- >
- {saving ? "Saving..." : "Save Changes"}
- </button>
- <button onClick={() => setData({ ...original })} disabled={!hasChanges}
- className="px-6 py-2.5 border border-zinc-800 text-zinc-400 text-sm hover:text-white disabled:opacity-40 transition-colors"
- >
- Discard
- </button>
- </div>
- </div>
- </div>
- </div>
- <ConfirmModal
- open={confirmSave}
- title="Save Changes"
- message="These changes will be applied sitewide immediately. All public pages will update."
- confirmLabel="Yes, Save"
- variant="warning"
- onConfirm={() => { setConfirmSave(false); handleSave(); }}
- onCancel={() => setConfirmSave(false)}
- />
- </div>
- );
+          {loading ? (
+            <div className="space-y-4">{[...Array(5)].map((_,i)=><div key={i} className="h-12 rounded-xl bg-zinc-800 animate-pulse"/>)}</div>
+          ) : (
+            <div className="space-y-5">
+              {keys.map(key=>{
+                const isImage    = IMAGE_KEYS.includes(key);
+                const isUrl      = URL_KEYS.includes(key);
+                const isBg       = key==="bg_image";
+                const isTextarea = !isImage&&!isUrl&&(TEXTAREA_KEYS.some(t=>key.includes(t))||(data[key]||"").length>80);
+                const uploadId   = `upload-${activeSection}-${key}`;
+
+                if (isImage) return (
+                  <div key={key}>
+                    <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-zinc-500 mb-2">
+                      {labels[key]||key.replace(/_/g," ")}
+                    </label>
+                    <div className="flex items-start gap-4">
+                      {data[key] ? (
+                        <div className="relative flex-shrink-0">
+                          <img src={data[key]} alt="Preview"
+                            className={isBg?"w-36 h-20 object-cover rounded-xl border border-zinc-800/50":"w-16 h-16 object-contain rounded-xl border border-zinc-800/50 bg-zinc-800 p-2"}/>
+                          <button onClick={()=>setData(d=>({...d,[key]:""}))}
+                            className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">×</button>
+                        </div>
+                      ) : (
+                        <div className={`${isBg?"w-36 h-20":"w-16 h-16"} rounded-xl border-2 border-dashed border-zinc-800 flex items-center justify-center text-zinc-600 flex-shrink-0`}>
+                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01"/>
+                          </svg>
+                        </div>
+                      )}
+                      <div>
+                        <input ref={key==="logo_image"?fileInputRef:undefined} id={uploadId} type="file" accept="image/*" className="hidden"
+                          onChange={e=>e.target.files?.[0]&&handleImageUpload(e.target.files[0],key)}/>
+                        <label htmlFor={uploadId} className="inline-block px-4 py-2 rounded-xl bg-zinc-700 text-white text-sm hover:bg-zinc-600 cursor-pointer transition-colors">
+                          {uploading?"Uploading...":data[key]?`Change ${isBg?"Image":"Logo"}`:`Upload ${isBg?"Background":"Logo"}`}
+                        </label>
+                        {isBg&&<p className="text-xs text-zinc-600 mt-1">Recommended: 1920×1080px. Shown with an overlay.</p>}
+                        {!isBg&&<p className="text-xs text-zinc-600 mt-1">PNG, JPG, SVG · 64×64px recommended</p>}
+                        <p className="text-xs text-zinc-600">Requires a <code className="text-amber-400">site-assets</code> bucket in Supabase Storage</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+
+                return (
+                  <div key={key}>
+                    <label className="block text-xs font-medium text-zinc-400 mb-1.5 capitalize">
+                      {labels[key]||key.replace(/_/g," ")}
+                    </label>
+                    {isTextarea ? (
+                      <textarea value={data[key]||""} onChange={e=>setData(d=>({...d,[key]:e.target.value}))} rows={3}
+                        className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 resize-none transition-all"/>
+                    ) : (
+                      <input type={isUrl?"url":"text"} value={data[key]||""} onChange={e=>setData(d=>({...d,[key]:e.target.value}))}
+                        placeholder={isUrl?"https://...":""}
+                        className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 transition-all"/>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="flex gap-3 mt-8 pt-6 border-t border-zinc-800/50">
+            <button onClick={()=>setConfirmSave(true)} disabled={saving||!hasChanges}
+              className="px-6 py-2.5 gradient-primary text-white rounded-xl text-sm font-bold hover:opacity-90 disabled:opacity-50 transition-all">
+              {saving?"Saving...":"Save Changes"}
+            </button>
+            <button onClick={()=>setData({...original})} disabled={!hasChanges}
+              className="px-6 py-2.5 rounded-xl border border-zinc-800/60 text-zinc-400 text-sm hover:text-white disabled:opacity-40 transition-colors">
+              Discard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ConfirmModal
+        open={confirmSave}
+        title="Save Changes"
+        message="These changes will be applied sitewide immediately."
+        confirmLabel="Yes, Save"
+        variant="warning"
+        onConfirm={()=>{setConfirmSave(false);handleSave();}}
+        onCancel={()=>setConfirmSave(false)}
+      />
+    </div>
+  );
 }
