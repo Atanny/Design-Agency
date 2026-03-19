@@ -17,7 +17,7 @@ interface ItemCardProps {
 
 function ItemCard({ item, onEdit, onDelete }: ItemCardProps) {
   return (
-    <div className="group relative overflow-hidden bg-[#0c0c0c] border border-zinc-800/60 hover:border-coral-400/30 transition-all rounded-2xl">
+    <div className="group relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800/50 hover:border-coral-400/30 transition-all rounded-2xl">
       <div className="aspect-square relative overflow-hidden rounded-2xl">
         <Image src={item.image_url} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500"/>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
@@ -207,62 +207,27 @@ export default function AdminPortfolio() {
 
   return (
     <div className="p-6 w-full max-w-full">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-px w-8 bg-gold-500" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
-          </div>
-          <h1 className="font-display text-3xl font-black text-white leading-none">Portfolio</h1>
-          <p className="text-zinc-600 text-sm mt-1">{items.length} items</p>
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 mb-4">
+        <div className="sm:col-span-8 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 flex flex-col justify-between min-h-[110px]">
+          <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-400">Admin</p>
+          <div><h1 className="font-display text-3xl font-black text-white leading-none">Portfolio</h1><p className="text-zinc-500 text-sm mt-1 font-light">Manage your portfolio projects.</p></div>
         </div>
-        <button onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 transition-all"
-          >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-          Add Item
-        </button>
+        <div className="sm:col-span-4 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-5 flex items-center justify-center">
+          <button onClick={openNew} className="flex items-center gap-2 px-5 py-2.5 gradient-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-all">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+            Add Project
+          </button>
+        </div>
       </div>
-
-      {/* ── Add Item Modal ── */}
-      {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800/40 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-            >
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800/40">
-              <div className="flex items-center gap-3">
-                <div className="h-px w-6 bg-gold-500" />
-                <h2 className="font-display text-xl font-black text-white tracking-tight">Add Portfolio Item</h2>
-              </div>
-              <button type="button" onClick={() => { setShowForm(false); setPreviewUrl(""); }}
-                className="text-zinc-600 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Title *</label>
-                  <input type="text" value={form.title} onChange={(e)=>setForm(f=>({...f,title:e.target.value}))} placeholder="Project name" required
-                    className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-gold-500/50 transition-colors"/>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Category</label>
-                  <select value={form.category} onChange={(e)=>setForm(f=>({...f,category:e.target.value}))}
-                    className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm focus:outline-none focus:border-gold-500/50 transition-colors">
-                    {categories.map(c=><option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-              </div>
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Description</label>
                 <textarea value={form.description} onChange={(e)=>setForm(f=>({...f,description:e.target.value}))} rows={2} placeholder="Brief description..."
-                  className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-gold-500/50 resize-none transition-colors"/>
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-coral-400/50 resize-none transition-colors"/>
               </div>
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Project URL (optional)</label>
                 <input type="url" value={form.project_url} onChange={(e)=>setForm(f=>({...f,project_url:e.target.value}))} placeholder="https://..."
-                  className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-gold-500/50 transition-colors"/>
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-coral-400/50 transition-colors"/>
               </div>
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Cover Image *</label>
@@ -272,7 +237,7 @@ export default function AdminPortfolio() {
                     className="px-4 py-2.5 border border-zinc-800/60 bg-zinc-800 text-zinc-300 text-sm hover:bg-zinc-700 disabled:opacity-50 transition-colors">
                     {uploading ? "Uploading..." : "Choose Image"}
                   </button>
-                  {previewUrl && <img src={previewUrl} alt="preview" className="w-16 h-16 object-cover" style={{ clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)" }}/>}
+                  {previewUrl && <img src={previewUrl} alt="preview" className="w-16 h-16 object-cover rounded-xl" className="rounded-xl"/>}
                 </div>
                 {previewUrl && (
                   <div className="mt-4">
@@ -280,14 +245,14 @@ export default function AdminPortfolio() {
                     <div className="flex flex-wrap gap-2">
                       {(form.image_urls || []).map((url, i) => (
                         <div key={i} className="relative group">
-                          <img src={url} alt="" className="w-14 h-14 object-cover" style={{ clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)" }}/>
+                          <img src={url} alt="" className="w-14 h-14 object-cover rounded-xl" className="rounded-xl"/>
                           <button type="button" onClick={()=>setForm(f=>({...f,image_urls:(f.image_urls||[]).filter((_,j)=>j!==i)}))}
                             className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
                         </div>
                       ))}
                       <input ref={multiFileRef} type="file" accept="image/*" multiple onChange={handleMultiImageUpload} className="hidden"/>
                       <button type="button" onClick={()=>multiFileRef.current?.click()} disabled={uploadingExtra}
-                        className="w-14 h-14 border border-dashed border-zinc-700 text-zinc-600 text-xs hover:border-gold-500/50 hover:text-zinc-400 flex items-center justify-center transition-colors">
+                        className="w-14 h-14 border border-dashed border-zinc-700 text-zinc-600 text-xs hover:border-coral-400/50 hover:text-zinc-400 flex items-center justify-center transition-colors">
                         {uploadingExtra ? "..." : "+ Add"}
                       </button>
                     </div>
@@ -296,8 +261,8 @@ export default function AdminPortfolio() {
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="submit" disabled={uploading || !form.image_url}
-                  className="flex-1 py-3 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all"
-                  style={{ clipPath:"polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))" }}>
+                  className="flex-1 py-3 gradient-primary text-white rounded-xl text-sm font-black tracking-wide hover:opacity-90 disabled:opacity-50 transition-all"
+                  >
                   Add to Portfolio
                 </button>
                 <button type="button" onClick={()=>{setShowForm(false);setPreviewUrl("");}}
@@ -318,7 +283,7 @@ export default function AdminPortfolio() {
               <button key={cat} onClick={() => setFilterCat(cat)}
                 className={`px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] uppercase transition-all ${
                   filterCat === cat
-                    ? "bg-gold-500 text-white"
+                    ? "gradient-primary text-white rounded-xl"
                     : "border border-zinc-800/60 text-zinc-500 hover:text-white hover:border-zinc-600"
                 }`}>
                 {cat}
@@ -328,21 +293,21 @@ export default function AdminPortfolio() {
           </div>
           <div className="ml-auto flex items-center gap-2">
             <select value={sortBy} onChange={e => setSortBy(e.target.value as "newest"|"oldest"|"name")}
-              className="px-3 py-1.5 border border-zinc-800/60 bg-zinc-900 text-zinc-400 text-xs focus:outline-none focus:border-gold-500/50 transition-colors">
+              className="px-3 py-1.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-zinc-400 text-xs focus:outline-none focus:border-coral-400/50 transition-colors">
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
               <option value="name">A → Z</option>
             </select>
             <div className="flex border border-zinc-800/60">
               <button onClick={() => setViewMode("grid")} title="Grid view"
-                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grid" ? "bg-gold-500 text-white" : "text-zinc-600 hover:text-white"}`}>
+                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grid" ? "gradient-primary text-white rounded-xl" : "text-zinc-600 hover:text-white"}`}>
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
                   <rect x="1" y="1" width="6" height="6" rx="0.5"/><rect x="9" y="1" width="6" height="6" rx="0.5"/>
                   <rect x="1" y="9" width="6" height="6" rx="0.5"/><rect x="9" y="9" width="6" height="6" rx="0.5"/>
                 </svg>
               </button>
               <button onClick={() => setViewMode("grouped")} title="Group by category"
-                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grouped" ? "bg-gold-500 text-white" : "text-zinc-600 hover:text-white"}`}>
+                className={`w-8 h-8 flex items-center justify-center transition-colors ${viewMode==="grouped" ? "gradient-primary text-white rounded-xl" : "text-zinc-600 hover:text-white"}`}>
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/>
                 </svg>
@@ -360,7 +325,7 @@ export default function AdminPortfolio() {
       ) : items.length === 0 ? (
         <div className="text-center py-20 text-zinc-600">
           <p className="text-lg mb-2">No portfolio items yet.</p>
-          <button onClick={()=>setShowForm(true)} className="text-gold-500 text-sm hover:text-gold-400 transition-colors">+ Add your first item</button>
+          <button onClick={()=>setShowForm(true)} className="text-amber-400 text-sm hover:text-amber-400 transition-colors">+ Add your first item</button>
         </div>
       ) : sorted.length === 0 ? (
         <div className="text-center py-16 text-zinc-600">No items in this category.</div>
@@ -375,8 +340,8 @@ export default function AdminPortfolio() {
           {groups.map(group => (
             <div key={group}>
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-6 bg-gold-500" />
-                <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold-600">{group}</h2>
+                <div className="h-px w-6 bg-amber-500" />
+                <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase text-amber-500">{group}</h2>
                 <span className="text-zinc-700 text-xs">({sorted.filter(i=>i.category===group).length})</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -393,10 +358,10 @@ export default function AdminPortfolio() {
       {editItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <div className="rounded-2xl bg-zinc-900 border border-zinc-800/40 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-            style={{ clipPath:"polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)" }}>
+            >
             <div className="flex items-center justify-between p-6 border-b border-zinc-800/40">
               <div className="flex items-center gap-3">
-                <div className="h-px w-6 bg-gold-500" />
+                <div className="h-px w-6 bg-amber-500" />
                 <h2 className="font-display text-xl font-black text-white tracking-tight">Edit Item</h2>
               </div>
               <button type="button" onClick={()=>setEditItem(null)} className="text-zinc-600 hover:text-white transition-colors">
@@ -408,7 +373,7 @@ export default function AdminPortfolio() {
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Cover Image</label>
                 <div className="flex items-center gap-4">
                   <div className="relative w-20 h-20 flex-shrink-0">
-                    <img src={editItem.image_url} alt={editItem.title} className="w-20 h-20 object-cover border border-zinc-800/60" style={{ clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)" }}/>
+                    <img src={editItem.image_url} alt={editItem.title} className="w-20 h-20 object-cover rounded-xl border border-zinc-800/50" className="rounded-xl"/>
                     {editUploading && <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                       <svg className="w-5 h-5 text-white animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                     </div>}
@@ -426,14 +391,14 @@ export default function AdminPortfolio() {
                   <div className="flex flex-wrap gap-2">
                     {(editItem.image_urls || []).map((url, i) => (
                       <div key={i} className="relative group">
-                        <img src={url} alt="" className="w-14 h-14 object-cover border border-zinc-800/60" style={{ clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)" }}/>
+                        <img src={url} alt="" className="w-14 h-14 object-cover rounded-xl border border-zinc-800/50" className="rounded-xl"/>
                         <button type="button" onClick={()=>setEditItem(ei=>ei?{...ei,image_urls:(ei.image_urls||[]).filter((_,j)=>j!==i)}:ei)}
                           className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
                       </div>
                     ))}
                     <input ref={editMultiFileRef} type="file" accept="image/*" multiple onChange={handleEditMultiImageUpload} className="hidden"/>
                     <button type="button" onClick={()=>editMultiFileRef.current?.click()} disabled={uploadingExtra}
-                      className="w-14 h-14 border border-dashed border-zinc-700 text-zinc-600 text-xs hover:border-gold-500/50 hover:text-zinc-400 flex items-center justify-center transition-colors">
+                      className="w-14 h-14 border border-dashed border-zinc-700 text-zinc-600 text-xs hover:border-coral-400/50 hover:text-zinc-400 flex items-center justify-center transition-colors">
                       {uploadingExtra ? "..." : "+ Add"}
                     </button>
                   </div>
@@ -443,12 +408,12 @@ export default function AdminPortfolio() {
                 <div>
                   <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Title</label>
                   <input type="text" value={editItem.title} onChange={(e)=>setEditItem(i=>i?{...i,title:e.target.value}:i)} required
-                    className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm focus:outline-none focus:border-gold-500/50 transition-colors"/>
+                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors"/>
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Category</label>
                   <select value={editItem.category} onChange={(e)=>setEditItem(i=>i?{...i,category:e.target.value}:i)}
-                    className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm focus:outline-none focus:border-gold-500/50 transition-colors">
+                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors">
                     {categories.map(c=><option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
@@ -456,17 +421,17 @@ export default function AdminPortfolio() {
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Description</label>
                 <textarea value={editItem.description||""} onChange={(e)=>setEditItem(i=>i?{...i,description:e.target.value}:i)} rows={2}
-                  className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm focus:outline-none focus:border-gold-500/50 resize-none transition-colors"/>
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm focus:outline-none focus:border-coral-400/50 resize-none transition-colors"/>
               </div>
               <div>
                 <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 mb-2">Project URL</label>
                 <input type="url" value={editItem.project_url||""} onChange={(e)=>setEditItem(i=>i?{...i,project_url:e.target.value}:i)} placeholder="https://..."
-                  className="w-full px-4 py-2.5 border border-zinc-800/60 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-gold-500/50 transition-colors"/>
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-800/50 bg-zinc-900 text-white text-sm placeholder-zinc-700 focus:outline-none focus:border-coral-400/50 transition-colors"/>
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="submit" disabled={saving}
-                  className="flex-1 py-3 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all"
-                  style={{ clipPath:"polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))" }}>
+                  className="flex-1 py-3 gradient-primary text-white rounded-xl text-sm font-black tracking-wide hover:opacity-90 disabled:opacity-50 transition-all"
+                  >
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
                 <button type="button" onClick={()=>setEditItem(null)}

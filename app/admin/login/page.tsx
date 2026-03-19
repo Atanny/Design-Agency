@@ -51,7 +51,7 @@ export default function AdminLogin() {
       >
         <div className="text-center mb-10">
           <div className="w-14 h-14 gradient-gold flex items-center justify-center text-white font-display font-black text-xl mx-auto mb-6 shadow-2xl shadow-gold-500/30"
-            style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}>
+            style={{ borderRadius:"50%" }}>
             A
           </div>
           <div className="flex items-center justify-center gap-3 mb-3">
@@ -75,8 +75,8 @@ export default function AdminLogin() {
         )}
 
         <form onSubmit={handleLogin}
-          className="bg-[#0c0c0c] border border-zinc-800/60 p-8 card-grain"
-          style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}
+          className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-8"
+          
         >
           <div className="space-y-4 mb-6">
             <div>
@@ -95,7 +95,7 @@ export default function AdminLogin() {
 
           <button type="submit" disabled={loading}
             className="w-full py-3.5 bg-white text-zinc-900 text-sm font-black tracking-wide hover:bg-gold-500 hover:text-white transition-all duration-300 disabled:opacity-50 mb-4"
-            style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}
+            
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">

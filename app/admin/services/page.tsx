@@ -7,7 +7,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 
 const ACCENT_OPTIONS = [
  { label: "Blue", value: "text-blue-400", bg: "bg-blue-500/10" },
- { label: "Gold", value: "text-gold-400", bg: "bg-gold-500/10" },
+ { label: "Gold", value: "text-amber-400", bg: "bg-amber-400/10" },
  { label: "Rose", value: "text-rose-400", bg: "bg-rose-500/10" },
  { label: "Emerald", value: "text-emerald-400", bg: "bg-emerald-500/10" },
  { label: "Violet", value: "text-violet-400", bg: "bg-violet-500/10" },
@@ -149,83 +149,19 @@ export default function AdminServices() {
  const iconPath = (iconVal: string) => ICON_OPTIONS.find((i) => i.value === iconVal)?.path || ICON_OPTIONS[0].path;
 
  return (
- <div className="p-8 w-full max-w-full">
- <div className="flex items-center justify-between mb-8">
- <div>
- <div className="flex items-center gap-3 mb-2">
- <div className="h-px w-8 bg-gold-500" />
- <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
- </div>
- <h1 className="font-display text-3xl font-black text-white leading-none">Services</h1>
- <p className="text-zinc-500 mt-1">Add, edit, reorder and manage your services. Drag to reorder.</p>
- </div>
- <button onClick={openNew}
- className="flex items-center gap-2 px-5 py-2.5 bg-gold-500 text-white text-sm font-bold hover:bg-gold-600 transition-colors"
- >
- <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
- </svg>
- Add Service
- </button>
- </div>
-
- {loading ? (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
- {[...Array(6)].map((_, i) => <div key={i} className="h-48 bg-zinc-800/60 animate-pulse" />)}
- </div>
- ) : services.length === 0 ? (
- <div className="text-center py-20 text-zinc-600">
- <p className="text-lg mb-4">No services yet.</p>
- <button onClick={openNew} className="text-gold-500 hover:text-gold-400 text-sm font-semibold">+ Add your first service</button>
- </div>
- ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
- {services.map((s, idx) => (
- <div
- key={s.id}
- draggable
- onDragStart={() => handleDragStart(idx)}
- onDragOver={(e) => handleDragOver(e, idx)}
- onDrop={() => handleDrop(idx)}
- onDragEnd={() => { setDragIndex(null); setDragOver(null); }}
- className={`relative group border p-6 cursor-grab active:cursor-grabbing transition-all ${
- dragOver === idx ? "border-gold-500 bg-gold-500/5 scale-[1.02]" : "border-zinc-800 bg-zinc-900"
- } ${!s.active ? "opacity-50" : ""}`}
- >
- {/* Drag handle */}
- <div className="absolute top-3 right-3 text-zinc-600 group-hover:text-zinc-400 transition-colors">
- <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
- </svg>
- </div>
-
- <div className={`inline-flex p-2.5 mb-4 ${s.bg_color} ${s.accent}`}>
- <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={iconPath(s.icon)} />
- </svg>
- </div>
-
- <h3 className="font-display text-lg font-bold text-white mb-1">{s.title}</h3>
- <p className="text-zinc-500 text-sm line-clamp-2 mb-4">{s.description}</p>
-
- <div className="flex items-center gap-2">
- <button onClick={() => openEdit(s)}
- className="flex-1 py-2 border border-zinc-800 text-zinc-300 text-xs font-semibold hover:bg-zinc-800 transition-colors"
- >Edit</button>
- <button onClick={() => toggleActive(s)}
- className={`flex-1 py-2 text-xs font-semibold transition-colors ${
- s.active ? "border border-zinc-800 text-zinc-400 hover:bg-zinc-800" : "bg-gold-500/10 text-gold-400 border border-gold-500/20"
- }`}
- >{s.active ? "Hide" : "Show"}</button>
- <button onClick={() => setConfirmDelete(s.id)}
- className="p-2 border border-zinc-800 text-zinc-600 hover:text-red-400 hover:border-red-400/30 transition-colors"
- >
- <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
- </svg>
- </button>
- </div>
- </div>
+ <div className="p-6 w-full">
+ <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 mb-4">
+        <div className="sm:col-span-8 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 flex flex-col justify-between min-h-[110px]">
+          <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-400">Admin</p>
+          <div><h1 className="font-display text-3xl font-black text-white leading-none">Services</h1><p className="text-zinc-500 text-sm mt-1 font-light">"Manage your services."</p></div>
+        </div>
+        <div className="sm:col-span-4 rounded-2xl bg-zinc-900 border border-zinc-800/50 p-5 flex items-center justify-center">
+          <button onClick={()=>openNew()} className="flex items-center gap-2 px-5 py-2.5 gradient-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-all">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+            Add Service
+          </button>
+        </div>
+      </div>
  ))}
  </div>
  )}
@@ -242,7 +178,7 @@ export default function AdminServices() {
  />
  {editing && (
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
- <div className="bg-[#0c0c0c] border border-zinc-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+ <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
  <div className="flex items-center justify-between p-6 border-b border-zinc-800/40">
  <h2 className="font-display text-xl font-bold text-white">{isNew ? "Add Service" : "Edit Service"}</h2>
  <button onClick={() => setEditing(null)} className="text-zinc-500 hover:text-white transition-colors">
@@ -259,7 +195,7 @@ export default function AdminServices() {
  <input type="text" value={editing.title}
  onChange={(e) => setEditing({ ...editing, title: e.target.value })}
  placeholder="e.g. UI/UX Design"
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors"
  />
  </div>
 
@@ -268,7 +204,7 @@ export default function AdminServices() {
  <input type="text" value={editing.subtitle||""}
  onChange={(e) => setEditing({ ...editing, subtitle: e.target.value })}
  placeholder="e.g. Intuitive. Beautiful. Effective."
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors"
  />
  </div>
 
@@ -278,7 +214,7 @@ export default function AdminServices() {
  onChange={(e) => setEditing({ ...editing, description: e.target.value })}
  placeholder="Brief description of the service..."
  rows={3}
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 resize-none"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 resize-none transition-colors"
  />
  </div>
 
@@ -289,7 +225,7 @@ export default function AdminServices() {
  onChange={(e) => setEditing({ ...editing, features: e.target.value })}
  placeholder={"Logo Design\nColor & Typography\nBrand Guidelines"}
  rows={5}
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 resize-none font-mono"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 resize-none font-mono transition-colors"
  />
  </div>
 
@@ -299,8 +235,8 @@ export default function AdminServices() {
  <div className="grid grid-cols-4 gap-2">
  {ICON_OPTIONS.map((ico) => (
  <button key={ico.value} onClick={() => setEditing({ ...editing, icon: ico.value })}
- className={`flex flex-col items-center gap-1.5 p-3 border transition-all ${
- editing.icon === ico.value ? "border-gold-500 bg-gold-500/10 text-gold-400" : "border-zinc-800 text-zinc-500 hover:border-zinc-600"
+ className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all ${
+ editing.icon === ico.value ? "border-coral-400 bg-amber-400/10 text-amber-400" : "border-zinc-800 text-zinc-500 hover:border-zinc-600"
  }`}
  >
  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -331,7 +267,7 @@ export default function AdminServices() {
  {/* Active toggle */}
  <div className="flex items-center gap-3">
  <button onClick={() => setEditing({ ...editing, active: !editing.active })}
- className={`relative w-11 h-6 rounded-full transition-colors ${editing.active ? "bg-gold-500" : "bg-zinc-700"}`}
+ className={`relative w-11 h-6 rounded-full transition-colors ${editing.active ? "bg-amber-500" : "bg-zinc-700"}`}
  >
  <span className={`absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform ${editing.active ? "translate-x-5" : ""}`} />
  </button>
@@ -341,7 +277,7 @@ export default function AdminServices() {
 
  <div className="flex gap-3 p-6 border-t border-zinc-800/40">
  <button onClick={handleSave} disabled={saving}
- className="flex-1 py-3 bg-gold-500 text-white text-sm font-semibold hover:bg-gold-600 disabled:opacity-50 transition-colors"
+ className="flex-1 py-3 gradient-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-colors"
  >
  {saving ? "Saving..." : isNew ? "Add Service" : "Save Changes"}
  </button>

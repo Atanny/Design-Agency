@@ -194,92 +194,24 @@ export default function AdminContent() {
 
  return (
  <div className="p-8 w-full max-w-full">
- <div className="flex items-center justify-between mb-8">
- <div>
- <div className="flex items-center gap-3 mb-2">
- <div className="h-px w-8 bg-gold-500" />
- <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gold-600">Admin</span>
- </div>
- <h1 className="font-display text-3xl font-black text-white leading-none">Content Editor</h1>
- <p className="text-zinc-600 text-sm mt-2">Edit all visible text and images across your website</p>
- </div>
- <a href="/" target="_blank" rel="noopener noreferrer"
- className="flex items-center gap-2 px-4 py-2 border border-zinc-800/60 text-zinc-500 text-sm font-semibold hover:text-white hover:border-zinc-600 transition-all"
- >
- <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
- </svg>
- Preview Site
- </a>
- </div>
-
- <div className="grid grid-cols-4 gap-6">
- {/* Sidebar tabs */}
- <div className="space-y-1">
- {SECTIONS.map((s) => (
- <button key={s.key} onClick={() => setActiveSection(s.key)}
- className={`w-full text-left px-3 py-2.5 text-sm font-medium transition-all ${
- activeSection === s.key ? "bg-white/10 text-white" : "text-zinc-400 hover:text-white hover:bg-white/5"
- }`}
- >
- {s.label}
- </button>
- ))}
- </div>
-
- {/* Fields */}
- <div className="col-span-3">
- <div className="p-6 border border-zinc-800 bg-zinc-900">
- <div className="flex items-center justify-between mb-6">
- <h2 className="font-display text-lg font-bold text-white">{SECTIONS.find((s) => s.key === activeSection)?.label}</h2>
- {hasChanges && <span className="text-xs text-amber-400 font-medium">● Unsaved changes</span>}
- </div>
-
- {loading ? (
- <div className="space-y-4">
- {[...Array(4)].map((_, i) => <div key={i} className="h-12 bg-zinc-800/60 animate-pulse" />)}
- </div>
- ) : activeSection === "offer_card" ? (
- <div className="space-y-6">
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
- <div className="space-y-4">
- <div>
- <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Card Title</label>
- <input type="text" value={data.title||""} onChange={(e)=>setData(d=>({...d,title:e.target.value}))}
- placeholder="Get a Custom Offer"
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"/>
- </div>
- <div>
- <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Description</label>
- <textarea value={data.description||""} onChange={(e)=>setData(d=>({...d,description:e.target.value}))}
- rows={3} placeholder="Every project is unique..."
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 resize-none"/>
- </div>
- <div>
- <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">Bullet Points</label>
- <div className="space-y-2">
- {(["item1","item2","item3","item4"] as const).map((k,i)=>(
- <div key={k} className="flex items-center gap-2">
- <span className="w-5 h-5 bg-gold-500/15 text-gold-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0 border border-gold-500/20">{i+1}</span>
- <input type="text" value={(data as Record<string,string>)[k]||""} onChange={(e)=>setData(d=>({...d,[k]:e.target.value}))}
- placeholder={["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i]}
- className="flex-1 px-4 py-2.5 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"/>
- </div>
- ))}
- </div>
- </div>
+ <div className="grid grid-cols-1 gap-3 mb-4">
+        <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-6 min-h-[110px] flex flex-col justify-between">
+          <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-coral-400">Admin</p>
+          <h1 className="font-display text-3xl font-black text-white leading-none">Content</h1>
+        </div>
+      </div>
  <div>
  <label className="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase tracking-wider">Button Text</label>
  <input type="text" value={data.button_text||""} onChange={(e)=>setData(d=>({...d,button_text:e.target.value}))}
  placeholder="Request an Offer"
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0"/>
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm focus:outline-none focus:border-coral-400/50 transition-colors"/>
  </div>
  </div>
 
  <div>
  <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Live Preview</p>
- <div className="border border-zinc-800 bg-zinc-900/50 p-6 flex flex-col items-center text-center gap-4"
- style={{clipPath:"polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)"}}>
+ <div className="rounded-2xl border border-zinc-800/50 bg-zinc-900/50 p-6 flex flex-col items-center text-center gap-4"
+ >
  <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center">
  <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
@@ -294,7 +226,7 @@ export default function AdminContent() {
  const val=(data as Record<string,string>)[k]||["Free consultation","Custom pricing for your scope","Response within 24 hours","No hidden fees"][i];
  return val?(
  <li key={k} className="flex items-center gap-2 text-xs text-zinc-300">
- <svg className="w-3 h-3 text-gold-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
+ <svg className="w-3 h-3 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
  {val}
  </li>
  ):null;
@@ -355,7 +287,7 @@ export default function AdminContent() {
  </label>
  {isBg && <p className="text-xs text-zinc-600 mt-1">Recommended: 1920×1080px or larger. Displayed behind the section with an overlay.</p>}
  {!isBg && <p className="text-xs text-zinc-600 mt-1">PNG, JPG, SVG · Recommended 64×64px</p>}
- <p className="text-xs text-zinc-600">Requires a <code className="text-gold-500">site-assets</code> bucket in Supabase Storage</p>
+ <p className="text-xs text-zinc-600">Requires a <code className="text-amber-400">site-assets</code> bucket in Supabase Storage</p>
  </div>
  </div>
  </div>
@@ -372,7 +304,7 @@ export default function AdminContent() {
  value={data[key] || ""}
  onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
  rows={3}
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm placeholder-zinc-700 focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 resize-none transition-all"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 resize-none transition-all"
  />
  ) : (
  <input
@@ -380,7 +312,7 @@ export default function AdminContent() {
  value={data[key] || ""}
  onChange={(e) => setData((d) => ({ ...d, [key]: e.target.value }))}
  placeholder={isUrl ? "https://..." : ""}
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm placeholder-zinc-700 focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 transition-all"
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 transition-all"
  />
  )}
  </div>
@@ -391,7 +323,7 @@ export default function AdminContent() {
 
  <div className="flex gap-3 mt-8 pt-6 border-t border-zinc-800/60">
  <button onClick={() => setConfirmSave(true)} disabled={saving || !hasChanges}
- className="px-6 py-2.5 bg-gold-500 text-white text-sm font-black tracking-wide hover:bg-gold-600 disabled:opacity-50 transition-all"
+ className="px-6 py-2.5 gradient-primary text-white rounded-xl text-sm font-black tracking-wide hover:opacity-90 disabled:opacity-50 transition-all"
  >
  {saving ? "Saving..." : "Save Changes"}
  </button>

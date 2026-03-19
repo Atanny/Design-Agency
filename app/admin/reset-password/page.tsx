@@ -71,7 +71,7 @@ export default function ResetPasswordPage() {
  </div>
 
  {!sessionReady ? (
- <div className="bg-[#0c0c0c] border border-zinc-800 p-8 text-center">
+ <div className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-8 text-center">
  <div className="w-12 h-12 bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
  <svg className="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -84,7 +84,7 @@ export default function ResetPasswordPage() {
  </a>
  </div>
  ) : (
- <form onSubmit={handleReset} className="bg-[#0c0c0c] border border-zinc-800 p-8 space-y-5">
+ <form onSubmit={handleReset} className="rounded-2xl bg-zinc-900 border border-zinc-800/50 p-8 space-y-5">
  <div className="flex items-center gap-3 p-3 bg-emerald-500/10 border border-emerald-500/20 mb-2">
  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -96,7 +96,7 @@ export default function ResetPasswordPage() {
  <label className="block text-xs font-medium text-zinc-400 mb-1.5">New Password</label>
  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
  placeholder="Min. 8 characters" required autoFocus
- className="w-full px-4 py-3 border border-zinc-800 bg-[#0c0c0c] text-white text-sm placeholder-zinc-700 focus:outline-none focus:ring-1 focus:border-gold-500/50 focus:ring-0 transition-all"/>
+ className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700/50 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-coral-400/50 transition-all"/>
  {password.length > 0 && (
  <div className="mt-2.5">
  <div className="flex gap-1 mb-1.5">
