@@ -131,12 +131,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             const count = item.badge ? counts[item.badge] : 0;
             return (
               <Link key={item.href} href={item.href}
-                className={`relative flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-200 group ${
+                className={`relative flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-200 group rounded-xl ${
                   active
                     ? "text-white bg-white/8"
                     : "text-zinc-500 hover:text-white hover:bg-white/4"
                 }`}
-                className={active ? "rounded-xl" : ""}
               >
                 {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full bg-coral-400" />}
                 <span className={`transition-colors ${active ? "text-amber-400" : "text-zinc-600 group-hover:text-zinc-400"}`}>
